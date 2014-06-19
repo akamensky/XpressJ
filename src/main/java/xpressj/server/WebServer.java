@@ -63,6 +63,9 @@ public class WebServer {
         try{
             System.out.println("** " + NAME + " has started ...");
             System.out.println("** Listening on " + host + ":" + port);
+
+            server.start();
+            server.join();
         } catch (Exception e){
             e.printStackTrace();
             System.exit(100);

@@ -19,12 +19,13 @@ package xpressj;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
 import xpressj.route.RouteMatcherFactory;
 import xpressj.server.WebServer;
 import xpressj.server.WebServerFactory;
 
-public class XpressJ {
+public final class XpressJ {
     private static final Logger LOG = LoggerFactory.getLogger("xpressj.XpressJ");
     public static final int DEFAULT_PORT = 8080;
 
@@ -36,7 +37,7 @@ public class XpressJ {
     protected static WebServer server;
     protected static RouteMatcher routeMatcher;
 
-    private static synchronized void init(){
+    public static synchronized void start(){
         if(!initialized){
             routeMatcher = RouteMatcherFactory.get();
             new Thread(new Runnable() {
@@ -48,5 +49,13 @@ public class XpressJ {
             }).start();
             initialized = true;
         }
+    }
+
+    public static synchronized void get(final String uri, final Route route){
+        addRoute(HttpMethod.get.name(), new RouteImpl(uri, route));
+    }
+
+    private static void addRoute(String httpMethod, RouteImpl route){
+        routeMatcher.addRoute(httpMethod, route);
     }
 }

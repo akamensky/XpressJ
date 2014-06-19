@@ -17,8 +17,24 @@
 
 package xpressj.route;
 
+import xpressj.RouteImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by akamensky on 6/17/14.
  */
 public class RouteMatcher {
+
+    private List<RouteImpl> routes;
+
+    public RouteMatcher(){
+        routes = new ArrayList<RouteImpl>();
+    }
+
+    public void addRoute(String httpMethod, RouteImpl route) {
+        //TODO: Implement validation of route URI
+        routes.add(route);
+    }
 }

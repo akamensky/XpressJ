@@ -15,23 +15,26 @@
  * limitations under the License.
  */
 
-package test;
-
-import xpressj.XpressJ;
+package xpressj;
 
 /**
- * Created by akamensky on 6/17/14.
+ * Created by akamensky on 6/19/14.
  */
-public class App {
-    public static void main (String[] args){
+public class RouteImpl {
 
-        //Starting server
-        XpressJ.start();
+    private String path;
+    private Route lambda;
 
-        //Adding first route
-        XpressJ.get("/", (req, res) ->{
-            System.out.println("Executed lambda for route '/'");
-        });
+    protected RouteImpl(String path, Route lambda){
+        this.path = path;
+        this.lambda = lambda;
+    }
 
+    public String getPath(){
+        return this.path;
+    }
+
+    public Route getLambda(){
+        return this.lambda;
     }
 }

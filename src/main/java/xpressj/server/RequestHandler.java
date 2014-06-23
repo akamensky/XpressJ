@@ -28,13 +28,13 @@ import java.io.IOException;
 /**
  * Created by akamensky on 6/17/14.
  */
-public class MatcherFilter implements Filter {
+public class RequestHandler implements Filter {
 
     private RouteMatcher routeMatcher;
 
-    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(MatcherFilter.class);
+    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RequestHandler.class);
 
-    public MatcherFilter(RouteMatcher routeMatcher){
+    public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;
     }
 

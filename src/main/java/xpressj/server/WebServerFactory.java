@@ -24,9 +24,9 @@ import xpressj.route.RouteMatcherFactory;
  */
 public class WebServerFactory {
     public static WebServer create(){
-        MatcherFilter matcherFilter = new MatcherFilter(RouteMatcherFactory.get());
-        matcherFilter.init(null);
-        JettyHandler handler = new JettyHandler(matcherFilter);
+        RequestHandler requestHandler = new RequestHandler(RouteMatcherFactory.get());
+        requestHandler.init(null);
+        JettyHandler handler = new JettyHandler(requestHandler);
         return new WebServer(handler);
     }
 }

@@ -48,6 +48,4 @@ public class RequestHandler implements Filter {
 
     public void destroy(){}
 
-    private static final String NOT_FOUND = "<html><body><h2>404 Not found</h2>The requested route [%s] has not been mapped in XpressJ</body></html>";
-    private static final String INTERNAL_ERROR = "<html><body><h2>500 Internal Error</h2></body></html>";
 }

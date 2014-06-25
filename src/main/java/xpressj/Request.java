@@ -16,8 +16,20 @@
 
 package xpressj;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by akamensky on 6/19/14.
  */
 public class Request {
+
+    private String uri;
+
+    public Request(HttpServletRequest httpRequest) {
+        this.uri = httpRequest.getRequestURI();
+    }
+
+    public String getUri(){
+        return this.uri;
+    }
 }

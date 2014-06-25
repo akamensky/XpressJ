@@ -17,6 +17,9 @@
 package xpressj.server;
 
 import org.slf4j.Logger;
+import xpressj.Request;
+import xpressj.Response;
+import xpressj.RouteImpl;
 import xpressj.route.RouteMatcher;
 
 import javax.servlet.*;
@@ -43,7 +46,13 @@ public class RequestHandler implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
+        //Get proper request and response objects
+        Request req = new Request(httpRequest);
+        Response res = new Response(httpResponse);
 
+        //Get routeMatcher
+        RouteImpl route = routeMatcher.getMatchingRoutes(req.getUri());
+        route.getLambda().handle(req, res);
     }
 
     public void destroy(){}

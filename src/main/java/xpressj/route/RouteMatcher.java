@@ -36,4 +36,9 @@ public class RouteMatcher {
         //TODO: Implement validation of route URI
         routes.add(route);
     }
+
+    public RouteImpl getMatchingRoutes(String uri) {
+        //TODO: Temporary stub instead of proper route matching
+        return routes.get(0);
+    }
 }

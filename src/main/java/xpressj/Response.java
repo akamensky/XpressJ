@@ -16,8 +16,12 @@
 
 package xpressj;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created by akamensky on 6/19/14.
  */
 public class Response {
+    public Response(HttpServletResponse httpResponse) {
+    }
 }

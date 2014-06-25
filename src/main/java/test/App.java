@@ -33,5 +33,10 @@ public class App {
             System.out.println("Executed lambda for route '/'");
         });
 
+        //Adding second route
+        XpressJ.get("/test", (req, res) ->{
+            System.out.println("Executed lambda for route '/'");
+        });
+
     }
 }

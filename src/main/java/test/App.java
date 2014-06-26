@@ -29,7 +29,11 @@ public class App {
 
         //Adding first route
         XpressJ.get("/", (req, res) ->{
-            res.send("Hello, World!");
+            if(req.getUri().equals("/")) {
+                res.send(200, "Hello, World!");
+            } else {
+                res.send("The request has been made to uri '"+req.getUri()+"'");
+            }
         });
 
         //Adding second route

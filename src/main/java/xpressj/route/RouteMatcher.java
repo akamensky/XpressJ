@@ -37,8 +37,8 @@ public class RouteMatcher {
         routes.add(route);
     }
 
-    public RouteImpl getMatchingRoutes(String uri) {
+    public List<RouteImpl> getMatchingRoutes(String uri) {
         //TODO: Temporary stub instead of proper route matching
-        return routes.get(0);
+        return routes;
     }
 }

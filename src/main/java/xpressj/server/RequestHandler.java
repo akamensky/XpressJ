@@ -26,6 +26,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by akamensky on 6/17/14.
@@ -51,8 +52,14 @@ public class RequestHandler implements Filter {
         Response res = new Response(httpResponse);
 
         //Get routeMatcher
-        RouteImpl route = routeMatcher.getMatchingRoutes(req.getUri());
-        route.getLambda().handle(req, res);
+        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getUri());
+        for(RouteImpl route : routes){
+            route.getLambda().handle(req, res);
+            if (res.isConsumed()){
+                System.out.println("Request has been consumed");
+                break;
+            }
+        }
     }
 
     public void destroy(){}

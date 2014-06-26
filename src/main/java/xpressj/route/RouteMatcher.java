@@ -38,7 +38,21 @@ public class RouteMatcher {
     }
 
     public List<RouteImpl> getMatchingRoutes(String uri) {
-        //TODO: Temporary stub instead of proper route matching
-        return routes;
+        //TODO: Implement more proper (faster?) route matching
+        //TODO: Implement wildcard matching
+
+        //TODO: move this to Request class
+        //Strip possible trailing slash character except for uri "/"
+        if (uri.length() > 1 && uri.lastIndexOf("/") == (uri.length() - 1)){
+            uri = uri.substring(0, uri.length()-1);
+        }
+
+        List<RouteImpl> result = new ArrayList<RouteImpl>();
+        for (RouteImpl route : routes){
+            if (route.getPath().equals(uri)){
+                result.add(route);
+            }
+        }
+        return result;
     }
 }

@@ -29,12 +29,12 @@ public class App {
 
         //Adding first route
         XpressJ.get("/", (req, res) ->{
-            System.out.println("Executed lambda for route '/'");
+            res.send("Hello, World!");
         });
 
         //Adding second route
         XpressJ.get("/test", (req, res) ->{
-            System.out.println("Executed lambda for route '/'");
+            System.out.println("Executed lambda for route '/test'. The real requested route is '"+req.getUri()+"'");
         });
 
     }

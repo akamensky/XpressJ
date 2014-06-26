@@ -65,6 +65,20 @@ public class Response {
         }
     }
 
+    /**
+     * Sends plain string response to client
+     * @param code int status code
+     * @param body string response body
+     */
+    public void send(int code, String body){
+        setStatusCode(code);
+        send(body);
+    }
+
+    /**
+     * Sends plain string response to client
+     * @param body String
+     */
     public void send(String body) {
         try {
             httpResponse.setStatus(getStatusCode());

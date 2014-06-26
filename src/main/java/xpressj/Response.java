@@ -26,22 +26,48 @@ public class Response {
 
     private boolean isConsumed = false;
     private HttpServletResponse httpResponse;
+    private static int DEFAULT_STATUS_CODE = 200;
+    private Integer statusCode;
 
     public Response(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
     }
 
-    public void markConsumed(){
+    private void markConsumed(){
         this.isConsumed = true;
     }
 
+    /**
+     * True if response was already sent, no changes will affect HTTP response
+     * @return boolean
+     */
     public boolean isConsumed(){
         return this.isConsumed;
     }
 
+    /**
+     * Set status code for response. If not set DEFAULT_STATUS_CODE will be used.
+     * @param status int Numeric HTTP response code
+     */
+    public void setStatusCode(int status){
+        this.statusCode = status;
+    }
+
+    /**
+     * Returns status code for HTTP response
+     * @return int
+     */
+    public int getStatusCode(){
+        if(this.statusCode == null){
+            return DEFAULT_STATUS_CODE;
+        } else {
+            return this.statusCode;
+        }
+    }
+
     public void send(String body) {
         try {
-            httpResponse.setStatus(200);
+            httpResponse.setStatus(getStatusCode());
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
             httpResponse.getOutputStream().write(body.getBytes("utf-8"));
             markConsumed();

@@ -17,11 +17,36 @@
 package xpressj;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by akamensky on 6/19/14.
  */
 public class Response {
+
+    private boolean isConsumed = false;
+    private HttpServletResponse httpResponse;
+
     public Response(HttpServletResponse httpResponse) {
+        this.httpResponse = httpResponse;
+    }
+
+    public void markConsumed(){
+        this.isConsumed = true;
+    }
+
+    public boolean isConsumed(){
+        return this.isConsumed;
+    }
+
+    public void send(String body) {
+        try {
+            httpResponse.setStatus(200);
+            httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
+            httpResponse.getOutputStream().write(body.getBytes("utf-8"));
+            markConsumed();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

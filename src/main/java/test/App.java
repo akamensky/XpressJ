@@ -36,6 +36,11 @@ public class App {
             }
         });
 
+        //Adding json route
+        XpressJ.get("/getjson", (req, res) ->{
+            res.json(new JsonTest());
+        });
+
         //Adding second route
         XpressJ.get("/test", (req, res) ->{
             System.out.println("Executed lambda for route '/test'. The real requested route is '"+req.getUri()+"'");

@@ -16,6 +16,8 @@
 
 package xpressj;
 
+import com.google.gson.Gson;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -84,6 +86,33 @@ public class Response {
             httpResponse.setStatus(getStatusCode());
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
             httpResponse.getOutputStream().write(body.getBytes("utf-8"));
+            markConsumed();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends plain string response to client
+     * @param code int status code
+     * @param obj Object
+     */
+    public void json(int code, Object obj){
+        setStatusCode(code);
+        json(obj);
+    }
+
+    /**
+     * Transforms Object to JSON and sends JSON to client (using Googles GSON library)
+     * @param obj Object
+     */
+    public void json(Object obj){
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
+        try{
+            httpResponse.setStatus(getStatusCode());
+            httpResponse.setHeader("Content-Type", "application/json; charset=utf-8");
+            httpResponse.getOutputStream().write(json.getBytes("utf-8"));
             markConsumed();
         } catch (IOException e){
             e.printStackTrace();

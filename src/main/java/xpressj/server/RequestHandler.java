@@ -60,6 +60,8 @@ public class RequestHandler implements Filter {
                 break;
             }
         }
+
+        //TODO: Add 404 & 500 processing
     }
 
     public void destroy(){}

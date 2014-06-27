@@ -42,7 +42,6 @@ public class RouteMatcher {
 
     public List<RouteImpl> getMatchingRoutes(String httpMethod, String uri) {
         //TODO: Implement more proper (faster?) route matching
-        //TODO: Implement wildcard matching
         //TODO: Make matched routes cache disabled by default
 
         //Check if this URI was already cached

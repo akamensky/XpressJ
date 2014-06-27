@@ -51,7 +51,7 @@ public final class XpressJ {
     }
 
     public static synchronized void get(final String uri, final Route route){
-        addRoute(HttpMethod.get.name(), new RouteImpl(uri, route));
+        addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }
 
     private static void addRoute(String httpMethod, RouteImpl route){

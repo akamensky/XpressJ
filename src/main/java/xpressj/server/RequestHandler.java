@@ -52,9 +52,9 @@ public class RequestHandler implements Filter {
         Response res = new Response(httpResponse);
 
         //Get routeMatcher
-        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getUri());
+        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());
         for(RouteImpl route : routes){
-            route.getLambda().handle(req, res);
+            route.handle(req, res);
             if (res.isConsumed()){
                 System.out.println("Request has been consumed");
                 break;

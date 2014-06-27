@@ -19,6 +19,7 @@ package xpressj.route;
 import xpressj.RouteImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,9 +28,11 @@ import java.util.List;
 public class RouteMatcher {
 
     private List<RouteImpl> routes;
+    private HashMap<String, List<RouteImpl>> routesCached;
 
     public RouteMatcher(){
-        routes = new ArrayList<RouteImpl>();
+        routes = new ArrayList<>();
+        routesCached = new HashMap<>();
     }
 
     public void addRoute(String httpMethod, RouteImpl route) {
@@ -37,22 +40,26 @@ public class RouteMatcher {
         routes.add(route);
     }
 
-    public List<RouteImpl> getMatchingRoutes(String uri) {
+    public List<RouteImpl> getMatchingRoutes(String httpMethod, String uri) {
         //TODO: Implement more proper (faster?) route matching
         //TODO: Implement wildcard matching
+        //TODO: Make matched routes cache disabled by default
 
-        //TODO: move this to Request class
-        //Strip possible trailing slash character except for uri "/"
-        if (uri.length() > 1 && uri.lastIndexOf("/") == (uri.length() - 1)){
-            uri = uri.substring(0, uri.length()-1);
+        //Check if this URI was already cached
+        if (routesCached.containsKey(httpMethod+":"+uri)){
+            return routesCached.get(httpMethod+":"+uri);
         }
 
-        List<RouteImpl> result = new ArrayList<RouteImpl>();
+        List<RouteImpl> result = new ArrayList<>();
         for (RouteImpl route : routes){
-            if (route.getPath().equals(uri)){
+            if (route.match(httpMethod, uri)){
                 result.add(route);
             }
         }
+
+        //Insert results to cache
+        routesCached.put(httpMethod+":"+uri, result);
+
         return result;
     }
 }

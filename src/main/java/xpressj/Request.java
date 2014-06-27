@@ -24,12 +24,18 @@ import javax.servlet.http.HttpServletRequest;
 public class Request {
 
     private String uri;
+    private String httpMethod;
 
     public Request(HttpServletRequest httpRequest) {
         this.uri = httpRequest.getRequestURI();
+        this.httpMethod = httpRequest.getMethod().toLowerCase();
     }
 
     public String getUri(){
         return this.uri;
+    }
+
+    public String getHttpMethod(){
+        return httpMethod;
     }
 }

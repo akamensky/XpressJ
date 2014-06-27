@@ -46,5 +46,20 @@ public class App {
             System.out.println("Executed lambda for route '/test'. The real requested route is '"+req.getUri()+"'");
         });
 
+        XpressJ.get("*", (req, res) ->{
+            System.out.println("Triggered on every request. Requested URI is '"+req.getUri()+"'");
+        });
+
+        XpressJ.get("/getj*", (req, res) ->{
+            System.out.println("Will be triggered on /getj*");
+        });
+
+        XpressJ.get("/hello/*/world", (req, res) ->{
+            System.out.println("Will be triggered on /hello/*/world");
+        });
+
+        XpressJ.get("/hello/test*/world", (req, res) ->{
+            System.out.println("Will be triggered on /hello/test*/world");
+        });
     }
 }

@@ -23,10 +23,15 @@ public class RouteImpl {
 
     private String path;
     private Route lambda;
+    private String httpMethod;
 
     protected RouteImpl(String path, Route lambda){
         this.path = path;
         this.lambda = lambda;
+    }
+
+    public String getHttpMethod(){
+        return this.httpMethod;
     }
 
     public String getPath(){

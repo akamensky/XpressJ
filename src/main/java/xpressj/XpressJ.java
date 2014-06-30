@@ -50,6 +50,10 @@ public final class XpressJ {
         }
     }
 
+    public static void enableRouteCache(boolean flag){
+        RouteMatcher.enableCache(flag);
+    }
+
     public static synchronized void get(final String uri, final Route route){
         addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }

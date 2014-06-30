@@ -29,6 +29,7 @@ public class RouteMatcher {
 
     private List<RouteImpl> routes;
     private HashMap<String, List<RouteImpl>> routesCached;
+    private static boolean isCacheEnabled = false;
 
     public RouteMatcher(){
         routes = new ArrayList<>();
@@ -40,12 +41,15 @@ public class RouteMatcher {
         routes.add(route);
     }
 
+    public static void enableCache(boolean flag){
+        isCacheEnabled = flag;
+    }
+
     public List<RouteImpl> getMatchingRoutes(String httpMethod, String uri) {
         //TODO: Implement more proper (faster?) route matching
-        //TODO: Make matched routes cache disabled by default
 
         //Check if this URI was already cached
-        if (routesCached.containsKey(httpMethod+":"+uri)){
+        if (isCacheEnabled && routesCached.containsKey(httpMethod+":"+uri)){
             return routesCached.get(httpMethod+":"+uri);
         }
 
@@ -56,8 +60,10 @@ public class RouteMatcher {
             }
         }
 
-        //Insert results to cache
-        routesCached.put(httpMethod+":"+uri, result);
+        if (isCacheEnabled) {
+            //Insert results to cache
+            routesCached.put(httpMethod + ":" + uri, result);
+        }
 
         return result;
     }

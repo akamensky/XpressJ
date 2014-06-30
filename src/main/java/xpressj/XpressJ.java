@@ -36,7 +36,7 @@ public final class XpressJ {
     protected static WebServer server;
     protected static RouteMatcher routeMatcher;
 
-    public static synchronized void start(){
+    public static synchronized void start(Configuration configuration){
         if(!initialized){
             routeMatcher = RouteMatcherFactory.get();
             new Thread(new Runnable() {

@@ -16,6 +16,7 @@
 
 package test;
 
+import xpressj.Configuration;
 import xpressj.XpressJ;
 
 /**
@@ -24,8 +25,10 @@ import xpressj.XpressJ;
 public class App {
     public static void main (String[] args){
 
+        Configuration conf = new Configuration();
+
         //Starting server
-        XpressJ.start();
+        XpressJ.start(conf);
 
         //Adding first route
         XpressJ.get("/", (req, res) ->{

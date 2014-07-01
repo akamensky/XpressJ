@@ -58,4 +58,8 @@ public final class XpressJ {
     private static void addRoute(String httpMethod, RouteImpl route){
         routeMatcher.addRoute(httpMethod, route);
     }
+
+    public static void stop() {
+        server.stop();
+    }
 }

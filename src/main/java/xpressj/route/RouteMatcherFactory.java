@@ -16,19 +16,15 @@
 
 package xpressj.route;
 
-import org.slf4j.Logger;
-
 /**
  * Created by akamensky on 6/17/14.
  */
 public class RouteMatcherFactory {
-    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RouteMatcherFactory.class);
 
     private static RouteMatcher routeMatcher = null;
 
     public static synchronized RouteMatcher get(){
         if(routeMatcher == null){
-            LOG.debug("New RouteMatcher");
             routeMatcher = new RouteMatcher();
         }
         return routeMatcher;

@@ -16,8 +16,6 @@
 
 package xpressj;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
 import xpressj.route.RouteMatcherFactory;
@@ -25,9 +23,8 @@ import xpressj.server.WebServer;
 import xpressj.server.WebServerFactory;
 
 public final class XpressJ {
-    private static final Logger LOG = LoggerFactory.getLogger("xpressj.XpressJ");
-    public static final int DEFAULT_PORT = 8080;
 
+    public static final int DEFAULT_PORT = 8080;
     protected static boolean initialized = false;
 
     protected static int port = DEFAULT_PORT;

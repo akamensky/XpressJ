@@ -16,7 +16,6 @@
 
 package xpressj.server;
 
-import org.slf4j.Logger;
 import xpressj.Request;
 import xpressj.Response;
 import xpressj.RouteImpl;
@@ -34,8 +33,6 @@ import java.util.List;
 public class RequestHandler implements Filter {
 
     private RouteMatcher routeMatcher;
-
-    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(RequestHandler.class);
 
     public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;

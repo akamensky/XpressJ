@@ -16,8 +16,7 @@
 
 package test;
 
-import xpressj.Configuration;
-import xpressj.XpressJ;
+import xpressj.*;
 
 /**
  * Created by akamensky on 6/17/14.
@@ -31,38 +30,59 @@ public class App {
         XpressJ.start(conf);
 
         //Adding first route
-        XpressJ.get("/", (req, res) ->{
-            if(req.getUri().equals("/")) {
-                res.send(200, "Hello, World!");
-            } else {
-                res.send("The request has been made to uri '"+req.getUri()+"'");
+        XpressJ.get("/", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                if (req.getUri().equals("/")) {
+                    res.send(200, "Hello, World!");
+                } else {
+                    res.send("The request has been made to uri '" + req.getUri() + "'");
+                }
             }
         });
 
         //Adding json route
-        XpressJ.get("/getjson", (req, res) ->{
-            res.json(new JsonTest());
+        XpressJ.get("/getjson", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                res.json(new JsonTest());
+            }
         });
 
         //Adding second route
-        XpressJ.get("/test", (req, res) ->{
-            System.out.println("Executed lambda for route '/test'. The real requested route is '"+req.getUri()+"'");
+        XpressJ.get("/test", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                System.out.println("Executed lambda for route '/test'. The real requested route is '" + req.getUri() + "'");
+            }
         });
 
-        XpressJ.get("*", (req, res) ->{
-            System.out.println("Triggered on every request. Requested URI is '"+req.getUri()+"'");
+        XpressJ.get("*", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                System.out.println("Triggered on every request. Requested URI is '" + req.getUri() + "'");
+            }
         });
 
-        XpressJ.get("/getj*", (req, res) ->{
-            System.out.println("Will be triggered on /getj*");
+        XpressJ.get("/getj*", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                System.out.println("Will be triggered on /getj*");
+            }
         });
 
-        XpressJ.get("/hello/*/world", (req, res) ->{
-            System.out.println("Will be triggered on /hello/*/world");
+        XpressJ.get("/hello/*/world", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                System.out.println("Will be triggered on /hello/*/world");
+            }
         });
 
-        XpressJ.get("/hello/test*/world", (req, res) ->{
-            System.out.println("Will be triggered on /hello/test*/world");
+        XpressJ.get("/hello/test*/world", new Route() {
+            @Override
+            public void handle(Request req, Response res) {
+                System.out.println("Will be triggered on /hello/test*/world");
+            }
         });
     }
 }

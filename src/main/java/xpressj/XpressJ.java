@@ -33,17 +33,28 @@ public final class XpressJ {
     protected static WebServer server;
     protected static RouteMatcher routeMatcher;
 
-    public static synchronized void start(Configuration configuration){
+    public static synchronized void start(Configuration configuration) {
         if(!initialized){
             routeMatcher = RouteMatcherFactory.get();
+
+            final Object lock = new Object();
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     server = WebServerFactory.create();
-                    server.start(host, port);
+                    server.start(host, port, lock);
                 }
             }).start();
-            initialized = true;
+
+            synchronized (lock){
+                try {
+                    lock.wait();
+                    initialized = true;
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

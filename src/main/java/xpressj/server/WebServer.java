@@ -37,7 +37,7 @@ public class WebServer {
         System.setProperty("org.mortbay.log.class", "spark.JettyLogger");
     }
 
-    public void start(String host, int port){
+    public void start(String host, int port, Object lock){
         if(port == 0){
             try(ServerSocket s = new ServerSocket(0)){
                 port = s.getLocalPort();
@@ -60,11 +60,14 @@ public class WebServer {
         server.setHandler(handler);
 
         try{
+            server.start();
+
             System.out.println("** " + NAME + " has started ...");
             System.out.println("** Listening on " + host + ":" + port);
 
-            server.start();
-            server.join();
+            synchronized (lock){
+                lock.notifyAll();
+            }
         } catch (Exception e){
             e.printStackTrace();
             System.exit(100);

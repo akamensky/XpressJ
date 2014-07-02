@@ -27,7 +27,6 @@ import org.eclipse.jetty.server.ServerConnector;
 
 public class WebServer {
 
-    private static final int DEFAULT_PORT = 8080;
     private static final String NAME = "XPRESSJ";
     private Handler handler;
     private Server server;

@@ -24,6 +24,7 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import xpressj.JettyLogger;
 
 public class WebServer {
 
@@ -33,7 +34,7 @@ public class WebServer {
 
     public WebServer(Handler handler){
         this.handler = handler;
-        System.setProperty("org.mortbay.log.class", "spark.JettyLogger");
+        org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());
     }
 
     public void start(String host, int port, Object lock){

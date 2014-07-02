@@ -53,7 +53,6 @@ public class RequestHandler implements Filter {
         for(RouteImpl route : routes){
             route.handle(req, res);
             if (res.isConsumed()){
-                System.out.println("Request has been consumed");
                 break;
             }
         }

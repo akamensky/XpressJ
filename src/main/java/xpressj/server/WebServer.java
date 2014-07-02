@@ -38,14 +38,6 @@ public class WebServer {
     }
 
     public void start(String host, int port, Object lock){
-        if(port == 0){
-            try(ServerSocket s = new ServerSocket(0)){
-                port = s.getLocalPort();
-            } catch (IOException e){
-                System.err.println("Could not get first available port (port set to 0), using default: " + DEFAULT_PORT);
-                port = DEFAULT_PORT;
-            }
-        }
 
         ServerConnector connector = createSocketConnector();
 

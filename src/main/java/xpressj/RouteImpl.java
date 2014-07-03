@@ -30,28 +30,31 @@ public class RouteImpl {
     private List<String> pathParts;
     private boolean hasWildcard = false;
     private boolean hasParameter = false;
+    private String routeRegex;
 
     protected RouteImpl(String httpMethod, String path, Route lambda){
         this.httpMethod = httpMethod;
         this.path = path;
         this.lambda = lambda;
-        this.pathParts = new ArrayList<String>();
 
-        if(path.length() == 1){
-            if (path.equals("*")){
-                this.pathParts.add(".*");
-                hasWildcard = true;
-            }
-        } else {
-            String[] parts = this.path.split("/");
-            for (String part : parts) {
-                if (part.endsWith("*")) {
-                    part = part.substring(0, part.length() - 1) + ".*";
-                    hasWildcard = true;
-                }
-                pathParts.add(part);
-            }
+        //check if has wildcards
+        if(this.path.matches("\\*")){
+            hasWildcard = true;
         }
+
+        //check if has parameters
+        if (this.path.matches("[^:]+:[^/]+.*")){
+            hasParameter = true;
+        }
+
+        //create regex string
+        String tmp = this.path;
+        if(this.path.endsWith("*")){
+            tmp = tmp.substring(0, tmp.lastIndexOf("*")) + ".+";
+        }
+        this.routeRegex = "^";
+        this.routeRegex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", ".+");
+        this.routeRegex += "$";
     }
 
     public String getHttpMethod(){
@@ -72,67 +75,14 @@ public class RouteImpl {
     }
 
     public boolean match(String httpMethod, String path){
-        //TODO: Rewrite using only regex matching
         boolean isMatching = false;
-        //Method shortcut check
+
         if (!this.httpMethod.equals(httpMethod)){
             return false;
         }
 
-        //Direct comparison shortcut
-        if (!hasWildcard && !hasParameter && this.path.equals(path)){
-            return true;
-        }
-
-        if (hasWildcard){
-            String[] parts = null;
-            if(path.equals("/")){
-                parts = new String[]{"/"};
-            } else {
-                parts = path.split("/");
-            }
-            if (parts.length < pathParts.size()) {
-                return false;
-            }
-            int counter = 0;
-            boolean lastIsWildcard = false;
-            for (String part : parts){
-                //this element of route path exists
-                if (counter <= pathParts.size()-1){
-                    //If part doesn't have wildcard and doesn't match, then return false
-                    if (!pathParts.get(counter).contains(".*")){
-                        if (!pathParts.get(counter).equals(part)){
-                            return false;
-                        } else {
-                            isMatching = true;
-                            lastIsWildcard = false;
-                        }
-                    //If part has wildcard
-                    } else {
-                        //and it matches
-                        if (part.matches(pathParts.get(counter))) {
-                            //and that's last part, then return true
-                            if (counter == pathParts.size() - 1) {
-                                return true;
-                                //and it's not last part, then we keep looping
-                            } else {
-                                isMatching = true;
-                                lastIsWildcard = true;
-                            }
-                        //and it doesn't match, then return false
-                        } else {
-                            return false;
-                        }
-                    }
-                } else {
-                    if (lastIsWildcard){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-                counter++;
-            }
+        if (path.matches(this.routeRegex)){
+            isMatching = true;
         }
 
         return isMatching;

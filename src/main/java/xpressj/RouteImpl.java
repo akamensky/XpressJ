@@ -72,6 +72,7 @@ public class RouteImpl {
     }
 
     public boolean match(String httpMethod, String path){
+        //TODO: Rewrite using only regex matching
         boolean isMatching = false;
         //Method shortcut check
         if (!this.httpMethod.equals(httpMethod)){

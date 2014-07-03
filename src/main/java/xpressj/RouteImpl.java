@@ -53,7 +53,7 @@ public class RouteImpl {
             tmp = tmp.substring(0, tmp.lastIndexOf("*")) + ".+";
         }
         this.routeRegex = "^";
-        this.routeRegex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", ".+");
+        this.routeRegex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "[^/]+");
         this.routeRegex += "$";
     }
 

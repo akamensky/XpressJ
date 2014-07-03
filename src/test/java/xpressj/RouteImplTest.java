@@ -71,4 +71,29 @@ public class RouteImplTest {
         Assert.assertEquals(false, route.match("get", "/test-phrase/hello/worlds"));
     }
 
+    @Test
+    public void param_route_matching1() {
+        RouteImpl route = new RouteImpl("get", "/test/:param", null);
+        Assert.assertEquals(true, route.match("get", "/test/url"));
+        Assert.assertEquals(false, route.match("get", "/test/url/wrong"));
+        Assert.assertEquals(false, route.match("get", "/test"));
+        Assert.assertEquals(false, route.match("get", "/"));
+    }
+    @Test
+    public void param_route_matching2() {
+        RouteImpl route = new RouteImpl("get", "/test-:param/:param", null);
+        Assert.assertEquals(true, route.match("get", "/test-some/url"));
+        Assert.assertEquals(false, route.match("get", "/test-some/url/wrong"));
+        Assert.assertEquals(false, route.match("get", "/test/url"));
+        Assert.assertEquals(false, route.match("get", "/"));
+    }
+    @Test
+    public void param_route_matching3() {
+        RouteImpl route = new RouteImpl("get", "/test/:param/hello", null);
+        Assert.assertEquals(true, route.match("get", "/test/some/hello"));
+        Assert.assertEquals(false, route.match("get", "/test/some/wrong"));
+        Assert.assertEquals(false, route.match("get", "/test/wrong"));
+        Assert.assertEquals(false, route.match("get", "/test/some/url/wrong"));
+        Assert.assertEquals(false, route.match("get", "/"));
+    }
 }

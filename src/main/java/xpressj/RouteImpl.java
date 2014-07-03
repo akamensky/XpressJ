@@ -84,8 +84,13 @@ public class RouteImpl {
         }
 
         if (hasWildcard){
-            String[] parts = path.split("/");
-            if (parts.length < pathParts.size()){
+            String[] parts = null;
+            if(path.equals("/")){
+                parts = new String[]{"/"};
+            } else {
+                parts = path.split("/");
+            }
+            if (parts.length < pathParts.size()) {
                 return false;
             }
             int counter = 0;

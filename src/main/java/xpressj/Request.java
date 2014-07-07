@@ -53,4 +53,8 @@ public class Request {
     public String getParam(String key){
         return this.params.get(key);
     }
+
+    public void clearParams(){
+        this.params = new HashMap<>();
+    }
 }

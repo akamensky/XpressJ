@@ -34,6 +34,7 @@ public class Response {
     public Response(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
     }
+    public Response() {}
 
     private void markConsumed(){
         this.isConsumed = true;

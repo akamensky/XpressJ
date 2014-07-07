@@ -34,6 +34,12 @@ public class Request {
         this.params = new HashMap<>();
     }
 
+    public Request(String httpMethod, String uri){
+        this.uri = uri;
+        this.httpMethod = httpMethod;
+        this.params = new HashMap<>();
+    };
+
     public String getUri(){
         return this.uri;
     }

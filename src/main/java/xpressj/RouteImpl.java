@@ -33,20 +33,42 @@ public class RouteImpl {
     private boolean hasWildcard = false;
     private boolean hasParameter = false;
     private Pattern routeRegex;
+    private List<String> paramNames;
 
     protected RouteImpl(String httpMethod, String path, Route lambda){
         this.httpMethod = httpMethod;
         this.path = path;
         this.lambda = lambda;
+        this.paramNames = new ArrayList<>();
 
         //check if has wildcards
         if(this.path.matches("\\*")){
             hasWildcard = true;
         }
 
-        //check if has parameters
-        if (this.path.matches("[^:]+:[^/]+.*")){
-            hasParameter = true;
+        try {
+            //check if has parameters
+            if (this.path.matches("[^:]+:[^/]+.*")) {
+                hasParameter = true;
+                //get param names
+                Pattern p = Pattern.compile(path.replaceAll(":[^/]+", ":([^/]+)"));
+                Matcher m = p.matcher(this.path);
+                if (m.groupCount() > 0) {
+                    System.out.println("==================");
+                    System.out.println(this.path);
+                    System.out.println(p.pattern());
+                    System.out.println(m.groupCount());
+                    for (int i = 1; i <= m.groupCount(); i++) {
+                        System.out.println(i);
+                        System.out.println(m.group(0));
+                        System.out.println(m.group(i));
+
+                        paramNames.add(m.group(i));
+                    }
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
         //create regex string
@@ -56,8 +78,10 @@ public class RouteImpl {
             tmp = tmp.substring(0, tmp.lastIndexOf("*")) + ".+";
         }
         regex = "^";
-        regex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "[^/]+");
+        regex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "([^/]+)");
         regex += "$";
+
+        System.out.println(regex);
 
         routeRegex = Pattern.compile(regex);
     }
@@ -75,8 +99,19 @@ public class RouteImpl {
     }
 
     public void handle(Request req, Response res){
-        //TODO: Add parameters handling
+        //Extract params for this route
+        Matcher matcher = routeRegex.matcher(req.getUri());
+        if (matcher.groupCount() > 0) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                req.addParam(paramNames.get(i - 1), matcher.group(i));
+            }
+        }
+
+        //Execute route
         this.getLambda().handle(req, res);
+
+        //Clean params after execution
+        req.clearParams();
     }
 
     public boolean match(String httpMethod, String path){
@@ -87,6 +122,7 @@ public class RouteImpl {
         }
 
         Matcher matcher = routeRegex.matcher(path);
+
         if (matcher.matches()){
             isMatching = true;
         }

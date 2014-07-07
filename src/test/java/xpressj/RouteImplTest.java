@@ -96,4 +96,18 @@ public class RouteImplTest {
         Assert.assertEquals(false, route.match("get", "/test/some/url/wrong"));
         Assert.assertEquals(false, route.match("get", "/"));
     }
+
+    @Test
+    public void param_extraction1(){
+        RouteImpl route = new RouteImpl("get", "/test/:key/hello", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                Assert.assertEquals("value", request.getParam("key"));
+            }
+        });
+
+        Request req = new Request("get", "/test/value/hello");
+        Response res = new Response();
+        route.handle(req, res);
+    }
 }

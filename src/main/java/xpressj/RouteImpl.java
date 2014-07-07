@@ -18,6 +18,8 @@ package xpressj;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by akamensky on 6/19/14.
@@ -30,7 +32,8 @@ public class RouteImpl {
     private List<String> pathParts;
     private boolean hasWildcard = false;
     private boolean hasParameter = false;
-    private String routeRegex;
+    private Pattern routeRegex;
+    private Matcher matcher;
 
     protected RouteImpl(String httpMethod, String path, Route lambda){
         this.httpMethod = httpMethod;
@@ -49,12 +52,16 @@ public class RouteImpl {
 
         //create regex string
         String tmp = this.path;
+        String regex;
         if(this.path.endsWith("*")){
             tmp = tmp.substring(0, tmp.lastIndexOf("*")) + ".+";
         }
-        this.routeRegex = "^";
-        this.routeRegex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "[^/]+");
-        this.routeRegex += "$";
+        regex = "^";
+        regex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "[^/]+");
+        regex += "$";
+
+        routeRegex = Pattern.compile(regex);
+        matcher = routeRegex.matcher("");
     }
 
     public String getHttpMethod(){
@@ -81,7 +88,9 @@ public class RouteImpl {
             return false;
         }
 
-        if (path.matches(this.routeRegex)){
+        matcher.reset(path);
+
+        if (matcher.matches()){
             isMatching = true;
         }
 

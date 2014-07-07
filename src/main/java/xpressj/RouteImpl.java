@@ -33,7 +33,6 @@ public class RouteImpl {
     private boolean hasWildcard = false;
     private boolean hasParameter = false;
     private Pattern routeRegex;
-    private Matcher matcher;
 
     protected RouteImpl(String httpMethod, String path, Route lambda){
         this.httpMethod = httpMethod;
@@ -61,7 +60,6 @@ public class RouteImpl {
         regex += "$";
 
         routeRegex = Pattern.compile(regex);
-        matcher = routeRegex.matcher("");
     }
 
     public String getHttpMethod(){
@@ -88,8 +86,7 @@ public class RouteImpl {
             return false;
         }
 
-        matcher.reset(path);
-
+        Matcher matcher = routeRegex.matcher(path);
         if (matcher.matches()){
             isMatching = true;
         }

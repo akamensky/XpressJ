@@ -28,13 +28,13 @@ public class GeneralIntegrationTest {
 
     static TestUtil testUtil;
 
-    @After
-    public void stop(){
+    @AfterClass
+    public static void stop(){
         XpressJ.stop();
     }
 
-    @Before
-    public void start(){
+    @BeforeClass
+    public static void start(){
 
         testUtil = new TestUtil(8080);
 
@@ -47,7 +47,7 @@ public class GeneralIntegrationTest {
             }
         });
 
-        XpressJ.get("/test2", new Route() {
+        XpressJ.post("/test2", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 response.send(200, "Test2");
@@ -66,4 +66,16 @@ public class GeneralIntegrationTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void simple_post_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("POST", "/test2", "Test2");
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("Test2", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

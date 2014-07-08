@@ -46,29 +46,18 @@ public class RouteImpl {
             hasWildcard = true;
         }
 
-        try {
-            //check if has parameters
-            if (this.path.matches("[^:]+:[^/]+.*")) {
-                hasParameter = true;
-                //get param names
-                Pattern p = Pattern.compile(path.replaceAll(":[^/]+", ":([^/]+)"));
-                Matcher m = p.matcher(this.path);
-                if (m.groupCount() > 0) {
-                    System.out.println("==================");
-                    System.out.println(this.path);
-                    System.out.println(p.pattern());
-                    System.out.println(m.groupCount());
-                    for (int i = 1; i <= m.groupCount(); i++) {
-                        System.out.println(i);
-                        System.out.println(m.group(0));
-                        System.out.println(m.group(i));
-
-                        paramNames.add(m.group(i));
-                    }
+        //check if has parameters
+        if (this.path.matches("[^:]+:[^/]+.*")) {
+            hasParameter = true;
+            //get param names
+            Pattern p = Pattern.compile(path.replaceAll(":[^/]+", ":([^/]+)"));
+            Matcher m = p.matcher(this.path);
+            m.matches();
+            if (m.groupCount() > 0) {
+                for (int i = 1; i <= m.groupCount(); i++) {
+                    paramNames.add(m.group(i));
                 }
             }
-        } catch (Exception e){
-            e.printStackTrace();
         }
 
         //create regex string
@@ -80,8 +69,6 @@ public class RouteImpl {
         regex = "^";
         regex += tmp.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", "([^/]+)");
         regex += "$";
-
-        System.out.println(regex);
 
         routeRegex = Pattern.compile(regex);
     }
@@ -101,6 +88,7 @@ public class RouteImpl {
     public void handle(Request req, Response res){
         //Extract params for this route
         Matcher matcher = routeRegex.matcher(req.getUri());
+        matcher.matches();
         if (matcher.groupCount() > 0) {
             for (int i = 1; i <= matcher.groupCount(); i++) {
                 req.addParam(paramNames.get(i - 1), matcher.group(i));

@@ -36,6 +36,7 @@ public class RouteImpl {
     private List<String> paramNames;
 
     protected RouteImpl(String httpMethod, String path, Route lambda){
+        //TODO: optimize RouteImpl constructor
         this.httpMethod = httpMethod;
         this.path = path;
         this.lambda = lambda;

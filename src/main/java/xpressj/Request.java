@@ -28,12 +28,14 @@ public class Request {
     private String httpMethod;
     private HashMap<String, String> params;
     private Map<String, String[]> query;
+    private Map<String, Cookie> cookies;
 
     public Request(HttpServletRequest httpRequest) {
         this.uri = httpRequest.getRequestURI();
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
         this.query = httpRequest.getParameterMap();
+        this.cookies = Collections.unmodifiableMap(Cookie.toMap(httpRequest.getCookies()));
         return;
     }
 
@@ -87,5 +89,9 @@ public class Request {
         Object[] obj = this.query.keySet().toArray();
         String[] str = Arrays.copyOf(obj, obj.length, String[].class);
         return str;
+    }
+
+    public Map<String, Cookie> getCookies(){
+        return this.cookies;
     }
 }

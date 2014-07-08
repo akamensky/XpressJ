@@ -140,4 +140,28 @@ public class RouteImplTest {
         route.handle(req, res);
     }
 
+    @Test
+    public void param_extraction4(){
+        RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                Assert.assertEquals("value", request.getParam("key"));
+            }
+        });
+
+        Request req = new Request("get", "/test/wrong/value/hello");
+        Response res = new Response();
+        route.handle(req, res);
+
+        route = new RouteImpl("get", "/test/*/value/hello", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                //Here we should not have any parameters
+                Assert.assertNotEquals("value", request.getParam("key"));
+                Assert.assertEquals(0, request.getParamsCount());
+            }
+        });
+
+        route.handle(req, res);
+    }
 }

@@ -63,4 +63,8 @@ public class Request {
     public void clearParams(){
         this.params = new HashMap<>();
     }
+
+    public int getParamsCount() {
+        return this.params.size();
+    }
 }

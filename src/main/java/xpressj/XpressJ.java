@@ -66,6 +66,10 @@ public final class XpressJ {
         addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }
 
+    public static void post(final String uri, final Route route){
+        addRoute(HttpMethod.post.name(), new RouteImpl(HttpMethod.post.name(), uri, route));
+    }
+
     private static void addRoute(String httpMethod, RouteImpl route){
         routeMatcher.addRoute(httpMethod, route);
     }
@@ -73,4 +77,5 @@ public final class XpressJ {
     public static void stop() {
         server.stop();
     }
+
 }

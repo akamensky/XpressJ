@@ -110,4 +110,34 @@ public class RouteImplTest {
         Response res = new Response();
         route.handle(req, res);
     }
+
+    @Test
+    public void param_extraction2(){
+        RouteImpl route = new RouteImpl("get", "/test/:key/hello/:key2", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                Assert.assertEquals("value", request.getParam("key"));
+                Assert.assertEquals("value2", request.getParam("key2"));
+            }
+        });
+
+        Request req = new Request("get", "/test/value/hello/value2");
+        Response res = new Response();
+        route.handle(req, res);
+    }
+
+    @Test
+    public void param_extraction3(){
+        RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                Assert.assertEquals("value", request.getParam("key"));
+            }
+        });
+
+        Request req = new Request("get", "/test/wrong/value/hello");
+        Response res = new Response();
+        route.handle(req, res);
+    }
+
 }

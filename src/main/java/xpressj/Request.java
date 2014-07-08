@@ -17,7 +17,7 @@
 package xpressj;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by akamensky on 6/19/14.
@@ -27,11 +27,14 @@ public class Request {
     private String uri;
     private String httpMethod;
     private HashMap<String, String> params;
+    private Map<String, String[]> query;
 
     public Request(HttpServletRequest httpRequest) {
         this.uri = httpRequest.getRequestURI();
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
+        this.query = httpRequest.getParameterMap();
+        return;
     }
 
     public Request(String httpMethod, String uri){
@@ -66,5 +69,23 @@ public class Request {
 
     public int getParamsCount() {
         return this.params.size();
+    }
+
+    public int getQueryParamsCount() {
+        return this.query.size();
+    }
+
+    public String[] getQueryParam(String key) {
+        return this.query.get(key);
+    }
+
+    public Map<String, String[]> getQueryParams(){
+        return this.query;
+    }
+
+    public String[] getQueryParamsNames(){
+        Object[] obj = this.query.keySet().toArray();
+        String[] str = Arrays.copyOf(obj, obj.length, String[].class);
+        return str;
     }
 }

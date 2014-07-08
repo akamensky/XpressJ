@@ -50,7 +50,11 @@ public class RouteImpl {
         if (this.path.matches("[^:]+:[^/]+.*")) {
             hasParameter = true;
             //get param names
-            Pattern p = Pattern.compile(path.replaceAll(":[^/]+", ":([^/]+)"));
+            String paramRegex = this.path;
+            if (paramRegex.endsWith("*")){
+                paramRegex = paramRegex.substring(0, paramRegex.lastIndexOf("*")) + ".+";
+            }
+            Pattern p = Pattern.compile(paramRegex.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", ":([^/]+)"));
             Matcher m = p.matcher(this.path);
             m.matches();
             if (m.groupCount() > 0) {

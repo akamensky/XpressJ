@@ -112,13 +112,6 @@ public class Response {
     public void json(Object obj){
         Gson gson = new Gson();
         String json = gson.toJson(obj);
-        try{
-            httpResponse.setStatus(getStatusCode());
-            httpResponse.setHeader("Content-Type", "application/json; charset=utf-8");
-            httpResponse.getOutputStream().write(json.getBytes("utf-8"));
-            markConsumed();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        send(json);
     }
 }

@@ -35,7 +35,12 @@ public class Request {
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
         this.query = httpRequest.getParameterMap();
-        this.cookies = Collections.unmodifiableMap(Cookie.toMap(httpRequest.getCookies()));
+        javax.servlet.http.Cookie[] cookies = httpRequest.getCookies();
+        if(cookies != null) {
+            this.cookies = Collections.unmodifiableMap(Cookie.toMap(cookies));
+        } else {
+            this.cookies = Collections.unmodifiableMap(new HashMap<String, Cookie>());
+        }
         return;
     }
 
@@ -43,6 +48,7 @@ public class Request {
         this.uri = uri;
         this.httpMethod = httpMethod;
         this.params = new HashMap<>();
+        this.cookies = new HashMap<>();
     };
 
     public String getUri(){

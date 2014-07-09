@@ -29,6 +29,7 @@ public class Request {
     private HashMap<String, String> params;
     private Map<String, String[]> query;
     private Map<String, Cookie> cookies;
+    private Map<String, String> headers;
 
     public Request(HttpServletRequest httpRequest) {
         this.uri = httpRequest.getRequestURI();
@@ -42,6 +43,16 @@ public class Request {
         } else {
             this.cookies = Collections.unmodifiableMap(new HashMap<String, Cookie>());
         }
+
+        //get headers
+        Map<String, String> headers = new HashMap<>();
+        Enumeration<String> headerNames = httpRequest.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headers.put(headerName, httpRequest.getHeader(headerName));
+        }
+        this.headers = Collections.unmodifiableMap(headers);
+
         return;
     }
 
@@ -104,5 +115,17 @@ public class Request {
 
     public Cookie getCookie(String name) {
         return this.cookies.get(name);
+    }
+
+    public String getHeader(String name){
+        return this.headers.get(name);
+    }
+
+    public Collection<String> getHeaderNames(){
+        return this.headers.keySet();
+    }
+
+    public Map<String, String> getHeaders(){
+        return this.headers;
     }
 }

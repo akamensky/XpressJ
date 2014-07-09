@@ -35,6 +35,7 @@ public class Request {
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
         this.query = httpRequest.getParameterMap();
+        //get cookies
         javax.servlet.http.Cookie[] cookies = httpRequest.getCookies();
         if(cookies != null) {
             this.cookies = Collections.unmodifiableMap(Cookie.toMap(cookies));

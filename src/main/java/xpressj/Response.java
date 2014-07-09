@@ -83,6 +83,9 @@ public class Response {
      */
     public void send(String body) {
         try {
+            if (this.isConsumed){
+                throw new RuntimeException("Request has already been consumed");
+            }
             httpResponse.setStatus(getStatusCode());
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
             httpResponse.getOutputStream().write(body.getBytes("utf-8"));

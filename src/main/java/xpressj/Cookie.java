@@ -29,31 +29,44 @@ public class Cookie {
     private String name;
     private String value;
     private String path;
-    private String domain;
     private int maxAge;
-    private boolean isSecure;
-    private boolean isHttpOnly;
-
-    private static final String DEFAULT_PATH = "/";
+    private boolean isSecure = false;
+    private boolean isHttpOnly = false;
 
     public Cookie(javax.servlet.http.Cookie httpCookie){
         this.name = httpCookie.getName();
         this.value = httpCookie.getValue();
         this.path = httpCookie.getPath();
-        this.domain = httpCookie.getDomain();
         this.maxAge = httpCookie.getMaxAge();
         this.isSecure = httpCookie.getSecure();
         this.isHttpOnly = httpCookie.isHttpOnly();
     }
 
-    public Cookie(String name, String value, int maxAge, String path, String domain, boolean isSecure, boolean isHttpOnly){
+    public Cookie(String name, String value, int maxAge, String path, boolean isSecure, boolean isHttpOnly){
         this.name = name;
         this.value = value;
         this.path = path;
-        this.domain = domain;
         this.maxAge = maxAge;
         this.isSecure = isSecure;
         this.isHttpOnly = isHttpOnly;
+    }
+
+    public Cookie(String name, String value){
+        this.name = name;
+        this.value = value;
+    }
+
+    public Cookie(String name, String value, int maxAge){
+        this.name = name;
+        this.value = value;
+        this.maxAge = maxAge;
+    }
+
+    public Cookie(String name, String value, int maxAge, String path){
+        this.name = name;
+        this.value = value;
+        this.maxAge = maxAge;
+        this.path = path;
     }
 
     public static Map<String, Cookie> toMap(javax.servlet.http.Cookie[] cookies){
@@ -70,6 +83,23 @@ public class Cookie {
     }
 
     public String getValue(){
+        return this.value;
+    }
+
+    public javax.servlet.http.Cookie getServletCookie(){
+        javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(this.name, this.value);
+        if (this.path != null){
+            cookie.setPath(this.path);
+        }
+        if (this.maxAge > 0){
+            cookie.setMaxAge(this.maxAge);
+        }
+        cookie.setHttpOnly(this.isHttpOnly);
+        cookie.setSecure(this.isSecure);
+        return cookie;
+    }
+
+    public String toString(){
         return this.value;
     }
 }

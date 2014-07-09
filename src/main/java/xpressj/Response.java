@@ -96,6 +96,7 @@ public class Response {
             httpResponse.setStatus(getStatusCode());
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
 
+            //Adding cookies to the response
             for (Cookie cookie : this.cookies.values()){
                 httpResponse.addCookie(cookie.getServletCookie());
             }

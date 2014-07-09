@@ -19,6 +19,7 @@ package xpressj;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 /**
  * Created by akamensky on 6/19/14.
@@ -29,9 +30,11 @@ public class Response {
     private HttpServletResponse httpResponse;
     private static int DEFAULT_STATUS_CODE = 200;
     private Integer statusCode;
+    private HashMap<String, Cookie> cookies;
 
     public Response(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
+        this.cookies = new HashMap<>();
     }
     public Response() {}
 
@@ -88,6 +91,11 @@ public class Response {
             }
             httpResponse.setStatus(getStatusCode());
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
+
+            for (Cookie cookie : this.cookies.values()){
+                httpResponse.addCookie(cookie.getServletCookie());
+            }
+
             httpResponse.getOutputStream().write(body.getBytes("utf-8"));
             markConsumed();
         } catch (Exception e){
@@ -114,4 +122,18 @@ public class Response {
         String json = gson.toJson(obj);
         send(json);
     }
+
+    private void addCookie(Cookie cookie){
+        this.cookies.put(cookie.getName(), cookie);
+    }
+
+    public void addCookie(String name, String value){
+        Cookie cookie = new Cookie(name, value);
+        addCookie(cookie);
+    }
+
+    public void unsetCookie(String name){
+        this.cookies.remove(name);
+    }
+
 }

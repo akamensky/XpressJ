@@ -19,7 +19,6 @@ package xpressj;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Created by akamensky on 6/19/14.
@@ -88,7 +87,7 @@ public class Response {
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
             httpResponse.getOutputStream().write(body.getBytes("utf-8"));
             markConsumed();
-        } catch (IOException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

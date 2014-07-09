@@ -100,4 +100,8 @@ public class Request {
     public Map<String, Cookie> getCookies(){
         return this.cookies;
     }
+
+    public Cookie getCookie(String name) {
+        return this.cookies.get(name);
+    }
 }

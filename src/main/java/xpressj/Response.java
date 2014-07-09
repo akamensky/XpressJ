@@ -85,6 +85,10 @@ public class Response {
      * @param body String
      */
     public void send(String body) {
+        writeResponse(body);
+    }
+
+    private void writeResponse(String body){
         try {
             if (this.isConsumed){
                 throw new RuntimeException("Request has already been consumed");
@@ -120,7 +124,7 @@ public class Response {
     public void json(Object obj){
         Gson gson = new Gson();
         String json = gson.toJson(obj);
-        send(json);
+        writeResponse(json);
     }
 
     private void addCookie(Cookie cookie){

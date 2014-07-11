@@ -62,7 +62,6 @@ public class WebServer {
             }
         } catch (Exception e){
             e.printStackTrace();
-            System.exit(100);
         }
     }
 
@@ -74,7 +73,6 @@ public class WebServer {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(100);
         }
         System.out.println("** " + NAME + " has stopped ...");
     }

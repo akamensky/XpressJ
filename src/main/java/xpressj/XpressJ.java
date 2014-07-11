@@ -28,6 +28,7 @@ public final class XpressJ {
     private boolean initialized = false;
     private WebServer server;
     private RouteMatcher routeMatcher;
+    private Thread t;
 
     public XpressJ(final Configuration configuration){
         this.configuration = configuration;
@@ -38,7 +39,7 @@ public final class XpressJ {
         if(!initialized){
             final Object lock = new Object();
 
-            new Thread(new Runnable() {
+            t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     RequestHandler requestHandler = new RequestHandler(routeMatcher);
@@ -47,7 +48,8 @@ public final class XpressJ {
                     server = new WebServer(handler);
                     server.start(configuration.getHost(), configuration.getPort(), lock);
                 }
-            }).start();
+            });
+            t.start();
 
             synchronized (lock){
                 try {

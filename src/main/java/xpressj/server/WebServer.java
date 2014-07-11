@@ -49,6 +49,8 @@ public class WebServer {
         server = connector.getServer();
         server.setConnectors(new Connector[] {connector});
 
+        server.setStopTimeout(0);
+
         server.setHandler(handler);
 
         try{

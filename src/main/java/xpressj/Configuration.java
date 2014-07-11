@@ -20,4 +20,38 @@ package xpressj;
  * Created by akamensky on 6/30/14.
  */
 public class Configuration {
+    private static final int DEFAULT_PORT = 8080;
+    private static final String DEFAULT_HOST = "0.0.0.0";
+
+    private int port = DEFAULT_PORT;
+    private String host = DEFAULT_HOST;
+
+    private boolean cacheEnabled = false;
+
+    public Configuration setPort(int port){
+        this.port = port;
+        return this;
+    }
+
+    public int getPort(){
+        return this.port;
+    }
+
+    public Configuration setHost(String host){
+        this.host = host;
+        return this;
+    }
+
+    public String getHost(){
+        return this.host;
+    }
+
+    public Configuration setRouteCache(boolean flag){
+        this.cacheEnabled = flag;
+        return this;
+    }
+
+    public boolean isCacheEnabled(){
+        return this.cacheEnabled;
+    }
 }

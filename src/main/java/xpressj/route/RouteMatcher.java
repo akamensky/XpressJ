@@ -16,6 +16,7 @@
 
 package xpressj.route;
 
+import xpressj.Configuration;
 import xpressj.RouteImpl;
 
 import java.util.ArrayList;
@@ -29,9 +30,10 @@ public class RouteMatcher {
 
     private List<RouteImpl> routes;
     private HashMap<String, List<RouteImpl>> routesCached;
-    private static boolean isCacheEnabled = false;
+    private Configuration configuration;
 
-    public RouteMatcher(){
+    public RouteMatcher(Configuration configuration){
+        this.configuration = configuration;
         routes = new ArrayList<>();
         routesCached = new HashMap<>();
     }
@@ -41,15 +43,11 @@ public class RouteMatcher {
         routes.add(route);
     }
 
-    public static void enableCache(boolean flag){
-        isCacheEnabled = flag;
-    }
-
     public List<RouteImpl> getMatchingRoutes(String httpMethod, String uri) {
         //TODO: Implement more proper (faster?) route matching
 
         //Check if this URI was already cached
-        if (isCacheEnabled && routesCached.containsKey(httpMethod+":"+uri)){
+        if (this.configuration.isCacheEnabled() && routesCached.containsKey(httpMethod+":"+uri)){
             return routesCached.get(httpMethod+":"+uri);
         }
 
@@ -60,7 +58,7 @@ public class RouteMatcher {
             }
         }
 
-        if (isCacheEnabled) {
+        if (this.configuration.isCacheEnabled()) {
             //Insert results to cache
             routesCached.put(httpMethod + ":" + uri, result);
         }

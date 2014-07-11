@@ -18,32 +18,34 @@ package xpressj;
 
 import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
-import xpressj.route.RouteMatcherFactory;
+import xpressj.server.JettyHandler;
+import xpressj.server.RequestHandler;
 import xpressj.server.WebServer;
-import xpressj.server.WebServerFactory;
 
 public final class XpressJ {
 
-    public static final int DEFAULT_PORT = 8080;
-    protected static boolean initialized = false;
+    private Configuration configuration;
+    private boolean initialized = false;
+    private WebServer server;
+    private RouteMatcher routeMatcher;
 
-    protected static int port = DEFAULT_PORT;
-    protected static String host = "0.0.0.0";
+    public XpressJ(final Configuration configuration){
+        this.configuration = configuration;
+        this.routeMatcher = new RouteMatcher(this.configuration);
+    }
 
-    protected static WebServer server;
-    protected static RouteMatcher routeMatcher;
-
-    public static synchronized void start(Configuration configuration) {
+    public void start() {
         if(!initialized){
-            routeMatcher = RouteMatcherFactory.get();
-
             final Object lock = new Object();
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    server = WebServerFactory.create();
-                    server.start(host, port, lock);
+                    RequestHandler requestHandler = new RequestHandler(routeMatcher);
+                    requestHandler.init(null);
+                    JettyHandler handler = new JettyHandler(requestHandler);
+                    server = new WebServer(handler);
+                    server.start(configuration.getHost(), configuration.getPort(), lock);
                 }
             }).start();
 
@@ -58,23 +60,19 @@ public final class XpressJ {
         }
     }
 
-    public static void enableRouteCache(boolean flag){
-        RouteMatcher.enableCache(flag);
-    }
-
-    public static synchronized void get(final String uri, final Route route){
+    public void get(final String uri, final Route route){
         addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }
 
-    public static void post(final String uri, final Route route){
+    public void post(final String uri, final Route route){
         addRoute(HttpMethod.post.name(), new RouteImpl(HttpMethod.post.name(), uri, route));
     }
 
-    private static void addRoute(String httpMethod, RouteImpl route){
+    private void addRoute(String httpMethod, RouteImpl route){
         routeMatcher.addRoute(httpMethod, route);
     }
 
-    public static void stop() {
+    public void stop() {
         server.stop();
     }
 

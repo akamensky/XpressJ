@@ -16,8 +16,6 @@
 
 package xpressj.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.server.Connector;

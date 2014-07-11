@@ -27,10 +27,11 @@ import xpressj.*;
 public class GeneralIntegrationTest {
 
     static TestUtil testUtil;
+    static XpressJ app;
 
     @AfterClass
     public static void stop(){
-        XpressJ.stop();
+        app.stop();
     }
 
     @BeforeClass
@@ -38,16 +39,18 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8080);
 
-        XpressJ.start(new Configuration());
+        XpressJ app = new XpressJ(new Configuration());
 
-        XpressJ.get("/", new Route() {
+        app.start();
+
+        app.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 response.send("Test1");
             }
         });
 
-        XpressJ.post("/test2", new Route() {
+        app.post("/test2", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 response.send(200, "Test2");

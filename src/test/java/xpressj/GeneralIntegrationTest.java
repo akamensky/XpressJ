@@ -39,7 +39,7 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8080);
 
-        XpressJ app = new XpressJ(new Configuration());
+        app = new XpressJ(new Configuration());
 
         app.start();
 

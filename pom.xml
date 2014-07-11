@@ -87,6 +87,11 @@
                     <debug>true</debug>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>2.2.0</version>
+            </plugin>
         </plugins>
     </build>
 

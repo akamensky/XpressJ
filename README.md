@@ -24,11 +24,8 @@ public class HelloWorld {
 
         app.start();
 
-        app.get("/", new Route() {
-            @Override
-            public void handle(Request request, Response response) {
-                response.send("Hello World!");
-            }
+        app.get("/", (request, response) -> {
+            response.send("Hello World!");
         });
     }
 }

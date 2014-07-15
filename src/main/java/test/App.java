@@ -9,6 +9,10 @@ import com.xpressj.xpressj.webserver.WebServer;
 public class App {
     public static void main(String[] args){
         WebServer server = new WebServer(new Configuration());
-        server.start();
+        try {
+            server.start();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -30,6 +30,56 @@ public class HelloWorld {
     }
 }
 ```
+Use of wildcards:
+```java
+app.get("*", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match every GET request
+    }
+});
+
+app.get("/hello/*", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match every GET request under path /hello/...
+    }
+});
+
+app.get("/hello/*/", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match /hello/world/ and /hello/people/ etc
+    }
+});
+
+app.get("/hello/*/world", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match /hello/new/world and /hello/old/world etc
+    }
+});
+```
+Use of parameters:
+```java
+app.get("/hello/:param", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match only for URI with two parts and respond with second part
+        response.send(request.getParam("param"));
+    }
+});
+
+app.get("/topics/topic-:param", new Route() {
+    @Override
+    public void handle(Request request, Response response) {
+        //Will match only for URI with two parts and respond with substitution for :param
+        response.send(request.getParam("param"));
+    }
+});
+```
+For more, please use documentation (WiP)
+
 ---
 #### Development plans
 - 0.2.0

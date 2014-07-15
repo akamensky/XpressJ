@@ -32,6 +32,13 @@ public class HelloWorld {
 ```
 ---
 #### Development plans
+- 0.2.0
+    - Add all verbs from HTTP 1.1 specification
+- 0.3.0
+    - Add file handling (as bytes array)
+- 0.4.0
+    - Add session handling
+
 ---
 #### Links
 - [Development plans](https://trello.com/b/07AvGeym/xpressj)

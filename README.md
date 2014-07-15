@@ -92,3 +92,5 @@ For more, please use documentation (WiP)
 ---
 #### Links
 - [Development plans](https://trello.com/b/07AvGeym/xpressj)
+- [Website (WiP)](http://xpressj.com/)
+- [Javadoc (WiP)](http://xpressj.com/javadoc)

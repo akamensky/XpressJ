@@ -70,6 +70,26 @@ public final class XpressJ {
         addRoute(HttpMethod.post.name(), new RouteImpl(HttpMethod.post.name(), uri, route));
     }
 
+    public void options(final String uri, final Route route){
+        addRoute(HttpMethod.options.name(), new RouteImpl(HttpMethod.options.name(), uri, route));
+    }
+
+    public void head(final String uri, final Route route){
+        addRoute(HttpMethod.head.name(), new RouteImpl(HttpMethod.head.name(), uri, route));
+    }
+
+    public void put(final String uri, final Route route){
+        addRoute(HttpMethod.put.name(), new RouteImpl(HttpMethod.put.name(), uri, route));
+    }
+
+    public void delete(final String uri, final Route route){
+        addRoute(HttpMethod.delete.name(), new RouteImpl(HttpMethod.delete.name(), uri, route));
+    }
+
+    public void trace(final String uri, final Route route){
+        addRoute(HttpMethod.trace.name(), new RouteImpl(HttpMethod.trace.name(), uri, route));
+    }
+
     private void addRoute(String httpMethod, RouteImpl route){
         routeMatcher.addRoute(httpMethod, route);
     }

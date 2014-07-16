@@ -11,7 +11,7 @@
     <groupId>com.xpressj</groupId>
     <artifactId>xpressj</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.0</version>
+    <version>0.3.0a</version>
     <name>xpressj</name>
     <description>A Sinatra/Express.js inspired lightweight Java web framework</description>
     <url>http://www.xpressj.com</url>

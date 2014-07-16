@@ -46,14 +46,49 @@ public class GeneralIntegrationTest {
         app.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
-                response.send("Test1");
+                response.send("get");
             }
         });
 
-        app.post("/test2", new Route() {
+        app.post("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
-                response.send(200, "Test2");
+                response.send("post");
+            }
+        });
+
+        app.options("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("options");
+            }
+        });
+
+        app.head("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("head");
+            }
+        });
+
+        app.put("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("put");
+            }
+        });
+
+        app.delete("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("delete");
+            }
+        });
+
+        app.trace("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("trace");
             }
         });
 
@@ -64,7 +99,7 @@ public class GeneralIntegrationTest {
         try{
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/", null);
             Assert.assertEquals(200, response.status);
-            Assert.assertEquals("Test1", response.body);
+            Assert.assertEquals("get", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
@@ -73,12 +108,66 @@ public class GeneralIntegrationTest {
     @Test
     public void simple_post_route_test() {
         try{
-            TestUtil.UrlResponse response = testUtil.doMethod("POST", "/test2", "Test2");
+            TestUtil.UrlResponse response = testUtil.doMethod("POST", "/", "Test2");
             Assert.assertEquals(200, response.status);
-            Assert.assertEquals("Test2", response.body);
+            Assert.assertEquals("post", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Test
+    public void simple_options_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("OPTIONS", "/", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("options", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_head_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("HEAD", "/", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_put_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("PUT", "/", "test2");
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("put", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_delete_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("DELETE", "/", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("delete", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_trace_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("TRACE", "/", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("trace", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

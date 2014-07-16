@@ -90,6 +90,8 @@ For more, please use documentation (WiP)
     - Add file handling (as bytes array)
 - 0.4.0
     - Add session handling
+- 0.5.0
+    - Separate Jetty server into external dependency xpressj-jetty perhaps
 - 1.0.0
     - Implement HTTPS protocol
     - ...

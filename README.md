@@ -82,10 +82,10 @@ For more, please use documentation (WiP)
 
 ---
 #### Development plans
-- 0.2.0
+- __0.2.0__
     - ~~Add all verbs from HTTP 1.1 specification~~
     - ~~Add "all" verb to match any of HTTP verbs~~
-    - Validate route URI on application start (when adding routes)
+    - ~~Validate route URI on application start (when adding routes)~~
 - 0.3.0
     - Add file handling (as bytes array)
 - 0.4.0

@@ -110,7 +110,7 @@ public class RouteImpl {
     public boolean match(String httpMethod, String path){
         boolean isMatching = false;
 
-        if (!this.httpMethod.equals(httpMethod)){
+        if (this.httpMethod != null && !this.httpMethod.equals(httpMethod)){
             return false;
         }
 

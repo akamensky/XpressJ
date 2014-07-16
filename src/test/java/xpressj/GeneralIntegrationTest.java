@@ -92,6 +92,12 @@ public class GeneralIntegrationTest {
             }
         });
 
+        app.all("/all", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("all");
+            }
+        });
     }
 
     @Test
@@ -170,4 +176,40 @@ public class GeneralIntegrationTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void simple_all_route_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("GET", "/all", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+
+            response = testUtil.doMethod("POST", "/all", "all");
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+
+            response = testUtil.doMethod("OPTIONS", "/all", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+
+            response = testUtil.doMethod("HEAD", "/all", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("", response.body);
+
+            response = testUtil.doMethod("PUT", "/all", "all");
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+
+            response = testUtil.doMethod("DELETE", "/all", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+
+            response = testUtil.doMethod("TRACE", "/all", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

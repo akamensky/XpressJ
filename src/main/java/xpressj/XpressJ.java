@@ -43,10 +43,12 @@ public final class XpressJ {
                 @Override
                 public void run() {
                     RequestHandler requestHandler = new RequestHandler(routeMatcher);
+                    requestHandler.setConfiguration(configuration);
                     requestHandler.init(null);
                     JettyHandler handler = new JettyHandler(requestHandler);
                     server = new WebServer(handler);
-                    server.start(configuration.getHost(), configuration.getPort(), lock);
+                    server.setConfiguration(configuration);
+                    server.start(lock);
                 }
             });
             t.start();

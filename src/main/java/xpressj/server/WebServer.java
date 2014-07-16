@@ -16,12 +16,19 @@
 
 package xpressj.server;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.util.resource.Resource;
+import xpressj.Configuration;
 import xpressj.JettyLogger;
 
 public class WebServer {
@@ -30,32 +37,60 @@ public class WebServer {
     private Handler handler;
     private Server server;
 
+    private Configuration configuration;
+
     public WebServer(Handler handler){
         this.handler = handler;
         org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());
     }
 
-    public void start(String host, int port, Object lock){
+    public void setConfiguration(Configuration configuration){
+        this.configuration = configuration;
+    }
+
+    public void start(Object lock){
 
         ServerConnector connector = createSocketConnector();
 
         connector.setIdleTimeout(TimeUnit.HOURS.toMillis(1));
         connector.setSoLingerTime(-1);
-        connector.setHost(host);
-        connector.setPort(port);
+        connector.setHost(this.configuration.getHost());
+        connector.setPort(this.configuration.getPort());
 
-        server = connector.getServer();
-        server.setConnectors(new Connector[] {connector});
+        this.server = connector.getServer();
+        this.server.setConnectors(new Connector[] {connector});
 
-        server.setStopTimeout(0);
+        this.server.setStopTimeout(0);
 
-        server.setHandler(handler);
+        if (this.configuration.hasMultipleHandlers()){
+            List<Handler> handlerList = new ArrayList<>();
+            handlerList.add(this.handler);
+
+            if (this.configuration.getStaticFilesLocation() != null){
+                ResourceHandler resourceHandler = new ResourceHandler();
+                Resource staticResources = Resource.newClassPathResource(this.configuration.getStaticFilesLocation());
+                resourceHandler.setBaseResource(staticResources);
+                handlerList.add(resourceHandler);
+            }
+            if (this.configuration.getExternalStaticFilesLocation() != null){
+                ResourceHandler externalResourceHandler = new ResourceHandler();
+                Resource externalStaticResources = Resource.newResource(new File(this.configuration.getExternalStaticFilesLocation()));
+                externalResourceHandler.setBaseResource(externalStaticResources);
+                handlerList.add(externalResourceHandler);
+            }
+
+            HandlerList handlers = new HandlerList();
+            handlers.setHandlers(handlerList.toArray(new Handler[handlerList.size()]));
+            this.server.setHandler(handlers);
+        } else {
+            this.server.setHandler(this.handler);
+        }
 
         try{
-            server.start();
+            this.server.start();
 
             System.out.println("** " + NAME + " has started ...");
-            System.out.println("** Listening on " + host + ":" + port);
+            System.out.println("** Listening on " + this.configuration.getHost() + ":" + this.configuration.getPort());
 
             synchronized (lock){
                 lock.notifyAll();

@@ -16,6 +16,7 @@
 
 package xpressj.server;
 
+import xpressj.Configuration;
 import xpressj.Request;
 import xpressj.Response;
 import xpressj.RouteImpl;
@@ -33,6 +34,7 @@ import java.util.List;
 public class RequestHandler implements Filter {
 
     private RouteMatcher routeMatcher;
+    private Configuration configuration;
 
     public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;
@@ -62,4 +64,7 @@ public class RequestHandler implements Filter {
 
     public void destroy(){}
 
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 }

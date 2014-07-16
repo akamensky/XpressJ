@@ -82,11 +82,11 @@ For more, please use documentation (WiP)
 
 ---
 #### Development plans
-- __0.2.0__
+- ~~0.2.0~~
     - ~~Add all verbs from HTTP 1.1 specification~~
     - ~~Add "all" verb to match any of HTTP verbs~~
     - ~~Validate route URI on application start (when adding routes)~~
-- 0.3.0
+- __0.3.0__
     - Add file handling (as bytes array)
 - 0.4.0
     - Add session handling

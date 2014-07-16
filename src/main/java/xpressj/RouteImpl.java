@@ -78,6 +78,17 @@ public class RouteImpl {
         routeRegex = Pattern.compile(regex);
     }
 
+    public boolean isRoutePathValid(String path){
+        boolean result = false;
+
+        if (path.matches("^\\*{1}$") ||
+                path.matches("^/[A-z0-9\\.\\-:\\*/]{0,}")){
+            result = true;
+        }
+
+        return result;
+    }
+
     public String getHttpMethod(){
         return this.httpMethod;
     }

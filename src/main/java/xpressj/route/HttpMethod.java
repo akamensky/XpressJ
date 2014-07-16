@@ -20,5 +20,11 @@ package xpressj.route;
  * Created by akamensky on 6/19/14.
  */
 public enum HttpMethod {
-    get, post
+    get,
+    post,
+    options,
+    head,
+    put,
+    delete,
+    trace,
 }

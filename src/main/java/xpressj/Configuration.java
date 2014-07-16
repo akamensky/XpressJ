@@ -28,6 +28,9 @@ public class Configuration {
 
     private boolean cacheEnabled = false;
 
+    private String staticFilesLocation;
+    private String externalStaticFilesLocation;
+
     public Configuration setPort(int port){
         this.port = port;
         return this;
@@ -53,5 +56,27 @@ public class Configuration {
 
     public boolean isCacheEnabled(){
         return this.cacheEnabled;
+    }
+
+    public Configuration setStaticFilesLocation(String location){
+        this.staticFilesLocation = location;
+        return this;
+    }
+
+    public String getStaticFilesLocation(){
+        return this.staticFilesLocation;
+    }
+
+    public Configuration setExternalStaticFilesLocation(String location){
+        this.externalStaticFilesLocation = location;
+        return this;
+    }
+
+    public String getExternalStaticFilesLocation(){
+        return this.externalStaticFilesLocation;
+    }
+
+    public boolean hasMultipleHandlers(){
+        return this.staticFilesLocation != null || this.externalStaticFilesLocation != null;
     }
 }

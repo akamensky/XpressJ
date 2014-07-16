@@ -90,6 +90,10 @@ public final class XpressJ {
         addRoute(HttpMethod.trace.name(), new RouteImpl(HttpMethod.trace.name(), uri, route));
     }
 
+    public void all(final String uri, final Route route){
+        addRoute(null, new RouteImpl(null, uri, route));
+    }
+
     private void addRoute(String httpMethod, RouteImpl route){
         routeMatcher.addRoute(httpMethod, route);
     }

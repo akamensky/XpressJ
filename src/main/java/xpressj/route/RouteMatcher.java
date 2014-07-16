@@ -39,8 +39,11 @@ public class RouteMatcher {
     }
 
     public void addRoute(String httpMethod, RouteImpl route) {
-        //TODO: Implement validation of route URI
-        routes.add(route);
+        if (route.isRoutePathValid(route.getPath())) {
+            routes.add(route);
+        } else {
+            throw new RuntimeException("Route path is invalid: "+httpMethod.toUpperCase()+" "+route.getPath());
+        }
     }
 
     public List<RouteImpl> getMatchingRoutes(String httpMethod, String uri) {

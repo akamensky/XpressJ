@@ -21,6 +21,8 @@ import xpressj.util.TestUtil;
 
 import xpressj.*;
 
+import java.io.*;
+
 /**
  * Created by akamensky on 7/1/14.
  */
@@ -28,10 +30,12 @@ public class GeneralIntegrationTest {
 
     static TestUtil testUtil;
     static XpressJ app;
+    static File tmpFile;
 
     @AfterClass
     public static void stop(){
         app.stop();
+        tmpFile.delete();
     }
 
     @BeforeClass
@@ -39,7 +43,19 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8080);
 
-        app = new XpressJ(new Configuration().setStaticFilesLocation("/public"));
+        app = new XpressJ(new Configuration().setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
+
+        //Create file in /tmp
+        tmpFile = new File("/tmp/tmp.txt");
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tmpFile), "utf-8"));
+            writer.write("tmp.txt");
+        } catch (IOException e){
+            System.exit(100);
+        } finally {
+            try {writer.close();} catch (Exception e) {}
+        }
 
         app.start();
 
@@ -218,6 +234,17 @@ public class GeneralIntegrationTest {
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/test.txt", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("test.txt", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_static_external_file_test(){
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("GET", "/tmp.txt", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("tmp.txt", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

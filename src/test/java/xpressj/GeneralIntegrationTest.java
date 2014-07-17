@@ -39,7 +39,7 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8080);
 
-        app = new XpressJ(new Configuration());
+        app = new XpressJ(new Configuration().setStaticFilesLocation("/public"));
 
         app.start();
 
@@ -207,6 +207,17 @@ public class GeneralIntegrationTest {
             response = testUtil.doMethod("TRACE", "/all", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("all", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_static_file_test(){
+        try{
+            TestUtil.UrlResponse response = testUtil.doMethod("GET", "/test.txt", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("test.txt", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

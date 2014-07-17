@@ -27,6 +27,13 @@ public class App {
             }
         });
 
+        app.post("/fileupload", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("something");
+            }
+        });
+
     }
 
 }

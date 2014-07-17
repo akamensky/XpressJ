@@ -45,7 +45,7 @@ public final class XpressJ {
                     RequestHandler requestHandler = new RequestHandler(routeMatcher);
                     requestHandler.setConfiguration(configuration);
                     requestHandler.init(null);
-                    JettyHandler handler = new JettyHandler(requestHandler);
+                    JettyHandler handler = new JettyHandler(routeMatcher);
                     server = new WebServer(handler);
                     server.setConfiguration(configuration);
                     server.start(lock);

@@ -18,12 +18,16 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.session.SessionHandler;
+import xpressj.Response;
+import xpressj.RouteImpl;
+import xpressj.route.RouteMatcher;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by akamensky on 6/17/14.
@@ -31,18 +35,34 @@ import java.io.IOException;
 public class JettyHandler extends SessionHandler {
 
     private Filter filter;
+    private RouteMatcher routeMatcher;
 
-    public JettyHandler(Filter filter) {
-        this.filter = filter;
+    public JettyHandler(RouteMatcher routeMatcher){
+        this.routeMatcher = routeMatcher;
     }
 
     @Override
-    public void doHandle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            filter.doFilter(request, response, null);
-            baseRequest.setHandled(true);
-        } catch (NotConsumedException ignore){
-            baseRequest.setHandled(false);
+    public void doHandle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
+
+        boolean isHandled = false;
+
+        //Get proper request and response objects
+        xpressj.Request req = new xpressj.Request(httpRequest);
+        Response res = new Response(httpResponse);
+
+        //Get routeMatcher
+        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());
+        for(RouteImpl route : routes){
+            route.handle(req, res);
+            if (res.isConsumed()){
+                isHandled = true;
+                break;
+            }
         }
+
+        baseRequest.setHandled(isHandled);
+
+        //TODO: Add 404 & 500 processing
+
     }
 }

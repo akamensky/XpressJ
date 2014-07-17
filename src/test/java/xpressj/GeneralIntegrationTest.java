@@ -213,7 +213,7 @@ public class GeneralIntegrationTest {
     }
 
     @Test
-    public void simple_static_file_test(){
+    public void simple_static_bundled_file_test(){
         try{
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/test.txt", null);
             Assert.assertEquals(200, response.status);

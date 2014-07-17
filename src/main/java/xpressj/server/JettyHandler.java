@@ -22,7 +22,6 @@ import xpressj.Response;
 import xpressj.RouteImpl;
 import xpressj.route.RouteMatcher;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +33,6 @@ import java.util.List;
  */
 public class JettyHandler extends SessionHandler {
 
-    private Filter filter;
     private RouteMatcher routeMatcher;
 
     public JettyHandler(RouteMatcher routeMatcher){

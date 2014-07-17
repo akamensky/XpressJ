@@ -31,11 +31,11 @@ import java.util.List;
 /**
  * Created by akamensky on 6/17/14.
  */
-public class JettyHandler extends SessionHandler {
+public class RequestHandler extends SessionHandler {
 
     private RouteMatcher routeMatcher;
 
-    public JettyHandler(RouteMatcher routeMatcher){
+    public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;
     }
 

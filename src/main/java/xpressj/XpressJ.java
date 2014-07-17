@@ -19,7 +19,6 @@ package xpressj;
 import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
 import xpressj.server.JettyHandler;
-import xpressj.server.RequestHandler;
 import xpressj.server.WebServer;
 
 public final class XpressJ {
@@ -42,9 +41,6 @@ public final class XpressJ {
             t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    RequestHandler requestHandler = new RequestHandler(routeMatcher);
-                    requestHandler.setConfiguration(configuration);
-                    requestHandler.init(null);
                     JettyHandler handler = new JettyHandler(routeMatcher);
                     server = new WebServer(handler);
                     server.setConfiguration(configuration);

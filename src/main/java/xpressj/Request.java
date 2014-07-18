@@ -16,7 +16,11 @@
 
 package xpressj;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -30,8 +34,9 @@ public class Request {
     private Map<String, String[]> query;
     private Map<String, Cookie> cookies;
     private Map<String, String> headers;
+    private Map<String, Part> files;
 
-    public Request(HttpServletRequest httpRequest) {
+    public Request(HttpServletRequest httpRequest, boolean isMultipart){
         this.uri = httpRequest.getRequestURI();
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
@@ -52,6 +57,22 @@ public class Request {
             headers.put(headerName, httpRequest.getHeader(headerName));
         }
         this.headers = Collections.unmodifiableMap(headers);
+
+        //fill files if any
+        this.files = new HashMap<>();
+        if(isMultipart){
+            try {
+                Collection<Part> parts = httpRequest.getParts();
+                for (Part part : parts){
+                    if (part.getSubmittedFileName() != null){
+                        this.files.put(part.getName(), part);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        this.files = Collections.unmodifiableMap(this.files);
 
         return;
     }
@@ -127,5 +148,23 @@ public class Request {
 
     public Map<String, String> getHeaders(){
         return this.headers;
+    }
+
+    public Part getFile(String name){
+        return this.files.get(name);
+    }
+
+    public Map<String, Part> getFiles(){
+        return this.files;
+    }
+
+    public void close(){
+        for (Part part : this.files.values()){
+            try {
+                part.delete();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

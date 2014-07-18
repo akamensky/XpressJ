@@ -22,6 +22,7 @@ import xpressj.Response;
 import xpressj.RouteImpl;
 import xpressj.route.RouteMatcher;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import java.util.List;
 public class RequestHandler extends SessionHandler {
 
     private RouteMatcher routeMatcher;
+    private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement(System.getProperty("java.io.tmpdir"));
 
     public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;
@@ -42,10 +44,17 @@ public class RequestHandler extends SessionHandler {
     @Override
     public void doHandle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
 
+        //Hack to make file upload work
+        boolean isMultipart = false;
+        if (httpRequest.getContentType() != null && httpRequest.getContentType().startsWith("multipart/form-data")) {
+            baseRequest.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, MULTI_PART_CONFIG);
+            isMultipart = true;
+        }
+
         boolean isHandled = false;
 
         //Get proper request and response objects
-        xpressj.Request req = new xpressj.Request(httpRequest);
+        xpressj.Request req = new xpressj.Request(httpRequest, isMultipart);
         Response res = new Response(httpResponse);
 
         //Get routeMatcher

@@ -17,6 +17,7 @@
 package xpressj;
 
 import org.junit.*;
+import xpressj.util.SampleFileUpload;
 import xpressj.util.TestUtil;
 
 import xpressj.*;
@@ -31,6 +32,7 @@ public class GeneralIntegrationTest {
     static TestUtil testUtil;
     static XpressJ app;
     static File tmpFile;
+    static byte[] testFileBytes;
 
     @AfterClass
     public static void stop(){
@@ -114,6 +116,35 @@ public class GeneralIntegrationTest {
                 response.send("all");
             }
         });
+
+        //load test file for uploading test
+        testFileBytes = isToBytes(GeneralIntegrationTest.class.getResourceAsStream("/public/test.txt"));
+
+        app.post("/fileupload", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                try {
+                    response.send(isToBytes(request.getFile("file").getInputStream()).toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private static byte[] isToBytes(InputStream is){
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try {
+        int nRead;
+        byte[] data = new byte[1024];
+
+            while ((nRead = is.read(data, 0, data.length)) != -1){
+                buffer.write(data, 0, nRead);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buffer.toByteArray();
     }
 
     @Test
@@ -245,6 +276,16 @@ public class GeneralIntegrationTest {
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/tmp.txt", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("tmp.txt", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void simple_file_upload_test(){
+        try{
+            String response = SampleFileUpload.executeMultiPartRequest("/fileupload", "/public/test.txt", "text/html");
+            Assert.assertEquals("test.txt", response);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

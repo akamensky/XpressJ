@@ -20,5 +20,5 @@ package xpressj;
  * Created by akamensky on 6/19/14.
  */
 public interface Route {
-    void handle(Request request, Response response);
+    void handle(Request request, Response response) throws Exception;
 }

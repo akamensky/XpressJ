@@ -51,7 +51,11 @@ public class RequestHandler extends SessionHandler {
         //Get routeMatcher
         List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());
         for(RouteImpl route : routes){
-            route.handle(req, res);
+            try {
+                route.handle(req, res);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (res.isConsumed()){
                 isHandled = true;
                 break;

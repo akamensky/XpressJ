@@ -98,7 +98,7 @@ public class RouteImplTest {
     }
 
     @Test
-    public void param_extraction1(){
+    public void param_extraction1() throws Exception {
         RouteImpl route = new RouteImpl("get", "/test/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
@@ -112,7 +112,7 @@ public class RouteImplTest {
     }
 
     @Test
-    public void param_extraction2(){
+    public void param_extraction2() throws Exception {
         RouteImpl route = new RouteImpl("get", "/test/:key/hello/:key2", new Route() {
             @Override
             public void handle(Request request, Response response) {
@@ -127,7 +127,7 @@ public class RouteImplTest {
     }
 
     @Test
-    public void param_extraction3(){
+    public void param_extraction3() throws Exception {
         RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
@@ -141,7 +141,7 @@ public class RouteImplTest {
     }
 
     @Test
-    public void param_extraction4(){
+    public void param_extraction4() throws Exception {
         RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {

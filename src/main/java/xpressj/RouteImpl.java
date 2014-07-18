@@ -101,7 +101,7 @@ public class RouteImpl {
         return this.lambda;
     }
 
-    public void handle(Request req, Response res){
+    public void handle(Request req, Response res) throws Exception {
         //Extract params for this route
         Matcher matcher = routeRegex.matcher(req.getUri());
         matcher.matches();

@@ -67,6 +67,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.carrotsearch</groupId>
             <artifactId>junit-benchmarks</artifactId>
             <version>0.7.2</version>

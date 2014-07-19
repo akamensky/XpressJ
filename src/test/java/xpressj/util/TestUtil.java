@@ -16,19 +16,16 @@
 
 package xpressj.util;
 
-import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -44,8 +41,12 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -174,6 +175,30 @@ public class TestUtil {
             Thread.sleep(time);
         } catch (Exception e) {
         }
+    }
+
+    public static String postFile(String url, String paramName, File file){
+        String response = "";
+
+        HttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+
+        HttpPost post = new HttpPost(url);
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        entity.addPart(paramName, new FileBody(file));
+
+        post.setEntity(entity);
+
+        try {
+            response = EntityUtils.toString(client.execute(post).getEntity(), "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        client.getConnectionManager().shutdown();
+
+        return response;
     }
 
 }

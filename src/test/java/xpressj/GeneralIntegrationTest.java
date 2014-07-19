@@ -17,10 +17,7 @@
 package xpressj;
 
 import org.junit.*;
-import xpressj.util.SampleFileUpload;
 import xpressj.util.TestUtil;
-
-import xpressj.*;
 
 import java.io.*;
 
@@ -32,7 +29,6 @@ public class GeneralIntegrationTest {
     static TestUtil testUtil;
     static XpressJ app;
     static File tmpFile;
-    static byte[] testFileBytes;
 
     @AfterClass
     public static void stop(){
@@ -117,14 +113,11 @@ public class GeneralIntegrationTest {
             }
         });
 
-        //load test file for uploading test
-        testFileBytes = isToBytes(GeneralIntegrationTest.class.getResourceAsStream("/public/test.txt"));
-
         app.post("/fileupload", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 try {
-                    response.send(isToBytes(request.getFile("file").getInputStream()).toString());
+                    response.send(new String(isToBytes(request.getFile("file").getInputStream())));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -284,8 +277,8 @@ public class GeneralIntegrationTest {
     @Test
     public void simple_file_upload_test(){
         try{
-            String response = SampleFileUpload.executeMultiPartRequest("/fileupload", "/public/test.txt", "text/html");
-            Assert.assertEquals("test.txt", response);
+            String response = TestUtil.postFile("http://localhost:8080/fileupload", "file", tmpFile);
+            Assert.assertEquals("tmp.txt", response);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

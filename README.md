@@ -88,8 +88,8 @@ For more, please use documentation (WiP)
     - ~~Add "all" verb to match any of HTTP verbs~~
     - ~~Validate route URI on application start (when adding routes)~~
 - __0.3.0__
-    - Add file handling (file upload / as bytes array)
-    - Add static file handling
+    - ~~Add file handling (file upload / as bytes array)~~
+    - ~~Add static file handling~~
     - Website
     - ~~Logo~~ Still need better one
 - 0.4.0

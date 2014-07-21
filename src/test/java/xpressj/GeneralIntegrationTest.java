@@ -39,9 +39,9 @@ public class GeneralIntegrationTest {
     @BeforeClass
     public static void start(){
 
-        testUtil = new TestUtil(8080);
+        testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration().setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
+        app = new XpressJ(new Configuration().setPort(8081).setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
 
         //Create file in /tmp
         tmpFile = new File("/tmp/tmp.txt");

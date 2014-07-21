@@ -277,7 +277,7 @@ public class GeneralIntegrationTest {
     @Test
     public void simple_file_upload_test(){
         try{
-            String response = TestUtil.postFile("http://localhost:8080/fileupload", "file", tmpFile);
+            String response = TestUtil.postFile("http://localhost:8081/fileupload", "file", tmpFile);
             Assert.assertEquals("tmp.txt", response);
         } catch (Throwable e) {
             throw new RuntimeException(e);

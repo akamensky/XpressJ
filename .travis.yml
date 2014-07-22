@@ -1,3 +1,14 @@
 language: java
 jdk:
   - oraclejdk8
+
+env:
+  global:
+    - SONATYPE_USERNAME=akamensky
+    - secure: "AgPRm/vSYNL+jE57iSwG1g9UId4bF+3UFa7r7T/tSORkTYDANApwNVg5T3viFCbdqNv+vivW57aJQ3KB/FLQRVMNZAJkIRt/cEQZAn0cL5uEAWOjbS2ANDGvYGXRoBwqxI4qxR35NCUjncXesT9Rglj1OLQm+GHHUOlQQEvBLhQ="
+    - secure: "hUMBwdc3VWLh9kzdAlMGWptK4eeuEE6lrLmdW76QNMfSw4kq7OxQFF0WlLSYSRPiYbszuwOh79ijCIxYuzo6cmqDyUfEvOOL913SgbXyuKV53HALg5ipRy1HiZXf9pS4Vm8wgVa7kAkumBrPCwCYQoKYanzoD6TGENWk2T39N7Q="
+
+after_success:
+  - openssl enc -aes-256-cbc -d -in .secret.key -out secret.gpg -k $GPG_DECRYPTION_KEY
+  - gpg --import secret.gpg
+  - "[[ $TRAVIS_BRANCH == \"master\" ]] && { python travis/op-travis.py; mvn clean deploy -Dmaven.test.skip=true --settings ~/.m2/mySettings.xml; };"

@@ -87,18 +87,24 @@ For more, please use documentation (WiP)
     - ~~Add all verbs from HTTP 1.1 specification~~
     - ~~Add "all" verb to match any of HTTP verbs~~
     - ~~Validate route URI on application start (when adding routes)~~
-- __0.3.0__
+- ~~0.3.0~~
     - ~~Add file handling (file upload / as bytes array)~~
     - ~~Add static file handling~~
-    - Website
-    - ~~Logo~~ Still need better one
 - 0.4.0
     - Add session handling
+    - Better exception handling
+    - default 404
+    - default 500
+    - custom 404
+    - custom 500
 - 0.5.0
     - Separate Jetty server into external dependency xpressj-jetty perhaps
 - 1.0.0
     - Implement HTTPS protocol
     - ...
+- Other tasks
+    - Website
+    - ~~Logo~~ Still need better one
 
 ---
 #### Links

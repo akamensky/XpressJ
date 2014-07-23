@@ -90,7 +90,7 @@ For more, please use documentation (WiP)
 - ~~0.3.0~~
     - ~~Add file handling (file upload / as bytes array)~~
     - ~~Add static file handling~~
-- 0.4.0
+- __0.4.0__
     - Add session handling
     - Better exception handling
     - default 404

@@ -92,7 +92,7 @@ public class Configuration {
     public String getExternalStaticFilesLocation(){
         return this.externalStaticFilesLocation;
     }
-    
+
     public Configuration setNotFoundPage(Route route){
         if (route != null)
             this.notFoundPage = route;

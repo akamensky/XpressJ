@@ -76,7 +76,4 @@ public class Configuration {
         return this.externalStaticFilesLocation;
     }
 
-    public boolean hasMultipleHandlers(){
-        return this.staticFilesLocation != null || this.externalStaticFilesLocation != null;
-    }
 }

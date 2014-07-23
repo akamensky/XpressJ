@@ -62,29 +62,28 @@ public class WebServer {
 
         this.server.setStopTimeout(0);
 
-        if (this.configuration.hasMultipleHandlers()){
-            List<Handler> handlerList = new ArrayList<>();
-            handlerList.add(this.handler);
+        List<Handler> handlerList = new ArrayList<>();
 
-            if (this.configuration.getStaticFilesLocation() != null){
-                ResourceHandler resourceHandler = new ResourceHandler();
-                Resource staticResources = Resource.newClassPathResource(this.configuration.getStaticFilesLocation());
-                resourceHandler.setBaseResource(staticResources);
-                handlerList.add(resourceHandler);
-            }
-            if (this.configuration.getExternalStaticFilesLocation() != null){
-                ResourceHandler externalResourceHandler = new ResourceHandler();
-                Resource externalStaticResources = Resource.newResource(new File(this.configuration.getExternalStaticFilesLocation()));
-                externalResourceHandler.setBaseResource(externalStaticResources);
-                handlerList.add(externalResourceHandler);
-            }
-
-            HandlerList handlers = new HandlerList();
-            handlers.setHandlers(handlerList.toArray(new Handler[handlerList.size()]));
-            this.server.setHandler(handlers);
-        } else {
-            this.server.setHandler(this.handler);
+        //Add main handler
+        handlerList.add(this.handler);
+        //Add bundled static files handler
+        if (this.configuration.getStaticFilesLocation() != null){
+            ResourceHandler resourceHandler = new ResourceHandler();
+            Resource staticResources = Resource.newClassPathResource(this.configuration.getStaticFilesLocation());
+            resourceHandler.setBaseResource(staticResources);
+            handlerList.add(resourceHandler);
         }
+        //Add external static files handler
+        if (this.configuration.getExternalStaticFilesLocation() != null){
+            ResourceHandler externalResourceHandler = new ResourceHandler();
+            Resource externalStaticResources = Resource.newResource(new File(this.configuration.getExternalStaticFilesLocation()));
+            externalResourceHandler.setBaseResource(externalStaticResources);
+            handlerList.add(externalResourceHandler);
+        }
+
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(handlerList.toArray(new Handler[handlerList.size()]));
+        this.server.setHandler(handlers);
 
         try{
             this.server.start();

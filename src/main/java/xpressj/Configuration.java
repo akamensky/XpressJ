@@ -31,6 +31,23 @@ public class Configuration {
     private String staticFilesLocation;
     private String externalStaticFilesLocation;
 
+    private static final Route DEFAULT_NOT_FOUND_PAGE = new Route(){
+        @Override
+        public void handle(Request request, Response response){
+            response.send(404, "Not Found");
+        }
+    };
+
+    private static final Route DEFAULT_ERROR_PAGE = new Route() {
+        @Override
+        public void handle(Request request, Response response) throws Exception {
+            response.send(500, "Internal Server Error");
+        }
+    };
+
+    private Route notFoundPage = DEFAULT_NOT_FOUND_PAGE;
+    private Route errorPage = DEFAULT_ERROR_PAGE;
+
     public Configuration setPort(int port){
         this.port = port;
         return this;
@@ -75,5 +92,14 @@ public class Configuration {
     public String getExternalStaticFilesLocation(){
         return this.externalStaticFilesLocation;
     }
+    
+    public Configuration setNotFoundPage(Route route){
+        if (route != null)
+            this.notFoundPage = route;
+        return this;
+    }
 
+    public Route getNotFoundPage(){
+        return this.notFoundPage;
+    }
 }

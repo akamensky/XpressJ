@@ -49,10 +49,8 @@ public class Configuration {
     private Route errorPage = DEFAULT_ERROR_PAGE;
 
     private boolean useSessions = false;
-
-    private static final int DEFAULT_SESSION_MAX_AGE = 0;
-
-    private int sessionMaxAge = DEFAULT_SESSION_MAX_AGE;
+    private int sessionMaxAge = 259200000;
+    private String sessionCookieName = "XPRESSJ_SESS";
 
     public Configuration setPort(int port){
         this.port = port;
@@ -119,13 +117,19 @@ public class Configuration {
         return this.errorPage;
     }
 
-    public  Configuration setSessionMaxAge(int milliseconds){
-        this.sessionMaxAge = milliseconds;
+    public Configuration enableSessions(String name, int maxAge){
+        this.useSessions = true;
+        this.sessionCookieName = name;
+        this.sessionMaxAge = maxAge;
         return this;
     }
 
     public int getSessionMaxAge(){
         return this.sessionMaxAge;
+    }
+
+    public String getSessionCookieName(){
+        return this.sessionCookieName;
     }
 
     public Configuration enableSessions(){

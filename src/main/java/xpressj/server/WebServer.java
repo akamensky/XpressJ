@@ -30,16 +30,17 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import xpressj.Configuration;
 import xpressj.JettyLogger;
+import xpressj.Request;
 
 public class WebServer {
 
     private static final String NAME = "XPRESSJ";
-    private Handler handler;
+    private RequestHandler handler;
     private Server server;
 
     private Configuration configuration;
 
-    public WebServer(Handler handler){
+    public WebServer(RequestHandler handler){
         this.handler = handler;
         org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());
     }

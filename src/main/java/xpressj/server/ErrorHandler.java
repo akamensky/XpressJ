@@ -29,11 +29,11 @@ import java.io.IOException;
 /**
  * Created by akamensky on 7/23/14.
  */
-public class PageNotFoundHandler extends ResourceHandler {
+public class ErrorHandler extends ResourceHandler {
 
     private Configuration configuration;
 
-    public PageNotFoundHandler(final Configuration configuration){
+    public ErrorHandler(final Configuration configuration){
         this.configuration = configuration;
     }
 
@@ -41,7 +41,7 @@ public class PageNotFoundHandler extends ResourceHandler {
     public void handle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
         xpressj.Request req = new xpressj.Request(httpRequest, false);
         Response res = new Response(httpResponse);
-        
+
         try {
             if (httpResponse.getStatus() == 500){
                 this.configuration.getErrorPage().handle(req, res);

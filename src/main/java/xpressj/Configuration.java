@@ -102,4 +102,15 @@ public class Configuration {
     public Route getNotFoundPage(){
         return this.notFoundPage;
     }
+
+    public Configuration setErrorPage(Route route){
+        if (route != null)
+            this.errorPage = route;
+        return this;
+    }
+
+    public Route getErrorPage(){
+        return this.errorPage;
+    }
+
 }

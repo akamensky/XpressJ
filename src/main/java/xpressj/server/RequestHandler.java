@@ -69,8 +69,5 @@ public class RequestHandler extends ResourceHandler {
                 break;
             }
         }
-
-        //TODO: Add 404 & 500 processing
-
     }
 }

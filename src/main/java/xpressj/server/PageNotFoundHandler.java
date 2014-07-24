@@ -42,12 +42,17 @@ public class PageNotFoundHandler extends ResourceHandler {
     public void handle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
         xpressj.Request req = new xpressj.Request(httpRequest, false);
         Response res = new Response(httpResponse);
-
+        
         try {
-            this.configuration.getNotFoundPage().handle(req, res);
-            baseRequest.setHandled(true);
+            if (httpResponse.getStatus() == 500){
+                this.configuration.getErrorPage().handle(req, res);
+            } else {
+                this.configuration.getNotFoundPage().handle(req, res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            baseRequest.setHandled(true);
         }
     }
 }

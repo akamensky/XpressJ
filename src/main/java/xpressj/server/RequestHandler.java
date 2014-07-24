@@ -20,6 +20,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import xpressj.Response;
 import xpressj.RouteImpl;
+import xpressj.SessionFactory;
 import xpressj.route.RouteMatcher;
 
 import javax.servlet.MultipartConfigElement;
@@ -36,9 +37,14 @@ public class RequestHandler extends ResourceHandler {
 
     private RouteMatcher routeMatcher;
     private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement(System.getProperty("java.io.tmpdir"));
+    private SessionFactory sessionFactory;
 
     public RequestHandler(RouteMatcher routeMatcher){
         this.routeMatcher = routeMatcher;
+    }
+
+    public void setSessionFactory(SessionFactory factory){
+        this.sessionFactory = factory;
     }
 
     @Override
@@ -52,8 +58,13 @@ public class RequestHandler extends ResourceHandler {
         }
 
         //Get proper request and response objects
-        xpressj.Request req = new xpressj.Request(httpRequest, isMultipart);
         Response res = new Response(httpResponse);
+        xpressj.Request req = new xpressj.Request(httpRequest, res, isMultipart, this.sessionFactory);
+        //TODO: this is ugly, need to rethink this one
+
+        //set delegates so that req and res can communicate with each other
+        req.setDelegate(res);
+        res.setDelegate(req);
 
         //Get routeMatcher
         List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());

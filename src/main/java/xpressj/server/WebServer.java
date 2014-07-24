@@ -31,6 +31,7 @@ import org.eclipse.jetty.util.resource.Resource;
 import xpressj.Configuration;
 import xpressj.JettyLogger;
 import xpressj.Request;
+import xpressj.SessionFactory;
 
 public class WebServer {
 
@@ -39,6 +40,7 @@ public class WebServer {
     private Server server;
 
     private Configuration configuration;
+    private SessionFactory sessionFactory;
 
     public WebServer(RequestHandler handler){
         this.handler = handler;
@@ -50,6 +52,11 @@ public class WebServer {
     }
 
     public void start(Object lock){
+
+        if (this.configuration.useSessions()) {
+            this.sessionFactory = new SessionFactory(this.configuration);
+            this.handler.setSessionFactory(this.sessionFactory);
+        }
 
         ServerConnector connector = createSocketConnector();
 
@@ -107,6 +114,9 @@ public class WebServer {
         try{
             if(server != null){
                 server.stop();
+                if (this.sessionFactory != null) {
+                    this.sessionFactory = null;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

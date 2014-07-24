@@ -16,11 +16,9 @@
 
 package xpressj;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -35,8 +33,14 @@ public class Request {
     private Map<String, Cookie> cookies;
     private Map<String, String> headers;
     private Map<String, Part> files;
+    private Session session;
+    private Response response;
 
-    public Request(HttpServletRequest httpRequest, boolean isMultipart){
+    public Request(HttpServletRequest httpRequest, Response response, boolean isMultipart){
+        this(httpRequest, response, isMultipart, null);
+    }
+
+    public Request(HttpServletRequest httpRequest, Response response, boolean isMultipart, SessionFactory sessionFactory){
         this.uri = httpRequest.getRequestURI();
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
@@ -47,6 +51,26 @@ public class Request {
             this.cookies = Collections.unmodifiableMap(Cookie.toMap(cookies));
         } else {
             this.cookies = Collections.unmodifiableMap(new HashMap<String, Cookie>());
+        }
+
+        //deal with session
+        if (sessionFactory != null) {
+            boolean needNewSession = true;
+            Cookie sessionCookie = this.cookies.get("XPRESSJ_SESS");
+            //TODO: move session cookie name somewhere else (config?)
+            if (sessionCookie != null) {
+                Session session = sessionFactory.getSession(sessionCookie.getValue());
+                if (session != null) {
+                    this.session = session;
+                    needNewSession = false;
+                }
+            }
+
+            if (needNewSession) {
+                Session session = sessionFactory.createSession();
+                this.session = session;
+                response.addCookie("XPRESSJ_SESS", this.session.getId());
+            }
         }
 
         //get headers
@@ -83,6 +107,10 @@ public class Request {
         this.params = new HashMap<>();
         this.cookies = new HashMap<>();
     };
+
+    public void setDelegate(Response response){
+        this.response = response;
+    }
 
     public String getUri(){
         return this.uri;
@@ -156,6 +184,17 @@ public class Request {
 
     public Map<String, Part> getFiles(){
         return this.files;
+    }
+
+    public Session getSession(){
+        return this.session;
+    }
+
+    public void renewSession(){
+        this.session.reset();
+        int maxAge = this.session.getMaxAge();
+        this.response.addCookie("XPRESSJ_SESS", this.session.getId());
+        //TODO: move session cookie name somewhere else (config?)
     }
 
     public void close(){

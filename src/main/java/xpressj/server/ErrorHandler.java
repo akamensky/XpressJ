@@ -39,8 +39,8 @@ public class ErrorHandler extends ResourceHandler {
 
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
-        xpressj.Request req = new xpressj.Request(httpRequest, false);
         Response res = new Response(httpResponse);
+        xpressj.Request req = new xpressj.Request(httpRequest, res, false);
 
         try {
             if (httpResponse.getStatus() == 500){

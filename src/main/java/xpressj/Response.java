@@ -34,6 +34,7 @@ public class Response {
     private Integer statusCode;
     private HashMap<String, Cookie> cookies;
     private Map<String, String> headers;
+    private Request request;
 
     public Response(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
@@ -41,6 +42,10 @@ public class Response {
         this.headers = new HashMap<>();
     }
     public Response() {}
+
+    public void setDelegate(Request request){
+        this.request = request;
+    }
 
     private void markConsumed(){
         this.isConsumed = true;

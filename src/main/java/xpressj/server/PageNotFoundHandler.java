@@ -18,7 +18,6 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.server.session.SessionHandler;
 import xpressj.Configuration;
 import xpressj.Response;
 

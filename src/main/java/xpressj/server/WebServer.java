@@ -80,8 +80,8 @@ public class WebServer {
             externalResourceHandler.setBaseResource(externalStaticResources);
             handlerList.add(externalResourceHandler);
         }
-        //Add 404 handler
-        handlerList.add(new PageNotFoundHandler(this.configuration));
+        //Add error handler
+        handlerList.add(new ErrorHandler(this.configuration));
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(handlerList.toArray(new Handler[handlerList.size()]));

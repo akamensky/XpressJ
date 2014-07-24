@@ -63,6 +63,7 @@ public class RequestHandler extends SessionHandler {
             try {
                 route.handle(req, res);
             } catch (Exception e) {
+                httpResponse.setStatus(500);
                 e.printStackTrace();
             }
             if (res.isConsumed()){

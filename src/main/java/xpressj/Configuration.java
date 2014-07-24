@@ -48,6 +48,12 @@ public class Configuration {
     private Route notFoundPage = DEFAULT_NOT_FOUND_PAGE;
     private Route errorPage = DEFAULT_ERROR_PAGE;
 
+    private boolean useSessions = false;
+
+    private static final int DEFAULT_SESSION_MAX_AGE = 0;
+
+    private int sessionMaxAge = DEFAULT_SESSION_MAX_AGE;
+
     public Configuration setPort(int port){
         this.port = port;
         return this;
@@ -111,6 +117,24 @@ public class Configuration {
 
     public Route getErrorPage(){
         return this.errorPage;
+    }
+
+    public  Configuration setSessionMaxAge(int milliseconds){
+        this.sessionMaxAge = milliseconds;
+        return this;
+    }
+
+    public int getSessionMaxAge(){
+        return this.sessionMaxAge;
+    }
+
+    public Configuration enableSessions(){
+        this.useSessions = true;
+        return this;
+    }
+
+    public boolean useSessions(){
+        return this.useSessions;
     }
 
 }

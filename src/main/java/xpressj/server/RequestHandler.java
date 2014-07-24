@@ -51,8 +51,6 @@ public class RequestHandler extends ResourceHandler {
             isMultipart = true;
         }
 
-        boolean isHandled = false;
-
         //Get proper request and response objects
         xpressj.Request req = new xpressj.Request(httpRequest, isMultipart);
         Response res = new Response(httpResponse);
@@ -67,12 +65,10 @@ public class RequestHandler extends ResourceHandler {
                 e.printStackTrace();
             }
             if (res.isConsumed()){
-                isHandled = true;
+                baseRequest.setHandled(true);
                 break;
             }
         }
-
-        baseRequest.setHandled(isHandled);
 
         //TODO: Add 404 & 500 processing
 

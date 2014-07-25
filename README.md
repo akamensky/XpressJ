@@ -90,14 +90,14 @@ For more, please use documentation (WiP)
 - ~~0.3.0~~
     - ~~Add file handling (file upload / as bytes array)~~
     - ~~Add static file handling~~
-- __0.4.0__
-    - Add session handling
-    - Better exception handling
-    - default 404
-    - default 500
-    - custom 404
-    - custom 500
-- 0.5.0
+- ~~0.4.0~~
+    - ~~Add session handling~~
+    - ~~Better exception handling~~
+    - ~~default 404~~
+    - ~~default 500~~
+    - ~~custom 404~~
+    - ~~custom 500~~
+- __0.5.0__
     - Separate Jetty server into external dependency xpressj-jetty perhaps
 - 1.0.0
     - Implement HTTPS protocol

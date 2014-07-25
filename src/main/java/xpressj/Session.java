@@ -25,6 +25,7 @@ import java.util.Map;
 public class Session {
     private String id;
     private int maxAge;
+    private int cookieMaxAge;
     private SessionFactory factory;
     private Thread t;
     private Map<String, Object> properties;
@@ -43,7 +44,8 @@ public class Session {
 
     public Session(String id, int maxAge, SessionFactory factory){
         this.id = id;
-        this.maxAge = maxAge;
+        this.maxAge = (maxAge == 0) ? 1000*60*60*24 : maxAge;
+        this.cookieMaxAge = maxAge;
         this.factory = factory;
         this.properties = new HashMap<>();
 
@@ -72,6 +74,10 @@ public class Session {
 
     public int getMaxAge(){
         return this.maxAge;
+    }
+
+    public int getCookieMaxAge(){
+        return this.cookieMaxAge;
     }
 
     public String getId(){

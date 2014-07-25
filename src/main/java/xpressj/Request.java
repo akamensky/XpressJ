@@ -69,7 +69,8 @@ public class Request {
             if (needNewSession) {
                 Session session = sessionFactory.createSession();
                 this.session = session;
-                response.addCookie("XPRESSJ_SESS", this.session.getId());
+                sessionCookie = new Cookie("XPRESSJ_SESS", session.getId(), session.getCookieMaxAge());
+                response.addCookie(sessionCookie);
             }
         }
 

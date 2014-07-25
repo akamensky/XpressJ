@@ -26,12 +26,17 @@ import java.util.Set;
  */
 public class Cookie {
 
+    private static final String DEFAULT_PATH = "/";
+    private static final int DEFAULT_MAXAGE = 0;
+    private static final boolean DEFAULT_ISSECURE = false;
+    private static final boolean DEFAULT_ISHTTPONLY = false;
+
     private String name;
     private String value;
     private String path;
     private int maxAge;
-    private boolean isSecure = false;
-    private boolean isHttpOnly = false;
+    private boolean isSecure;
+    private boolean isHttpOnly;
 
     public Cookie(javax.servlet.http.Cookie httpCookie){
         this.name = httpCookie.getName();
@@ -42,6 +47,22 @@ public class Cookie {
         this.isHttpOnly = httpCookie.isHttpOnly();
     }
 
+    public Cookie(String name, String value){
+        this(name, value, DEFAULT_MAXAGE, DEFAULT_PATH, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
+    }
+
+    public Cookie(String name, String value, int maxAge){
+        this(name, value, maxAge, DEFAULT_PATH, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
+    }
+
+    public Cookie(String name, String value, int maxAge, String path){
+        this(name, value, maxAge, path, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
+    }
+
+    public Cookie(String name, String value, int maxAge, String path, boolean isSecure){
+        this(name, value, maxAge, path, isSecure, DEFAULT_ISHTTPONLY);
+    }
+
     public Cookie(String name, String value, int maxAge, String path, boolean isSecure, boolean isHttpOnly){
         this.name = name;
         this.value = value;
@@ -49,24 +70,6 @@ public class Cookie {
         this.maxAge = maxAge;
         this.isSecure = isSecure;
         this.isHttpOnly = isHttpOnly;
-    }
-
-    public Cookie(String name, String value){
-        this.name = name;
-        this.value = value;
-    }
-
-    public Cookie(String name, String value, int maxAge){
-        this.name = name;
-        this.value = value;
-        this.maxAge = maxAge;
-    }
-
-    public Cookie(String name, String value, int maxAge, String path){
-        this.name = name;
-        this.value = value;
-        this.maxAge = maxAge;
-        this.path = path;
     }
 
     public static Map<String, Cookie> toMap(javax.servlet.http.Cookie[] cookies){

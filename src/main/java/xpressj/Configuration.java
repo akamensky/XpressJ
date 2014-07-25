@@ -49,7 +49,7 @@ public class Configuration {
     private Route errorPage = DEFAULT_ERROR_PAGE;
 
     private boolean useSessions = false;
-    private int sessionMaxAge = 259200000;
+    private int sessionMaxAge = 0;
     private String sessionCookieName = "XPRESSJ_SESS";
 
     public Configuration setPort(int port){

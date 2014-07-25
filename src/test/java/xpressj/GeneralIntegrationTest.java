@@ -16,7 +16,10 @@
 
 package xpressj;
 
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import xpressj.util.TestUtil;
 
 import java.io.*;

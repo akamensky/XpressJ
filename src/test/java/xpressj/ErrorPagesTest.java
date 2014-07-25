@@ -37,6 +37,12 @@ public class ErrorPagesTest {
             response.send(200, "custom_message");
         }
     };
+    static Route customErrorPage = new Route() {
+        @Override
+        public void handle(Request request, Response response) throws Exception {
+            response.send(200, "all_good");
+        }
+    };
 
     @AfterClass
     public static void stop(){
@@ -51,7 +57,7 @@ public class ErrorPagesTest {
         testUtil2 = new TestUtil(8082);
 
         app1 = new XpressJ(new Configuration().setPort(8081));
-        app2 = new XpressJ(new Configuration().setPort(8082).setNotFoundPage(customNotFoundPage));
+        app2 = new XpressJ(new Configuration().setPort(8082).setNotFoundPage(customNotFoundPage).setErrorPage(customErrorPage));
 
         app1.start();
         app2.start();
@@ -66,6 +72,19 @@ public class ErrorPagesTest {
             @Override
             public void handle(Request request, Response response) {
                 response.send("test");
+            }
+        });
+
+        app1.get("/error", new Route() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                throw new NullPointerException("test error");
+            }
+        });
+        app2.get("/error", new Route() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                throw new NullPointerException("test error");
             }
         });
     }
@@ -87,6 +106,28 @@ public class ErrorPagesTest {
             TestUtil.UrlResponse response = testUtil2.doMethod("GET", "/test", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("custom_message", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void default_error_page_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil1.doMethod("GET", "/error", null);
+            Assert.assertEquals(500, response.status);
+            Assert.assertEquals("Internal Server Error", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void custom_error_page_test() {
+        try{
+            TestUtil.UrlResponse response = testUtil2.doMethod("GET", "/error", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("all_good", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

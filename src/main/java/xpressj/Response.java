@@ -143,7 +143,7 @@ public class Response {
         writeResponse(json);
     }
 
-    private void addCookie(Cookie cookie){
+    public void addCookie(Cookie cookie){
         this.cookies.put(cookie.getName(), cookie);
     }
 

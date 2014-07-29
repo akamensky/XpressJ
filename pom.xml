@@ -12,7 +12,7 @@
 
     <groupId>com.xpressj</groupId>
     <artifactId>xpressj-jetty</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.0a</version>
 
     <packaging>jar</packaging>
 

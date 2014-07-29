@@ -49,6 +49,13 @@
     </properties>
 
     <dependencies>
+        <!-- XpressJ as provided dependency -->
+        <dependency>
+            <groupId>com.xpressj</groupId>
+            <artifactId>xpressj</artifactId>
+            <version>0.5.0a</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- JETTY DEPENDENCIES -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

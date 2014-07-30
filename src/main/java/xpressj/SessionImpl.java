@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by akamensky on 7/24/14.
  */
-public class Session {
+public class SessionImpl {
     private String id;
     private int maxAge;
     private int cookieMaxAge;
@@ -42,7 +42,7 @@ public class Session {
         }
     };
 
-    public Session(String id, int maxAge, SessionFactory factory){
+    public SessionImpl(String id, int maxAge, SessionFactory factory){
         this.id = id;
         this.maxAge = (maxAge == 0) ? 1000*60*60*24 : maxAge;
         this.cookieMaxAge = maxAge;

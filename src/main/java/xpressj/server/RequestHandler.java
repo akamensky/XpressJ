@@ -18,7 +18,8 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import xpressj.Response;
+import xpressj.RequestImpl;
+import xpressj.ResponseImpl;
 import xpressj.RouteImpl;
 import xpressj.SessionFactory;
 import xpressj.route.RouteMatcher;
@@ -58,8 +59,8 @@ public class RequestHandler extends ResourceHandler {
         }
 
         //Get proper request and response objects
-        Response res = new Response(httpResponse);
-        xpressj.Request req = new xpressj.Request(httpRequest, res, isMultipart, this.sessionFactory);
+        ResponseImpl res = new ResponseImpl(httpResponse);
+        RequestImpl req = new RequestImpl(httpRequest, res, isMultipart, this.sessionFactory);
         //TODO: this is ugly, need to rethink this one
 
         //set delegates so that req and res can communicate with each other

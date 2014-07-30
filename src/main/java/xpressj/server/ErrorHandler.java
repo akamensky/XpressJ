@@ -19,7 +19,9 @@ package xpressj.server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import xpressj.Configuration;
+import xpressj.RequestImpl;
 import xpressj.Response;
+import xpressj.ResponseImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +41,8 @@ public class ErrorHandler extends ResourceHandler {
 
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException, ServletException {
-        Response res = new Response(httpResponse);
-        xpressj.Request req = new xpressj.Request(httpRequest, res, false);
+        ResponseImpl res = new ResponseImpl(httpResponse);
+        xpressj.Request req = new RequestImpl(httpRequest, res, false);
 
         try {
             if (httpResponse.getStatus() == 500){

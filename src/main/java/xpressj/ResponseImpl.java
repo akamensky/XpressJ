@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by akamensky on 6/19/14.
  */
-public class Response {
+public class ResponseImpl implements Response {
 
     private boolean isConsumed = false;
     private HttpServletResponse httpResponse;
@@ -34,16 +34,16 @@ public class Response {
     private Integer statusCode;
     private HashMap<String, Cookie> cookies;
     private Map<String, String> headers;
-    private Request request;
+    private RequestImpl request;
 
-    public Response(HttpServletResponse httpResponse) {
+    public ResponseImpl(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
         this.cookies = new HashMap<>();
         this.headers = new HashMap<>();
     }
-    public Response() {}
+    public ResponseImpl() {}
 
-    public void setDelegate(Request request){
+    public void setDelegate(RequestImpl request){
         this.request = request;
     }
 

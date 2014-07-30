@@ -16,9 +16,6 @@
 
 package xpressj;
 
-import xpressj.Cookie;
-import xpressj.Session;
-
 import javax.servlet.http.Part;
 import java.util.Collection;
 import java.util.HashMap;

@@ -16,8 +16,6 @@
 
 package xpressj;
 
-import xpressj.Cookie;
-
 /**
  * Created by akamensky on 7/30/14.
  */

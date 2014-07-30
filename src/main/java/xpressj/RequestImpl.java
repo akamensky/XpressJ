@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * Created by akamensky on 6/19/14.
  */
-public class Request {
+public class RequestImpl implements Request {
 
     private String uri;
     private String httpMethod;
@@ -34,13 +34,13 @@ public class Request {
     private Map<String, String> headers;
     private Map<String, Part> files;
     private Session session;
-    private Response response;
+    private ResponseImpl response;
 
-    public Request(HttpServletRequest httpRequest, Response response, boolean isMultipart){
+    public RequestImpl(HttpServletRequest httpRequest, ResponseImpl response, boolean isMultipart){
         this(httpRequest, response, isMultipart, null);
     }
 
-    public Request(HttpServletRequest httpRequest, Response response, boolean isMultipart, SessionFactory sessionFactory){
+    public RequestImpl(HttpServletRequest httpRequest, ResponseImpl response, boolean isMultipart, SessionFactory sessionFactory){
         this.uri = httpRequest.getRequestURI();
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
@@ -102,14 +102,14 @@ public class Request {
         return;
     }
 
-    public Request(String httpMethod, String uri){
+    public RequestImpl(String httpMethod, String uri){
         this.uri = uri;
         this.httpMethod = httpMethod;
         this.params = new HashMap<>();
         this.cookies = new HashMap<>();
     };
 
-    public void setDelegate(Response response){
+    public void setDelegate(ResponseImpl response){
         this.response = response;
     }
 

@@ -16,13 +16,15 @@
 
 package xpressj;
 
+import xpressj.interfaces.Cookie;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by akamensky on 7/8/14.
  */
-public class Cookie {
+public class CookieImpl implements Cookie {
 
     private static final String DEFAULT_PATH = "/";
     private static final int DEFAULT_MAXAGE = 0;
@@ -36,7 +38,7 @@ public class Cookie {
     private boolean isSecure;
     private boolean isHttpOnly;
 
-    public Cookie(javax.servlet.http.Cookie httpCookie){
+    public CookieImpl(javax.servlet.http.Cookie httpCookie){
         this.name = httpCookie.getName();
         this.value = httpCookie.getValue();
         this.path = httpCookie.getPath();
@@ -45,23 +47,23 @@ public class Cookie {
         this.isHttpOnly = httpCookie.isHttpOnly();
     }
 
-    public Cookie(String name, String value){
+    public CookieImpl(String name, String value){
         this(name, value, DEFAULT_MAXAGE, DEFAULT_PATH, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
     }
 
-    public Cookie(String name, String value, int maxAge){
+    public CookieImpl(String name, String value, int maxAge){
         this(name, value, maxAge, DEFAULT_PATH, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
     }
 
-    public Cookie(String name, String value, int maxAge, String path){
+    public CookieImpl(String name, String value, int maxAge, String path){
         this(name, value, maxAge, path, DEFAULT_ISSECURE, DEFAULT_ISHTTPONLY);
     }
 
-    public Cookie(String name, String value, int maxAge, String path, boolean isSecure){
+    public CookieImpl(String name, String value, int maxAge, String path, boolean isSecure){
         this(name, value, maxAge, path, isSecure, DEFAULT_ISHTTPONLY);
     }
 
-    public Cookie(String name, String value, int maxAge, String path, boolean isSecure, boolean isHttpOnly){
+    public CookieImpl(String name, String value, int maxAge, String path, boolean isSecure, boolean isHttpOnly){
         this.name = name;
         this.value = value;
         this.path = path;
@@ -73,7 +75,7 @@ public class Cookie {
     public static Map<String, Cookie> toMap(javax.servlet.http.Cookie[] cookies){
         Map<String, Cookie> map = new HashMap<String, Cookie>();
         for (javax.servlet.http.Cookie cookie : cookies){
-            Cookie newCookie = new Cookie(cookie);
+            Cookie newCookie = new CookieImpl(cookie);
             map.put(newCookie.getName(), newCookie);
         }
         return map;

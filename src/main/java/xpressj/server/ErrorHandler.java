@@ -20,7 +20,6 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import xpressj.Configuration;
 import xpressj.RequestImpl;
-import xpressj.Response;
 import xpressj.ResponseImpl;
 
 import javax.servlet.ServletException;

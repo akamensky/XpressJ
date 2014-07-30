@@ -24,6 +24,7 @@ import xpressj.route.RouteMatcher;
 public class Configuration {
     private static final int DEFAULT_PORT = 8080;
     private static final String DEFAULT_HOST = "0.0.0.0";
+    public static final String NAME = "XpressJ";
 
     private RouteMatcher routeMatcher;
 

@@ -106,8 +106,8 @@ public class RouteImplTest {
             }
         });
 
-        Request req = new Request("get", "/test/value/hello");
-        Response res = new Response();
+        Request req = new RequestImpl("get", "/test/value/hello");
+        Response res = new ResponseImpl();
         route.handle(req, res);
     }
 
@@ -121,8 +121,8 @@ public class RouteImplTest {
             }
         });
 
-        Request req = new Request("get", "/test/value/hello/value2");
-        Response res = new Response();
+        Request req = new RequestImpl("get", "/test/value/hello/value2");
+        Response res = new ResponseImpl();
         route.handle(req, res);
     }
 
@@ -135,8 +135,8 @@ public class RouteImplTest {
             }
         });
 
-        Request req = new Request("get", "/test/wrong/value/hello");
-        Response res = new Response();
+        Request req = new RequestImpl("get", "/test/wrong/value/hello");
+        Response res = new ResponseImpl();
         route.handle(req, res);
     }
 
@@ -149,8 +149,8 @@ public class RouteImplTest {
             }
         });
 
-        Request req = new Request("get", "/test/wrong/value/hello");
-        Response res = new Response();
+        Request req = new RequestImpl("get", "/test/wrong/value/hello");
+        Response res = new ResponseImpl();
         route.handle(req, res);
 
         route = new RouteImpl("get", "/test/*/value/hello", new Route() {

@@ -32,7 +32,7 @@ public class ResponseImpl implements Response {
     private HttpServletResponse httpResponse;
     private static int DEFAULT_STATUS_CODE = 200;
     private Integer statusCode;
-    private HashMap<String, Cookie> cookies;
+    private HashMap<String, CookieImpl> cookies;
     private Map<String, String> headers;
     private RequestImpl request;
 
@@ -106,7 +106,7 @@ public class ResponseImpl implements Response {
             httpResponse.setHeader("Content-Type", "text/html; charset=utf-8");
 
             //Adding cookies to the response
-            for (Cookie cookie : this.cookies.values()){
+            for (CookieImpl cookie : this.cookies.values()){
                 httpResponse.addCookie(cookie.getServletCookie());
             }
 
@@ -144,11 +144,11 @@ public class ResponseImpl implements Response {
     }
 
     public void addCookie(Cookie cookie){
-        this.cookies.put(cookie.getName(), cookie);
+        this.cookies.put(cookie.getName(), (CookieImpl)cookie);
     }
 
     public void addCookie(String name, String value){
-        Cookie cookie = new Cookie(name, value);
+        CookieImpl cookie = new CookieImpl(name, value);
         addCookie(cookie);
     }
 

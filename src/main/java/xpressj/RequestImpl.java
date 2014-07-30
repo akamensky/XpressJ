@@ -48,7 +48,7 @@ public class RequestImpl implements Request {
         //get cookies
         javax.servlet.http.Cookie[] cookies = httpRequest.getCookies();
         if(cookies != null) {
-            this.cookies = Collections.unmodifiableMap(Cookie.toMap(cookies));
+            this.cookies = Collections.unmodifiableMap(CookieImpl.toMap(cookies));
         } else {
             this.cookies = Collections.unmodifiableMap(new HashMap<String, Cookie>());
         }
@@ -69,7 +69,7 @@ public class RequestImpl implements Request {
             if (needNewSession) {
                 Session session = sessionFactory.createSession();
                 this.session = session;
-                sessionCookie = new Cookie("XPRESSJ_SESS", session.getId(), session.getCookieMaxAge());
+                sessionCookie = new CookieImpl("XPRESSJ_SESS", session.getId(), session.getCookieMaxAge());
                 response.addCookie(sessionCookie);
             }
         }

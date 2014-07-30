@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by akamensky on 7/24/14.
  */
-public class SessionImpl {
+public class SessionImpl implements Session {
     private String id;
     private int maxAge;
     private int cookieMaxAge;

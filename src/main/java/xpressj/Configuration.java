@@ -16,12 +16,16 @@
 
 package xpressj;
 
+import xpressj.route.RouteMatcher;
+
 /**
  * Created by akamensky on 6/30/14.
  */
 public class Configuration {
     private static final int DEFAULT_PORT = 8080;
     private static final String DEFAULT_HOST = "0.0.0.0";
+
+    private RouteMatcher routeMatcher;
 
     private int port = DEFAULT_PORT;
     private String host = DEFAULT_HOST;
@@ -141,4 +145,11 @@ public class Configuration {
         return this.useSessions;
     }
 
+    public void setRouteMatcher(final RouteMatcher routeMatcher){
+        this.routeMatcher = routeMatcher;
+    }
+
+    public RouteMatcher getRouteMatcher(){
+        return this.routeMatcher;
+    }
 }

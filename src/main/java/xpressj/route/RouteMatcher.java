@@ -36,6 +36,7 @@ public class RouteMatcher {
         this.configuration = configuration;
         routes = new ArrayList<>();
         routesCached = new HashMap<>();
+        this.configuration.setRouteMatcher(this);
     }
 
     public void addRoute(String httpMethod, RouteImpl route) {

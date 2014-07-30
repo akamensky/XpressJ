@@ -16,8 +16,6 @@
 
 package xpressj;
 
-import xpressj.interfaces.Cookie;
-
 import java.util.HashMap;
 import java.util.Map;
 

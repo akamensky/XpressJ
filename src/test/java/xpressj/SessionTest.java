@@ -20,6 +20,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import xpressj.server.Request;
+import xpressj.server.Response;
+import xpressj.server.Webserver;
 import xpressj.util.TestUtil;
 
 /**
@@ -34,7 +37,7 @@ public class SessionTest {
     static String testObject = "Test String";
 
     @AfterClass
-    public static void stop(){
+    public static void stop() {
         app.stop();
     }
 
@@ -43,7 +46,7 @@ public class SessionTest {
 
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration().setPort(8081).enableSessions("TEST_SESS", 1000*60*60));
+        app = new XpressJ(new Configuration(Webserver.class).setPort(8081).enableSessions("TEST_SESS", 1000 * 60 * 60));
 
         app.start();
 
@@ -61,7 +64,7 @@ public class SessionTest {
             @Override
             public void handle(Request request, Response response) {
                 //Second request to confirm session persistence
-                if (request.getSession().getProperty("test") == testObject){
+                if (request.getSession().getProperty("test") == testObject) {
                     response.send("match");
                 } else {
                     response.send("no_match");
@@ -73,7 +76,7 @@ public class SessionTest {
 
     @Test
     public void simple_session_persistence_test() {
-        try{
+        try {
             testUtil.doMethod("GET", "/first", null);
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/second", null);
             Assert.assertEquals(200, response.status);

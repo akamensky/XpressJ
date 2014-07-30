@@ -18,86 +18,68 @@ package xpressj;
 
 import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
-import xpressj.server.RequestHandler;
-import xpressj.server.WebServer;
+import xpressj.server.AbstractWebserver;
 
 public final class XpressJ {
 
     private Configuration configuration;
     private boolean initialized = false;
-    private WebServer server;
+    private AbstractWebserver server;
     private RouteMatcher routeMatcher;
-    private Thread t;
 
-    public XpressJ(final Configuration configuration){
+    public XpressJ(final Configuration configuration) {
         this.configuration = configuration;
         this.routeMatcher = new RouteMatcher(this.configuration);
     }
 
     public void start() {
-        if(!initialized){
-            final Object lock = new Object();
-
-            t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    RequestHandler handler = new RequestHandler(routeMatcher);
-                    server = new WebServer(handler);
-                    server.setConfiguration(configuration);
-                    server.start(lock);
-                }
-            });
-            t.start();
-
-            synchronized (lock){
-                try {
-                    lock.wait();
-                    initialized = true;
-                } catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-            }
+        try {
+            this.server = (AbstractWebserver) this.configuration.getWebserverClass().newInstance();
+            this.server.setConfiguration(this.configuration);
+            this.server.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void get(final String uri, final Route route){
+    public void get(final String uri, final Route route) {
         addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }
 
-    public void post(final String uri, final Route route){
+    public void post(final String uri, final Route route) {
         addRoute(HttpMethod.post.name(), new RouteImpl(HttpMethod.post.name(), uri, route));
     }
 
-    public void options(final String uri, final Route route){
+    public void options(final String uri, final Route route) {
         addRoute(HttpMethod.options.name(), new RouteImpl(HttpMethod.options.name(), uri, route));
     }
 
-    public void head(final String uri, final Route route){
+    public void head(final String uri, final Route route) {
         addRoute(HttpMethod.head.name(), new RouteImpl(HttpMethod.head.name(), uri, route));
     }
 
-    public void put(final String uri, final Route route){
+    public void put(final String uri, final Route route) {
         addRoute(HttpMethod.put.name(), new RouteImpl(HttpMethod.put.name(), uri, route));
     }
 
-    public void delete(final String uri, final Route route){
+    public void delete(final String uri, final Route route) {
         addRoute(HttpMethod.delete.name(), new RouteImpl(HttpMethod.delete.name(), uri, route));
     }
 
-    public void trace(final String uri, final Route route){
+    public void trace(final String uri, final Route route) {
         addRoute(HttpMethod.trace.name(), new RouteImpl(HttpMethod.trace.name(), uri, route));
     }
 
-    public void all(final String uri, final Route route){
+    public void all(final String uri, final Route route) {
         addRoute(null, new RouteImpl(null, uri, route));
     }
 
-    private void addRoute(String httpMethod, RouteImpl route){
-        routeMatcher.addRoute(httpMethod, route);
+    private void addRoute(String httpMethod, RouteImpl route) {
+        this.routeMatcher.addRoute(httpMethod, route);
     }
 
     public void stop() {
-        server.stop();
+        this.server.stop();
     }
 
 }

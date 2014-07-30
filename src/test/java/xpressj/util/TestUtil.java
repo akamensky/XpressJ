@@ -59,6 +59,37 @@ public class TestUtil {
         this.httpClient = new DefaultHttpClient(connMrg);
     }
 
+    public static void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (Exception e) {
+        }
+    }
+
+    public static String postFile(String url, String paramName, File file) {
+        String response = "";
+
+        HttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+
+        HttpPost post = new HttpPost(url);
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+        entity.addPart(paramName, new FileBody(file));
+
+        post.setEntity(entity);
+
+        try {
+            response = EntityUtils.toString(client.execute(post).getEntity(), "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        client.getConnectionManager().shutdown();
+
+        return response;
+    }
+
     public UrlResponse doMethod(String requestMethod, String path, String body) throws Exception {
         return doMethod(requestMethod, path, body, false, "text/html");
     }
@@ -160,37 +191,6 @@ public class TestUtil {
         public Map<String, String> headers;
         public String body;
         public int status;
-    }
-
-    public static void sleep(long time) {
-        try {
-            Thread.sleep(time);
-        } catch (Exception e) {
-        }
-    }
-
-    public static String postFile(String url, String paramName, File file){
-        String response = "";
-
-        HttpClient client = new DefaultHttpClient();
-        client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-
-        HttpPost post = new HttpPost(url);
-        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-        entity.addPart(paramName, new FileBody(file));
-
-        post.setEntity(entity);
-
-        try {
-            response = EntityUtils.toString(client.execute(post).getEntity(), "utf-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        client.getConnectionManager().shutdown();
-
-        return response;
     }
 
 }

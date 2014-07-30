@@ -32,7 +32,7 @@ public class RouteMatcher {
     private HashMap<String, List<RouteImpl>> routesCached;
     private Configuration configuration;
 
-    public RouteMatcher(Configuration configuration){
+    public RouteMatcher(Configuration configuration) {
         this.configuration = configuration;
         routes = new ArrayList<>();
         routesCached = new HashMap<>();
@@ -43,7 +43,7 @@ public class RouteMatcher {
         if (route.isRoutePathValid(route.getPath())) {
             routes.add(route);
         } else {
-            throw new RuntimeException("Route path is invalid: "+httpMethod.toUpperCase()+" "+route.getPath());
+            throw new RuntimeException("Route path is invalid: " + httpMethod.toUpperCase() + " " + route.getPath());
         }
     }
 
@@ -51,13 +51,13 @@ public class RouteMatcher {
         //TODO: Implement more proper (faster?) route matching
 
         //Check if this URI was already cached
-        if (this.configuration.isCacheEnabled() && routesCached.containsKey(httpMethod+":"+uri)){
-            return routesCached.get(httpMethod+":"+uri);
+        if (this.configuration.isCacheEnabled() && routesCached.containsKey(httpMethod + ":" + uri)) {
+            return routesCached.get(httpMethod + ":" + uri);
         }
 
         List<RouteImpl> result = new ArrayList<>();
-        for (RouteImpl route : routes){
-            if (route.match(httpMethod, uri)){
+        for (RouteImpl route : routes) {
+            if (route.match(httpMethod, uri)) {
                 result.add(route);
             }
         }

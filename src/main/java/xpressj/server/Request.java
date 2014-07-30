@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xpressj;
+package xpressj.server;
 
 import javax.servlet.http.Part;
 import java.util.Collection;
@@ -26,23 +26,42 @@ import java.util.Map;
  */
 public interface Request {
     public String getUri();
+
     public String getHttpMethod();
+
     public void addParam(String key, String value);
+
     public HashMap getParams();
+
     public String getParam(String key);
+
     public void clearParams();
+
     public int getParamsCount();
+
     public int getQueryParamsCount();
+
     public String[] getQueryParam(String key);
+
     public Map<String, String[]> getQueryParams();
+
     public String[] getQueryParamsNames();
+
     public Map<String, Cookie> getCookies();
+
     public Cookie getCookie(String name);
+
     public String getHeader(String name);
+
     public Collection<String> getHeaderNames();
+
     public Map<String, String> getHeaders();
+
     public Part getFile(String name);//TODO: Should return InputStream instead of Part
+
     public Map<String, Part> getFiles();//TODO: Should return InputStream instead of Part
+
     public Session getSession();
+
     public void renewSession();
 }

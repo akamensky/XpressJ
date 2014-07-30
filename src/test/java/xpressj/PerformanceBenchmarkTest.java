@@ -21,6 +21,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import xpressj.server.Request;
+import xpressj.server.Response;
+import xpressj.server.Webserver;
 import xpressj.util.TestUtil;
 
 import java.util.ArrayList;
@@ -31,7 +34,6 @@ import java.util.Random;
  * Created by akamensky on 7/21/14.
  */
 public class PerformanceBenchmarkTest extends AbstractBenchmark {
-    static TestUtil testUtil;
     private static final String[] routePaths = {
             "/",
             "/projects",
@@ -61,23 +63,19 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     };
     private static final int COUNT = 1000;
     private static final List<TestRequest> requests = new ArrayList<>();
-
+    static TestUtil testUtil;
     private static XpressJ app;
 
-    private static class TestRequest {
-        public String path;
-    }
-
     @AfterClass
-    public static void teardown(){
+    public static void teardown() {
         app.stop();
     }
 
     @BeforeClass
-    public static void setup(){
+    public static void setup() {
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration().setPort(8081));
+        app = new XpressJ(new Configuration(Webserver.class).setPort(8081));
 
         app.start();
 
@@ -104,14 +102,18 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     }
 
     @Test
-    public void doBenchmark(){
+    public void doBenchmark() {
         try {
             for (TestRequest req : requests) {
                 TestUtil.UrlResponse result = testUtil.doMethod("GET", req.path, "");
                 Assert.assertEquals("test", result.body);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static class TestRequest {
+        public String path;
     }
 }

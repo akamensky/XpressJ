@@ -17,8 +17,12 @@
 package xpressj.server;
 
 /**
- * Created by akamensky on 6/17/14.
+ * Created by akamensky on 7/30/14.
  */
-public class NotConsumedException extends RuntimeException {
-    private static final long serialVersionUID = 6748899505989134484L;
+public interface Cookie {
+    public String getName();
+
+    public String getValue();
+
+    public String toString();
 }

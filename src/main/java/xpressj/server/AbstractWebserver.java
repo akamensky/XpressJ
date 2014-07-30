@@ -21,17 +21,14 @@ import xpressj.Configuration;
 /**
  * Created by akamensky on 7/29/14.
  */
-public abstract class AbstractWebserver {
+public interface AbstractWebserver {
 
     /**
-     * Configuration class object
-     * that contains needed configurations
+     * Set configuration that is needed for server
+     *
+     * @param configuration
      */
-    protected final Configuration configuration;
-
-    public AbstractWebserver(Configuration configuration){
-        this.configuration = configuration;
-    };
+    public void setConfiguration(Configuration configuration);
 
     /**
      * Suppose to start web server using configuration

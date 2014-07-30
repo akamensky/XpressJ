@@ -14,13 +14,31 @@
  * limitations under the License.
  */
 
-package xpressj;
+package xpressj.server;
 
 /**
  * Created by akamensky on 7/30/14.
  */
-public interface Cookie {
-    public String getName();
-    public String getValue();
-    public String toString();
+public interface Response {
+    public boolean isConsumed();
+
+    public int getStatusCode();
+
+    public void setStatusCode(int status);
+
+    public void send(int code, String body);
+
+    public void send(String body);
+
+    public void json(int code, Object obj);
+
+    public void json(Object obj);
+
+    public void addCookie(Cookie cookie);//TODO: This is wrong, just add more methods for adding cookie with maxAge etc.
+
+    public void addCookie(String name, String value);
+
+    public void unsetCookie(String name);
+
+    public void addHeader(String name, String value);
 }

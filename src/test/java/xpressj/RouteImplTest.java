@@ -18,6 +18,10 @@ package xpressj;
 
 import org.junit.Assert;
 import org.junit.Test;
+import xpressj.server.Request;
+import xpressj.server.RequestImpl;
+import xpressj.server.Response;
+import xpressj.server.ResponseImpl;
 
 /**
  * Created by akamensky on 7/3/14.
@@ -79,6 +83,7 @@ public class RouteImplTest {
         Assert.assertEquals(false, route.match("get", "/test"));
         Assert.assertEquals(false, route.match("get", "/"));
     }
+
     @Test
     public void param_route_matching2() {
         RouteImpl route = new RouteImpl("get", "/test-:param/:param", null);
@@ -87,6 +92,7 @@ public class RouteImplTest {
         Assert.assertEquals(false, route.match("get", "/test/url"));
         Assert.assertEquals(false, route.match("get", "/"));
     }
+
     @Test
     public void param_route_matching3() {
         RouteImpl route = new RouteImpl("get", "/test/:param/hello", null);

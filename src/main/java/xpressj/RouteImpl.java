@@ -16,6 +16,9 @@
 
 package xpressj;
 
+import xpressj.server.Request;
+import xpressj.server.Response;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,7 +38,7 @@ public class RouteImpl {
     private Pattern routeRegex;
     private List<String> paramNames;
 
-    protected RouteImpl(String httpMethod, String path, Route lambda){
+    protected RouteImpl(String httpMethod, String path, Route lambda) {
         //TODO: optimize RouteImpl constructor
         this.httpMethod = httpMethod;
         this.path = path;
@@ -43,7 +46,7 @@ public class RouteImpl {
         this.paramNames = new ArrayList<>();
 
         //check if has wildcards
-        if(this.path.matches("\\*")){
+        if (this.path.matches("\\*")) {
             hasWildcard = true;
         }
 
@@ -52,7 +55,7 @@ public class RouteImpl {
             hasParameter = true;
             //get param names
             String paramRegex = this.path;
-            if (paramRegex.endsWith("*")){
+            if (paramRegex.endsWith("*")) {
                 paramRegex = paramRegex.substring(0, paramRegex.lastIndexOf("*")) + ".+";
             }
             Pattern p = Pattern.compile(paramRegex.replaceAll("\\*", "[^/]+").replaceAll(":[^/]+", ":([^/]+)"));
@@ -68,7 +71,7 @@ public class RouteImpl {
         //create regex string
         String tmp = this.path;
         String regex;
-        if(this.path.endsWith("*")){
+        if (this.path.endsWith("*")) {
             tmp = tmp.substring(0, tmp.lastIndexOf("*")) + ".+";
         }
         regex = "^";
@@ -78,26 +81,26 @@ public class RouteImpl {
         routeRegex = Pattern.compile(regex);
     }
 
-    public boolean isRoutePathValid(String path){
+    public boolean isRoutePathValid(String path) {
         boolean result = false;
 
         if (path.matches("^\\*{1}$") ||
-                path.matches("^/[A-z0-9\\.\\-:\\*/]{0,}")){
+                path.matches("^/[A-z0-9\\.\\-:\\*/]{0,}")) {
             result = true;
         }
 
         return result;
     }
 
-    public String getHttpMethod(){
+    public String getHttpMethod() {
         return this.httpMethod;
     }
 
-    public String getPath(){
+    public String getPath() {
         return this.path;
     }
 
-    private Route getLambda(){
+    private Route getLambda() {
         return this.lambda;
     }
 
@@ -118,16 +121,16 @@ public class RouteImpl {
         req.clearParams();
     }
 
-    public boolean match(String httpMethod, String path){
+    public boolean match(String httpMethod, String path) {
         boolean isMatching = false;
 
-        if (this.httpMethod != null && !this.httpMethod.equals(httpMethod)){
+        if (this.httpMethod != null && !this.httpMethod.equals(httpMethod)) {
             return false;
         }
 
         Matcher matcher = routeRegex.matcher(path);
 
-        if (matcher.matches()){
+        if (matcher.matches()) {
             isMatching = true;
         }
 

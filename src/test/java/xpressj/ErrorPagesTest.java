@@ -20,6 +20,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import xpressj.server.Request;
+import xpressj.server.Response;
+import xpressj.server.Webserver;
 import xpressj.util.TestUtil;
 
 /**
@@ -45,7 +48,7 @@ public class ErrorPagesTest {
     };
 
     @AfterClass
-    public static void stop(){
+    public static void stop() {
         app1.stop();
         app2.stop();
     }
@@ -56,8 +59,8 @@ public class ErrorPagesTest {
         testUtil1 = new TestUtil(8081);
         testUtil2 = new TestUtil(8082);
 
-        app1 = new XpressJ(new Configuration().setPort(8081));
-        app2 = new XpressJ(new Configuration().setPort(8082).setNotFoundPage(customNotFoundPage).setErrorPage(customErrorPage));
+        app1 = new XpressJ(new Configuration(Webserver.class).setPort(8081));
+        app2 = new XpressJ(new Configuration(Webserver.class).setPort(8082).setNotFoundPage(customNotFoundPage).setErrorPage(customErrorPage));
 
         app1.start();
         app2.start();
@@ -91,7 +94,7 @@ public class ErrorPagesTest {
 
     @Test
     public void default_not_found_page_test() {
-        try{
+        try {
             TestUtil.UrlResponse response = testUtil1.doMethod("GET", "/test", null);
             Assert.assertEquals(404, response.status);
             Assert.assertEquals("Not Found", response.body);
@@ -102,7 +105,7 @@ public class ErrorPagesTest {
 
     @Test
     public void custom_not_found_page_test() {
-        try{
+        try {
             TestUtil.UrlResponse response = testUtil2.doMethod("GET", "/test", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("custom_message", response.body);
@@ -113,7 +116,7 @@ public class ErrorPagesTest {
 
     @Test
     public void default_error_page_test() {
-        try{
+        try {
             TestUtil.UrlResponse response = testUtil1.doMethod("GET", "/error", null);
             Assert.assertEquals(500, response.status);
             Assert.assertEquals("Internal Server Error", response.body);
@@ -124,7 +127,7 @@ public class ErrorPagesTest {
 
     @Test
     public void custom_error_page_test() {
-        try{
+        try {
             TestUtil.UrlResponse response = testUtil2.doMethod("GET", "/error", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("all_good", response.body);

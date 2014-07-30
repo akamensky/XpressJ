@@ -16,6 +16,9 @@
 
 package xpressj;
 
+import xpressj.server.Request;
+import xpressj.server.Response;
+
 /**
  * Created by akamensky on 6/19/14.
  */

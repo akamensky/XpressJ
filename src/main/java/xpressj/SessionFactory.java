@@ -42,7 +42,7 @@ public class SessionFactory {
     }
 
     public Session createSession(String uuid){
-        Session session = new Session(uuid, this.configuration.getSessionMaxAge(), this);
+        Session session = new SessionImpl(uuid, this.configuration.getSessionMaxAge(), this);
         this.sessions.put(session.getId(), session);
         return session;
     }

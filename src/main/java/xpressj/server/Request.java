@@ -16,7 +16,6 @@
 
 package xpressj.server;
 
-import javax.servlet.http.Part;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,9 +56,9 @@ public interface Request {
 
     public Map<String, String> getHeaders();
 
-    public Part getFile(String name);//TODO: Should return InputStream instead of Part
+    public File getFile(String name);
 
-    public Map<String, Part> getFiles();//TODO: Should return InputStream instead of Part
+    public Map<String, File> getFiles();
 
     public Session getSession();
 

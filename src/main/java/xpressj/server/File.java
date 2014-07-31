@@ -27,6 +27,7 @@ public interface File {
     public String getMime();
     public long getSize();
     public InputStream getInputStream();
+    public byte[] getBytes();
     public java.io.File getFile();
     public void delete();
 }

@@ -23,7 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import xpressj.server.Request;
 import xpressj.server.Response;
-import xpressj.server.Webserver;
+import xpressj.server.WebserverImpl;
 import xpressj.util.TestUtil;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     public static void setup() {
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration(Webserver.class).setPort(8081));
+        app = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081));
 
         app.start();
 

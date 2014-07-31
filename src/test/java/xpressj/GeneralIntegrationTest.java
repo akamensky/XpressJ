@@ -22,7 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import xpressj.server.Request;
 import xpressj.server.Response;
-import xpressj.server.Webserver;
+import xpressj.server.WebserverImpl;
 import xpressj.util.TestUtil;
 
 import java.io.*;
@@ -47,7 +47,7 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration(Webserver.class).setPort(8081).setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
+        app = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081).setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
 
         //Create file in /tmp
         tmpFile = new File("/tmp/tmp.txt");

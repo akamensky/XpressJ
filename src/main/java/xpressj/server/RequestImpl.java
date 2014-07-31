@@ -32,7 +32,7 @@ public class RequestImpl implements Request {
     private Map<String, String[]> query;
     private Map<String, Cookie> cookies;
     private Map<String, String> headers;
-    private Map<String, Part> files;
+    private Map<String, File> files;
     private Session session;
     private ResponseImpl response;
 
@@ -90,7 +90,7 @@ public class RequestImpl implements Request {
                 Collection<Part> parts = httpRequest.getParts();
                 for (Part part : parts) {
                     if (part.getSubmittedFileName() != null) {
-                        this.files.put(part.getName(), part);
+                        this.files.put(part.getName(), new FileImpl(part));
                     }
                 }
             } catch (Exception e) {
@@ -181,11 +181,11 @@ public class RequestImpl implements Request {
         return this.headers;
     }
 
-    public Part getFile(String name) {
+    public File getFile(String name) {
         return this.files.get(name);
     }
 
-    public Map<String, Part> getFiles() {
+    public Map<String, File> getFiles() {
         return this.files;
     }
 
@@ -201,12 +201,8 @@ public class RequestImpl implements Request {
     }
 
     public void close() {
-        for (Part part : this.files.values()) {
-            try {
-                part.delete();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (File file : this.files.values()) {
+            file.delete();
         }
     }
 }

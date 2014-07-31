@@ -21,7 +21,7 @@ import xpressj.Configuration;
 /**
  * Created by akamensky on 7/29/14.
  */
-public final class Webserver implements AbstractWebserver {
+public final class WebserverImpl implements Webserver {
 
     private Configuration configuration;
     private boolean initialized = false;

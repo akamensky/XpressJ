@@ -129,11 +129,7 @@ public class GeneralIntegrationTest {
         app.post("/fileupload", new Route() {
             @Override
             public void handle(Request request, Response response) {
-                try {
-                    response.send(new String(isToBytes(request.getFile("file").getInputStream())));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                response.send(new String(request.getFile("file").getBytes()));
             }
         });
     }

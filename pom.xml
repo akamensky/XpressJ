@@ -12,7 +12,7 @@
 
     <groupId>com.xpressj</groupId>
     <artifactId>xpressj</artifactId>
-    <version>0.5.0a</version>
+    <version>0.5.0b</version>
 
     <packaging>jar</packaging>
 
@@ -49,17 +49,6 @@
     </properties>
 
     <dependencies>
-        <!-- JETTY DEPENDENCIES -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
         <!-- JSON SUPPORT -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -94,7 +83,7 @@
         <dependency>
             <groupId>com.xpressj</groupId>
             <artifactId>xpressj-jetty</artifactId>
-            <version>0.5.0a</version>
+            <version>0.5.0b</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

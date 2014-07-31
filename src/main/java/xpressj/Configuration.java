@@ -17,7 +17,7 @@
 package xpressj;
 
 import xpressj.route.RouteMatcher;
-import xpressj.server.AbstractWebserver;
+import xpressj.server.Webserver;
 import xpressj.server.Request;
 import xpressj.server.Response;
 
@@ -55,7 +55,7 @@ public class Configuration {
     private Class webserverClass;
 
     public Configuration(Class webserverClass) {
-        if (webserverClass == null || !AbstractWebserver.class.isAssignableFrom(webserverClass)) {
+        if (webserverClass == null || !Webserver.class.isAssignableFrom(webserverClass)) {
             throw new RuntimeException("Webserver class needed");
         } else {
             this.webserverClass = webserverClass;

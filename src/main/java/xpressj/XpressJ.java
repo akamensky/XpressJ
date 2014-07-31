@@ -18,13 +18,13 @@ package xpressj;
 
 import xpressj.route.HttpMethod;
 import xpressj.route.RouteMatcher;
-import xpressj.server.AbstractWebserver;
+import xpressj.server.Webserver;
 
 public final class XpressJ {
 
     private Configuration configuration;
     private boolean initialized = false;
-    private AbstractWebserver server;
+    private Webserver server;
     private RouteMatcher routeMatcher;
 
     public XpressJ(final Configuration configuration) {
@@ -34,7 +34,7 @@ public final class XpressJ {
 
     public void start() {
         try {
-            this.server = (AbstractWebserver) this.configuration.getWebserverClass().newInstance();
+            this.server = (Webserver) this.configuration.getWebserverClass().newInstance();
             this.server.setConfiguration(this.configuration);
             this.server.start();
         } catch (Exception e) {

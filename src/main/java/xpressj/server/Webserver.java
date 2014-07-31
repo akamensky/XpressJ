@@ -21,7 +21,7 @@ import xpressj.Configuration;
 /**
  * Created by akamensky on 7/29/14.
  */
-public interface AbstractWebserver {
+public interface Webserver {
 
     /**
      * Set configuration that is needed for server

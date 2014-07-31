@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - oraclejdk8
+
+env:
+  global:
+    - SONATYPE_USERNAME=akamensky
+    - secure: "AgPRm/vSYNL+jE57iSwG1g9UId4bF+3UFa7r7T/tSORkTYDANApwNVg5T3viFCbdqNv+vivW57aJQ3KB/FLQRVMNZAJkIRt/cEQZAn0cL5uEAWOjbS2ANDGvYGXRoBwqxI4qxR35NCUjncXesT9Rglj1OLQm+GHHUOlQQEvBLhQ="
+    - secure: "hUMBwdc3VWLh9kzdAlMGWptK4eeuEE6lrLmdW76QNMfSw4kq7OxQFF0WlLSYSRPiYbszuwOh79ijCIxYuzo6cmqDyUfEvOOL913SgbXyuKV53HALg5ipRy1HiZXf9pS4Vm8wgVa7kAkumBrPCwCYQoKYanzoD6TGENWk2T39N7Q="
+
+after_success:
+  - COMMIT_HASH=$(git rev-parse --short HEAD); CURR_COMMIT_TAG=$(git describe --exact-match $COMMIT_HASH); if [[ $CURR_COMMIT_TAG != "" && $TRAVIS_TAG == $CURR_COMMIT_TAG ]]; then openssl enc -aes-256-cbc -d -in .secret.key -out secret.gpg -k $GPG_DECRYPTION_KEY; gpg --import secret.gpg; mvn clean deploy -Dmaven.test.skip=true --settings mvnsettings.xml; else echo "NO TAG FOUND HENCE NOT DEPLOYING"; fi

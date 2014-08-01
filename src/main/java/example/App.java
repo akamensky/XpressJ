@@ -1,14 +1,12 @@
 package example;
 
-import xpressj.*;
-
 /**
  * Created by akamensky on 7/2/14.
  */
 public class App {
 
-    public static void main(String[] args){
-        XpressJ app = new XpressJ(new Configuration().setStaticFilesLocation("/public"));
+    public static void main(String[] args) {
+        XpressJ app = new XpressJ(new Configuration().setStaticFilesLocation("/public").enableSessions().setSessionMaxAge(10000));
         app.start();
 
         //Match GET requests to "/"
@@ -31,6 +29,13 @@ public class App {
             @Override
             public void handle(Request request, Response response) {
                 response.send("something");
+            }
+        });
+
+        app.get("/error", new Route() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                throw new RuntimeException("Custom error");
             }
         });
 

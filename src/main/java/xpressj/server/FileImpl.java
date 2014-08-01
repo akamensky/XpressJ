@@ -36,6 +36,21 @@ public class FileImpl implements File {
         }
     }
 
+    private static byte[] streamToBytes(InputStream in) {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try {
+            int nRead;
+            byte[] data = new byte[1024];
+
+            while ((nRead = in.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buffer.toByteArray();
+    }
+
     public String getFilename() {
         return this.part.getSubmittedFileName();
     }
@@ -63,7 +78,7 @@ public class FileImpl implements File {
         return in;
     }
 
-    public byte[] getBytes(){
+    public byte[] getBytes() {
         return streamToBytes(this.getInputStream());
     }
 
@@ -78,20 +93,5 @@ public class FileImpl implements File {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static byte[] streamToBytes(InputStream in){
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        try {
-            int nRead;
-            byte[] data = new byte[1024];
-
-            while ((nRead = in.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return buffer.toByteArray();
     }
 }

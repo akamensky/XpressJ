@@ -16,8 +16,6 @@
 
 package xpressj.server;
 
-import xpressj.Configuration;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,9 +25,9 @@ import java.util.UUID;
  */
 public class SessionFactory {
     private Map<String, Session> sessions;
-    private Configuration configuration;
+    private ServerConfiguration configuration;
 
-    public SessionFactory(Configuration configuration) {
+    public SessionFactory(ServerConfiguration configuration) {
         this.configuration = configuration;
         this.sessions = new HashMap<>();
     }

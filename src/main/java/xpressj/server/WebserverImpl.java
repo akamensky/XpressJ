@@ -16,19 +16,17 @@
 
 package xpressj.server;
 
-import xpressj.Configuration;
-
 /**
  * Created by akamensky on 7/29/14.
  */
 public final class WebserverImpl implements Webserver {
 
-    private Configuration configuration;
+    private ServerConfiguration configuration;
     private boolean initialized = false;
     private JettyServer server;
     private Thread t;
 
-    public void setConfiguration(Configuration configuration) {
+    public void setConfiguration(ServerConfiguration configuration) {
         this.configuration = configuration;
     }
 

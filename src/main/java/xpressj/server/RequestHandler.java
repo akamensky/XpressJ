@@ -18,7 +18,7 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import xpressj.RouteImpl;
+import xpressj.route.RouteImpl;
 import xpressj.route.RouteMatcher;
 
 import javax.servlet.MultipartConfigElement;

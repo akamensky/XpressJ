@@ -23,7 +23,6 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
-import xpressj.Configuration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,9 +37,9 @@ public class JettyServer {
     private Server server;
     private SessionFactory sessionFactory;
     private RequestHandler handler;
-    private Configuration configuration;
+    private ServerConfiguration configuration;
 
-    public JettyServer(Configuration configuration) {
+    public JettyServer(ServerConfiguration configuration) {
         this.configuration = configuration;
         this.handler = new RequestHandler(this.configuration.getRouteMatcher());
         org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());

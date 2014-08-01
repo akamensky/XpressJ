@@ -18,7 +18,6 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import xpressj.Configuration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +29,9 @@ import java.io.IOException;
  */
 public class ErrorHandler extends ResourceHandler {
 
-    private Configuration configuration;
+    private ServerConfiguration configuration;
 
-    public ErrorHandler(final Configuration configuration) {
+    public ErrorHandler(final ServerConfiguration configuration) {
         this.configuration = configuration;
     }
 

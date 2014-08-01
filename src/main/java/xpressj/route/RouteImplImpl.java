@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xpressj;
+package xpressj.route;
 
 import xpressj.server.Request;
 import xpressj.server.Response;
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 /**
  * Created by akamensky on 6/19/14.
  */
-public class RouteImpl {
+public class RouteImplImpl implements RouteImpl {
 
     private String path;
     private Route lambda;
@@ -38,7 +38,7 @@ public class RouteImpl {
     private Pattern routeRegex;
     private List<String> paramNames;
 
-    protected RouteImpl(String httpMethod, String path, Route lambda) {
+    public RouteImplImpl(String httpMethod, String path, Route lambda) {
         //TODO: optimize RouteImpl constructor
         this.httpMethod = httpMethod;
         this.path = path;

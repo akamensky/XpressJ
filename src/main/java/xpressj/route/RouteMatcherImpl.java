@@ -17,7 +17,6 @@
 package xpressj.route;
 
 import xpressj.Configuration;
-import xpressj.RouteImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,20 +25,20 @@ import java.util.List;
 /**
  * Created by akamensky on 6/17/14.
  */
-public class RouteMatcher {
+public class RouteMatcherImpl implements RouteMatcher {
 
-    private List<RouteImpl> routes;
+    private List<RouteImplImpl> routes;
     private HashMap<String, List<RouteImpl>> routesCached;
     private Configuration configuration;
 
-    public RouteMatcher(Configuration configuration) {
+    public RouteMatcherImpl(Configuration configuration) {
         this.configuration = configuration;
         routes = new ArrayList<>();
         routesCached = new HashMap<>();
         this.configuration.setRouteMatcher(this);
     }
 
-    public void addRoute(String httpMethod, RouteImpl route) {
+    public void addRoute(String httpMethod, RouteImplImpl route) {
         if (route.isRoutePathValid(route.getPath())) {
             routes.add(route);
         } else {

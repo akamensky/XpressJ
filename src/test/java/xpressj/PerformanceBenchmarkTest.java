@@ -21,6 +21,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import xpressj.route.Route;
 import xpressj.server.Request;
 import xpressj.server.Response;
 import xpressj.server.WebserverImpl;

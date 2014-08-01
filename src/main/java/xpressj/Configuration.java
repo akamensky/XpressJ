@@ -16,15 +16,17 @@
 
 package xpressj;
 
-import xpressj.route.RouteMatcher;
-import xpressj.server.Webserver;
+import xpressj.route.Route;
+import xpressj.route.RouteMatcherImpl;
 import xpressj.server.Request;
 import xpressj.server.Response;
+import xpressj.server.ServerConfiguration;
+import xpressj.server.Webserver;
 
 /**
  * Created by akamensky on 6/30/14.
  */
-public class Configuration {
+public class Configuration implements ServerConfiguration {
     public static final String NAME = "XpressJ";
     private static final int DEFAULT_PORT = 8080;
     private int port = DEFAULT_PORT;
@@ -44,7 +46,7 @@ public class Configuration {
         }
     };
     private Route errorPage = DEFAULT_ERROR_PAGE;
-    private RouteMatcher routeMatcher;
+    private RouteMatcherImpl routeMatcher;
     private boolean cacheEnabled = false;
     private String staticFilesLocation;
     private String externalStaticFilesLocation;
@@ -151,11 +153,11 @@ public class Configuration {
         return this.useSessions;
     }
 
-    public RouteMatcher getRouteMatcher() {
+    public RouteMatcherImpl getRouteMatcher() {
         return this.routeMatcher;
     }
 
-    public void setRouteMatcher(final RouteMatcher routeMatcher) {
+    public void setRouteMatcher(final RouteMatcherImpl routeMatcher) {
         this.routeMatcher = routeMatcher;
     }
 

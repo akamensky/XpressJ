@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.xpressj</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.5.0</version>
+    </parent>
+
+    <artifactId>xpressj-jetty</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>xpressj-jetty</name>
+    <description>Jetty embedded webserver for XpressJ</description>
+    <url>http://www.xpressj.com</url>
+
+    <scm>
+        <connection>scm:git:git@github.com:akamensky/xpressj-jetty.git</connection>
+        <developerConnection>scm:git:git@github.com:akamensky/xpressj-jetty.git</developerConnection>
+        <url>scm:git:git@github.com:akamensky/xpressj-jetty.git</url>
+    </scm>
+
+    <dependencies>
+        <!-- XPRESSJ API -->
+        <dependency>
+            <groupId>com.xpressj</groupId>
+            <artifactId>xpressj-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- JSON SUPPORT -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <!-- JETTY DEPENDENCIES -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -7,7 +7,7 @@ import java.net.Socket;
  */
 public class HttpRequest {
 
-    public HttpRequest(Socket socket){
+    public HttpRequest(Socket socket) {
         //Parse request
     }
 

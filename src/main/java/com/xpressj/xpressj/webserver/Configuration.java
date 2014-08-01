@@ -5,26 +5,25 @@ package com.xpressj.xpressj.webserver;
  */
 public class Configuration {
     private static final int DEFAULT_PORT = 8080;
-    private static final String DEFAULT_HOST = "0.0.0.0";
-
     private int port = DEFAULT_PORT;
+    private static final String DEFAULT_HOST = "0.0.0.0";
     private String host = DEFAULT_HOST;
 
-    public Configuration setPort(int port){
+    public int getPort() {
+        return this.port;
+    }
+
+    public Configuration setPort(int port) {
         this.port = port;
         return this;
     }
 
-    public Configuration setHost(String host){
+    public String getHost() {
+        return this.host;
+    }
+
+    public Configuration setHost(String host) {
         this.host = host;
         return this;
-    }
-
-    public int getPort(){
-        return this.port;
-    }
-
-    public String getHost(){
-        return this.host;
     }
 }

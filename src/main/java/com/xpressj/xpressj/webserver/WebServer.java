@@ -1,10 +1,14 @@
 package com.xpressj.xpressj.webserver;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.CharBuffer;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by akamensky on 7/15/14.
@@ -40,8 +44,8 @@ public class WebServer {
                         @Override
                         public void run() {
                             try (
-                                OutputStream out = clientSocket.getOutputStream();
-                                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                                    OutputStream out = clientSocket.getOutputStream();
+                                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                             ) {
                                 //Read request
                                 String inputLine, outputLine;
@@ -49,7 +53,7 @@ public class WebServer {
                                 StringBuilder builder = new StringBuilder();
 
                                 while ((inputLine = in.readLine()) != null) {
-                                    if (inputLine.contains("/test")){
+                                    if (inputLine.contains("/test")) {
                                         Thread.sleep(60000);
                                     } else if (inputLine.contains("/shutdown")) {
                                         new Thread(new Runnable() {

@@ -23,6 +23,8 @@ import xpressj.server.Response;
 import xpressj.server.ServerConfiguration;
 import xpressj.server.Webserver;
 
+import java.util.ServiceLoader;
+
 /**
  * Created by akamensky on 6/30/14.
  */
@@ -56,11 +58,20 @@ public class Configuration implements ServerConfiguration {
 
     private Class webserverClass;
 
-    public Configuration(Class webserverClass) {
-        if (webserverClass == null || !Webserver.class.isAssignableFrom(webserverClass)) {
-            throw new RuntimeException("Webserver class needed");
-        } else {
-            this.webserverClass = webserverClass;
+    public Configuration() {
+        ServiceLoader<Webserver> loader = ServiceLoader.load(Webserver.class);
+        for (Webserver server : loader) {
+            //take first found service provider and
+            // throw exception and stop if more than one were provided
+            if (this.webserverClass == null) {
+                this.webserverClass = server.getClass();
+            } else {
+                throw new RuntimeException("Can only accept one server implementation. More than one were found.");
+            }
+        }
+        //If no server implementations were found then throw exception and stop
+        if (this.webserverClass == null) {
+            throw new RuntimeException("No server implementations were found. Need at least one.");
         }
     }
 

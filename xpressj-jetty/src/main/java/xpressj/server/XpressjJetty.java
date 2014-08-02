@@ -19,7 +19,7 @@ package xpressj.server;
 /**
  * Created by akamensky on 7/29/14.
  */
-public final class WebserverImpl implements Webserver {
+public final class XpressjJetty implements Webserver {
 
     private ServerConfiguration configuration;
     private boolean initialized = false;

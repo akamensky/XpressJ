@@ -13,16 +13,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by akamensky on 8/2/14.
  */
-public class WebserverImpl implements Webserver {
+public class XpressjSimpleServer implements Webserver {
     private ServerConfiguration configuration;
     private ServerSocket serverSocket;
     private ThreadPoolExecutor pool;
     private BlockingQueue<Runnable> queue;
     private boolean isRunning;
     private boolean isStopping;
-    private WebserverImpl server;
+    private XpressjSimpleServer server;
 
-    public WebserverImpl(){
+    public XpressjSimpleServer(){
         this.queue = new ArrayBlockingQueue<Runnable>(5000);
         this.pool = new ThreadPoolExecutor(10, 500, new Long(1000), TimeUnit.MILLISECONDS, this.queue);
         this.pool.prestartAllCoreThreads();

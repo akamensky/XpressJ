@@ -59,7 +59,7 @@
         <module>xpressj</module>
         <module>xpressj-jetty</module>
         <module>xpressj-api</module>
-        <module>xpressj-webserver</module>
+        <module>xpressj-simple-server</module>
         <!--<module>xpressj-example</module>-->
     </modules>
 

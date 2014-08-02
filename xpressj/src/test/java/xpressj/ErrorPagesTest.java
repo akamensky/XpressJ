@@ -60,8 +60,8 @@ public class ErrorPagesTest {
         testUtil1 = new TestUtil(8081);
         testUtil2 = new TestUtil(8082);
 
-        app1 = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081));
-        app2 = new XpressJ(new Configuration(WebserverImpl.class).setPort(8082).setNotFoundPage(customNotFoundPage).setErrorPage(customErrorPage));
+        app1 = new XpressJ(new Configuration().setPort(8081));
+        app2 = new XpressJ(new Configuration().setPort(8082).setNotFoundPage(customNotFoundPage).setErrorPage(customErrorPage));
 
         app1.start();
         app2.start();

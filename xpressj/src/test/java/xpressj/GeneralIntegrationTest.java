@@ -48,7 +48,7 @@ public class GeneralIntegrationTest {
 
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081).setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
+        app = new XpressJ(new Configuration().setPort(8081).setStaticFilesLocation("/public").setExternalStaticFilesLocation("/tmp"));
 
         //Create file in /tmp
         tmpFile = new File("/tmp/tmp.txt");

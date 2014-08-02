@@ -76,7 +76,7 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     public static void setup() {
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081));
+        app = new XpressJ(new Configuration().setPort(8081));
 
         app.start();
 

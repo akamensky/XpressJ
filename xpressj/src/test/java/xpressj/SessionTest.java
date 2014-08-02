@@ -47,7 +47,7 @@ public class SessionTest {
 
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration(WebserverImpl.class).setPort(8081).enableSessions("TEST_SESS", 1000 * 60 * 60));
+        app = new XpressJ(new Configuration().setPort(8081).enableSessions("TEST_SESS", 1000 * 60 * 60));
 
         app.start();
 

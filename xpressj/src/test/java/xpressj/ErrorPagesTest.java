@@ -23,7 +23,6 @@ import org.junit.Test;
 import xpressj.route.Route;
 import xpressj.server.Request;
 import xpressj.server.Response;
-import xpressj.server.WebserverImpl;
 import xpressj.util.TestUtil;
 
 /**

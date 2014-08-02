@@ -18,12 +18,6 @@
     <description>Jetty embedded webserver for XpressJ</description>
     <url>http://www.xpressj.com</url>
 
-    <scm>
-        <connection>scm:git:git@github.com:akamensky/xpressj-jetty.git</connection>
-        <developerConnection>scm:git:git@github.com:akamensky/xpressj-jetty.git</developerConnection>
-        <url>scm:git:git@github.com:akamensky/xpressj-jetty.git</url>
-    </scm>
-
     <dependencies>
         <!-- XPRESSJ API -->
         <dependency>

@@ -18,12 +18,6 @@
     <description>A Sinatra/Express.js inspired lightweight Java web framework</description>
     <url>http://www.xpressj.com</url>
 
-    <scm>
-        <connection>scm:git:git@github.com:akamensky/xpressj.git</connection>
-        <developerConnection>scm:git:git@github.com:akamensky/xpressj.git</developerConnection>
-        <url>scm:git:git@github.com:akamensky/xpressj.git</url>
-    </scm>
-
     <dependencies>
         <!-- JETTY SERVER DEPENDENCY -->
         <dependency>

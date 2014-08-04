@@ -16,10 +16,24 @@
 
 package xpressj.server;
 
+import java.io.OutputStream;
+
 /**
  * Created by akamensky on 8/2/14.
  */
 public class ResponseImpl implements Response {
+
+    private OutputStream outputStream;
+    private RequestImpl request;
+
+    public ResponseImpl(OutputStream out) {
+        this.outputStream = out;
+    }
+
+    public void setRequest(RequestImpl request) {
+        this.request = request;
+    }
+
     public boolean isConsumed() {
         return false;
     }
@@ -33,11 +47,17 @@ public class ResponseImpl implements Response {
     }
 
     public void send(int code, String body) {
-
+        try {
+            this.outputStream.write(body.getBytes());
+            this.outputStream.flush();
+            this.outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void send(String body) {
-
+        this.send(200, body);
     }
 
     public void json(int code, Object obj) {

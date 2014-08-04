@@ -16,6 +16,10 @@
 
 package xpressj.server;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +28,55 @@ import java.util.Map;
  * Created by akamensky on 8/2/14.
  */
 public class RequestImpl implements Request {
+
+    private String method;
+    private String URI;
+    private Map<String, String> headers;
+    private Map<String, String> cookies;
+
+    private boolean isMultipart;
+    private boolean isHeadersParsed;
+
+    private String requestString;
+    private byte[] requestBytes;
+
+    private ResponseImpl response;
+
+    public RequestImpl(InputStream in) {
+        this.headers = new HashMap<>();
+        this.cookies = new HashMap<>();
+
+        //Read and parse request
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String inputLine;
+        try {
+            while ((inputLine = reader.readLine()) != null) {
+                if (!isHeadersParsed) {
+                    if (this.method == null) {
+                        //TODO: parse method
+                        this.method = "POST";
+                    } else if (inputLine != "") {
+                        String[] parts = inputLine.split(": ");
+                        this.headers.put(parts[0], parts[1]);
+                    } else {
+                        this.isHeadersParsed = true;
+                    }
+                }
+            }
+            buffer.flush();
+            this.requestBytes = buffer.toByteArray();
+            this.requestString = new String(this.requestBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setResponse(ResponseImpl response) {
+        this.response = response;
+        response.send(this.requestString);
+    }
+
     public String getUri() {
         return null;
     }

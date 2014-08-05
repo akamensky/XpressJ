@@ -100,6 +100,10 @@ public class RequestImpl implements Request {
                 } else if (!inputLine.isEmpty()) {
                     String[] parts = inputLine.split(": ");
                     this.headers.put(parts[0], parts[1]);
+                    //Parse cookies
+                    if (parts[0].equals("Cookie")) {
+                        this.parseCookie(parts[1]);
+                    }
                 } else {
                     //detect request body
                     if (this.headers.containsKey("Content-Length") && Integer.parseInt(this.headers.get("Content-Length")) > 0) {
@@ -166,6 +170,10 @@ public class RequestImpl implements Request {
 
         //parse parts
         //TODO: parse parts
+    }
+
+    private void parseCookie(String cookieString) {
+        //TODO:implement parsing cookies
     }
 
     public String getUri() {

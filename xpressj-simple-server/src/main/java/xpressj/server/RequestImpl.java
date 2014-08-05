@@ -16,10 +16,8 @@
 
 package xpressj.server;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +32,17 @@ public class RequestImpl implements Request {
     private Map<String, String> headers;
     private Map<String, String> cookies;
 
+    private boolean hasBody;
     private boolean isMultipart;
-    private boolean isHeadersParsed;
 
     private String requestString;
     private byte[] requestBytes;
 
     private ResponseImpl response;
+
+    private class Multipart{
+        ArrayList<String> lines = new ArrayList<>();
+    }
 
     public RequestImpl(InputStream in) {
         this.headers = new HashMap<>();
@@ -49,32 +51,113 @@ public class RequestImpl implements Request {
         //Read and parse request
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String inputLine;
+
+        //parse headers
+        //unconditional as headers must be present
+        this.parseHeaders(reader, buffer);
+
+        //parse body
+        //conditional depending on appropriate headers
+        if (this.hasBody && !this.isMultipart) {
+            this.parseBody(reader, buffer);
+        } else if (this.hasBody && this.isMultipart){
+            this.parseMultipart(reader, buffer);
+        }
+
+        //Write raw presentation of request as bytes
+        //and request content as string
+        //TODO:don't need content request as string I guess
         try {
-            while ((inputLine = reader.readLine()) != null) {
-                if (!isHeadersParsed) {
-                    if (this.method == null) {
-                        //TODO: parse method
-                        this.method = "POST";
-                    } else if (inputLine != "") {
-                        String[] parts = inputLine.split(": ");
-                        this.headers.put(parts[0], parts[1]);
-                    } else {
-                        this.isHeadersParsed = true;
-                    }
-                }
-            }
             buffer.flush();
-            this.requestBytes = buffer.toByteArray();
-            this.requestString = new String(this.requestBytes);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.requestBytes = buffer.toByteArray();
+        this.requestString = new String(this.requestBytes);
     }
 
     public void setResponse(ResponseImpl response) {
         this.response = response;
         response.send(this.requestString);
+    }
+
+    private void parseHeaders(BufferedReader reader, ByteArrayOutputStream buffer){
+        String inputLine;
+        try {
+            while ((inputLine = reader.readLine()) != null) {
+                buffer.write((inputLine+"\r\n").getBytes());
+                if (this.method == null) {
+                    //TODO: parse method
+                    this.method = "POST";
+                } else if (!inputLine.isEmpty()) {
+                    String[] parts = inputLine.split(": ");
+                    this.headers.put(parts[0], parts[1]);
+                } else {
+                    //detect request body
+                    if (this.headers.containsKey("Content-Length") && Integer.parseInt(this.headers.get("Content-Length")) > 0) {
+                        this.hasBody = true;
+                    }
+                    //detect if request is multipart
+                    if (this.headers.containsKey("Content-Type") && this.headers.get("Content-Type").startsWith("multipart/") && this.headers.get("Content-Type").contains("boundary=")) {
+                        this.isMultipart = true;
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseBody(BufferedReader reader, ByteArrayOutputStream buffer) {
+        //read body
+        try {
+            char[] cbuf = new char[Integer.parseInt(this.headers.get("Content-Length"))];
+            reader.read(cbuf, 0, Integer.parseInt(this.headers.get("Content-Length")));
+            String str = new String(cbuf);
+            buffer.write(str.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //parse body
+        //TODO: parse request body!
+    }
+
+    private void parseMultipart(BufferedReader reader, ByteArrayOutputStream buffer){
+        //TODO: handle malformed requests!!!
+        //find boundary
+        String boundary = this.headers.get("Content-Type").substring(this.headers.get("Content-Type").indexOf("boundary=") + "boundary=".length());
+
+        //start parsing
+        String inputLine;
+        ArrayList<Multipart> parts = new ArrayList<>();
+        Multipart part = new Multipart();
+        try {
+            while ((inputLine = reader.readLine()) != null) {
+                buffer.write((inputLine+"\r\n").getBytes());
+                if (inputLine.equals("--"+boundary)) {
+                    //new part started
+                    if (!part.lines.isEmpty()) {
+                        parts.add(part);
+                    }
+                    part = new Multipart();
+                } else if (inputLine.equals("--"+boundary+"--")) {
+                    //all of them ended
+                    if (!part.lines.isEmpty()) {
+                        parts.add(part);
+                    }
+                    break;
+                } else {
+                    //Add line to multipart object
+                    part.lines.add(inputLine);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //parse parts
+        //TODO: parse parts
     }
 
     public String getUri() {

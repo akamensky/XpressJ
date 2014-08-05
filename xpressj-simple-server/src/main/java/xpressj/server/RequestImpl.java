@@ -29,6 +29,7 @@ public class RequestImpl implements Request {
 
     private String method;
     private String URI;
+    private String protocol;
     private Map<String, String> headers;
     private Map<String, String> cookies;
 
@@ -87,8 +88,15 @@ public class RequestImpl implements Request {
             while ((inputLine = reader.readLine()) != null) {
                 buffer.write((inputLine+"\r\n").getBytes());
                 if (this.method == null) {
-                    //TODO: parse method
-                    this.method = "POST";
+                    inputLine = inputLine.trim();
+                    String[] parts = inputLine.split(" ");
+                    if (parts.length < 3) {
+                        throw new RuntimeException("Malformed request");
+                    } else {
+                        this.method = parts[0].toUpperCase();
+                        this.URI = parts[1];
+                        this.protocol = parts[2];
+                    }
                 } else if (!inputLine.isEmpty()) {
                     String[] parts = inputLine.split(": ");
                     this.headers.put(parts[0], parts[1]);

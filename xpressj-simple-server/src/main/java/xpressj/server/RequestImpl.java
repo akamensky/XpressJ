@@ -146,7 +146,7 @@ public class RequestImpl implements Request {
         Multipart part = new Multipart();
         try {
             while ((inputLine = reader.readLine()) != null) {
-                buffer.write((inputLine+"\r\n").getBytes());
+                buffer.write((inputLine + "\r\n").getBytes());
                 if (inputLine.equals("--"+boundary)) {
                     //new part started
                     if (!part.lines.isEmpty()) {

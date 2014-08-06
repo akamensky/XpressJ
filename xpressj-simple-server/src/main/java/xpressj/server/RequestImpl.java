@@ -161,26 +161,26 @@ public class RequestImpl implements Request {
 
         //start parsing
         String inputLine;
-        ArrayList<Multipart> parts = new ArrayList<>();
-        Multipart part = new Multipart();
+        ArrayList<Multipart> multiparts = new ArrayList<>();
+        Multipart multipart = new Multipart();
         try {
             while ((inputLine = reader.readLine()) != null) {
                 buffer.write((inputLine + "\r\n").getBytes());
                 if (inputLine.equals("--"+boundary)) {
                     //new part started
-                    if (!part.lines.isEmpty()) {
-                        parts.add(part);
+                    if (!multipart.lines.isEmpty()) {
+                        multiparts.add(multipart);
                     }
-                    part = new Multipart();
+                    multipart = new Multipart();
                 } else if (inputLine.equals("--"+boundary+"--")) {
                     //all of them ended
-                    if (!part.lines.isEmpty()) {
-                        parts.add(part);
+                    if (!multipart.lines.isEmpty()) {
+                        multiparts.add(multipart);
                     }
                     break;
                 } else {
                     //Add line to multipart object
-                    part.lines.add(inputLine);
+                    multipart.lines.add(inputLine);
                 }
             }
         } catch (Exception e) {

@@ -113,7 +113,7 @@ public class RequestImpl implements Request {
                         this.hasBody = true;
                     }
                     //detect if request is multipart
-                    if (this.headers.containsKey("Content-Type") && this.headers.get("Content-Type").startsWith("multipart/") && this.headers.get("Content-Type").contains("boundary=")) {
+                    if (this.headers.containsKey("Content-Type") && this.headers.get("Content-Type").startsWith("multipart/form-data") && this.headers.get("Content-Type").contains("boundary=")) {
                         this.isMultipart = true;
                     }
                     break;

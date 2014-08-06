@@ -45,6 +45,14 @@ public class RequestImpl implements Request {
 
     private class Multipart{
         ArrayList<String> lines = new ArrayList<>();
+
+        public boolean isFileUpload(){
+            boolean result = false;
+            if (this.lines.size() > 0 && this.lines.get(0).contains("filename")) {
+                result = true;
+            }
+            return result;
+        }
     }
 
     public RequestImpl(InputStream in) {

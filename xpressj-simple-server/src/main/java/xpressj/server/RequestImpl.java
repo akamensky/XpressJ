@@ -17,6 +17,7 @@
 package xpressj.server;
 
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class RequestImpl implements Request {
     private String protocol;
     private Map<String, String> headers;
     private Map<String, String> cookies;
+    private Map<String, Object> queryParams;
 
     private boolean hasBody;
     private boolean isMultipart;
@@ -48,6 +50,7 @@ public class RequestImpl implements Request {
     public RequestImpl(InputStream in) {
         this.headers = new HashMap<>();
         this.cookies = new HashMap<>();
+        this.queryParams = new HashMap<>();
 
         //Read and parse request
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -123,16 +126,32 @@ public class RequestImpl implements Request {
 
     private void parseBody(BufferedReader reader, ByteArrayOutputStream buffer) {
         //read body
+        String body = "";
         try {
             char[] cbuf = new char[Integer.parseInt(this.headers.get("Content-Length"))];
             reader.read(cbuf, 0, Integer.parseInt(this.headers.get("Content-Length")));
-            String str = new String(cbuf);
-            buffer.write(str.getBytes());
+            body = new String(cbuf);
+            buffer.write(body.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
         //parse body
-        //TODO: parse request body!
+        if (body.length() > 0) {
+            //get pairs name=value
+            String[] pairs = body.split("&");
+            for (String pair : pairs) {
+                String[] vals = pair.split("=");
+                //Body is malformed
+                if (vals.length != 2) {
+                    throw new RuntimeException("malformed request");
+                }
+                try {
+                    this.addQueryParam(vals[0], URLDecoder.decode(vals[1], "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void parseMultipart(BufferedReader reader, ByteArrayOutputStream buffer){
@@ -174,6 +193,25 @@ public class RequestImpl implements Request {
 
     private void parseCookie(String cookieString) {
         //TODO:implement parsing cookies
+    }
+
+    private void addQueryParam(String name, String value) {
+        if (this.queryParams.containsKey(name) && this.queryParams.get(name) instanceof String) {
+            String[] arr = new String[2];
+            arr[0] = (String)this.queryParams.get(name);
+            arr[1] = value;
+            this.queryParams.put(name, arr);
+        } else if (this.queryParams.containsKey(name) && this.queryParams.get(name) instanceof String[]) {
+            String[] old_arr = (String[])this.queryParams.get(name);
+            String[] arr = new String[old_arr.length + 1];
+            for (int i = 0; i < old_arr.length; i++) {
+                arr[i] = old_arr[i];
+            }
+            arr[arr.length - 1] = value;
+            this.queryParams.put(name, arr);
+        } else {
+            this.queryParams.put(name, value);
+        }
     }
 
     public String getUri() {

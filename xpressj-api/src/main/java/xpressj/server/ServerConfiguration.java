@@ -25,7 +25,7 @@ import xpressj.route.RouteMatcher;
 public interface ServerConfiguration {
     public static final String NAME = "XpressJ";
 
-    public int getPort();
+    public int[] getPorts();
 
     public String getHost();
 

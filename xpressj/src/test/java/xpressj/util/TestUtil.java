@@ -35,9 +35,14 @@ import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,10 +58,32 @@ public class TestUtil {
     public TestUtil(int port) {
         this.port = port;
         Scheme http = new Scheme("http", port, PlainSocketFactory.getSocketFactory());
+        Scheme https = new Scheme("https", port, new org.apache.http.conn.ssl.SSLSocketFactory(getSslFactory(), null));
         SchemeRegistry sr = new SchemeRegistry();
         sr.register(http);
+        sr.register(https);
         ClientConnectionManager connMrg = new BasicClientConnectionManager(sr);
         this.httpClient = new DefaultHttpClient(connMrg);
+    }
+
+    private SSLSocketFactory getSslFactory() {
+        KeyStore keyStore = null;
+        try {
+            keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            FileInputStream fis = new FileInputStream(getTrustStoreLocation());
+            keyStore.load(fis, getTrustStorePassword().toCharArray());
+            fis.close();
+
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(keyStore);
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, tmf.getTrustManagers(), null);
+            return ctx.getSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void sleep(long time) {
@@ -193,4 +220,19 @@ public class TestUtil {
         public int status;
     }
 
+    public static String getKeyStoreLocation() {
+        return "./src/test/resources/keystore.jks";
+    }
+
+    public static String getKeystorePassword() {
+        return "password";
+    }
+
+    public static String getTrustStoreLocation() {
+        return getKeyStoreLocation();
+    }
+
+    public static String getTrustStorePassword() {
+        return getKeystorePassword();
+    }
 }

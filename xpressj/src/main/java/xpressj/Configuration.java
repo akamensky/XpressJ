@@ -55,6 +55,10 @@ public class Configuration implements ServerConfiguration {
     private boolean useSessions = false;
     private int sessionMaxAge = 0;
     private String sessionCookieName = "XPRESSJ_SESS";
+    private String keystoreFile;
+    private String keystorePassword;
+    private String truststoreFile;
+    private String truststorePassword;
 
     private Class webserverClass;
 
@@ -174,6 +178,42 @@ public class Configuration implements ServerConfiguration {
 
     public RouteMatcherImpl getRouteMatcher() {
         return this.routeMatcher;
+    }
+
+    public String getKeystoreFile() {
+        return this.keystoreFile;
+    }
+
+    public String getKeystorePassword() {
+        return this.keystorePassword;
+    }
+
+    public String getTruststoreFile() {
+        return this.truststoreFile;
+    }
+
+    public String getTruststorePassword() {
+        return this.truststorePassword;
+    }
+
+    public Configuration setKeystoreFile(String keystoreFile) {
+        this.keystoreFile = keystoreFile;
+        return this;
+    }
+
+    public Configuration setKeystorePassword(String keystorePassword) {
+        this.keystorePassword = keystorePassword;
+        return this;
+    }
+
+    public Configuration setTruststoreFile(String truststoreFile) {
+        this.truststoreFile = truststoreFile;
+        return this;
+    }
+
+    public Configuration setTruststorePassword(String truststorePassword) {
+        this.truststorePassword = truststorePassword;
+        return this;
     }
 
     public void setRouteMatcher(final RouteMatcherImpl routeMatcher) {

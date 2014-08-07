@@ -23,6 +23,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,8 +46,24 @@ public class JettyServer {
         org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());
     }
 
-    private static ServerConnector createSocketConnector() {
-        return new ServerConnector(new Server());
+    private ServerConnector createSocketConnector() {
+        if (this.configuration.getKeystoreFile() != null){
+            SslContextFactory sslContextFactory = new SslContextFactory(this.configuration.getKeystoreFile());
+
+            if (this.configuration.getKeystorePassword() != null) {
+                sslContextFactory.setKeyStorePassword(this.configuration.getKeystorePassword());
+            }
+            if (this.configuration.getTruststoreFile() != null) {
+                sslContextFactory.setTrustStorePath(this.configuration.getKeystorePassword());
+            }
+            if (this.configuration.getTruststorePassword() != null) {
+                sslContextFactory.setTrustStorePassword(this.configuration.getTruststorePassword());
+            }
+
+            return new ServerConnector(this.server, sslContextFactory);
+        } else {
+            return new ServerConnector(this.server);
+        }
     }
 
     public void start(Object lock) {
@@ -56,14 +73,14 @@ public class JettyServer {
         }
 
         //Configure server
-        Server server = new Server();
+        this.server = new Server();
 
         ArrayList<ServerConnector> connectorsList = new ArrayList<>();
 
         int[] ports = this.configuration.getPorts();
 
         for (int port : ports) {
-            ServerConnector connector = new ServerConnector(server);
+            ServerConnector connector = this.createSocketConnector();
 
             connector.setIdleTimeout(TimeUnit.HOURS.toMillis(1));
             connector.setSoLingerTime(-1);
@@ -78,8 +95,6 @@ public class JettyServer {
 
         server.setConnectors(connectorsList.toArray(new Connector[]{}));
         server.setStopTimeout(0);
-
-        this.server = server;
 
 
         //Set server handlers

@@ -55,18 +55,34 @@ public class JettyServer {
             this.handler.setSessionFactory(this.sessionFactory);
         }
 
-        ServerConnector connector = createSocketConnector();
+        //Configure server
+        Server server = new Server();
 
-        connector.setIdleTimeout(TimeUnit.HOURS.toMillis(1));
-        connector.setSoLingerTime(-1);
-        connector.setHost(this.configuration.getHost());
-        connector.setPort(this.configuration.getPort());
+        ArrayList<ServerConnector> connectorsList = new ArrayList<>();
 
-        this.server = connector.getServer();
-        this.server.setConnectors(new Connector[]{connector});
+        int[] ports = this.configuration.getPorts();
 
-        this.server.setStopTimeout(0);
+        for (int port : ports) {
+            ServerConnector connector = new ServerConnector(server);
 
+            connector.setIdleTimeout(TimeUnit.HOURS.toMillis(1));
+            connector.setSoLingerTime(-1);
+            connector.setHost(this.configuration.getHost());
+            connector.setPort(port);
+
+            connectorsList.add(connector);
+
+            System.out.println("** Configured to listen on " + this.configuration.getHost() + ":" + port);
+        }
+
+
+        server.setConnectors(connectorsList.toArray(new Connector[]{}));
+        server.setStopTimeout(0);
+
+        this.server = server;
+
+
+        //Set server handlers
         List<Handler> handlerList = new ArrayList<>();
 
         //Add main handler
@@ -96,7 +112,6 @@ public class JettyServer {
             this.server.start();
 
             System.out.println("** " + this.configuration.NAME + " has started ...");
-            System.out.println("** Listening on " + this.configuration.getHost() + ":" + this.configuration.getPort());
 
             synchronized (lock) {//TODO: get rid of this somehow?
                 lock.notifyAll();

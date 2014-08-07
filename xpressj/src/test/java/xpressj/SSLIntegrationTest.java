@@ -30,9 +30,6 @@ import xpressj.util.TestUtil;
  */
 public class SSLIntegrationTest {
 
-    static String keystoreLoc = "./xpressj/src/test/resources/keystore.jks";
-    static String kystorePass = "password";
-
     static TestUtil testUtil;
     static XpressJ app;
 
@@ -44,9 +41,9 @@ public class SSLIntegrationTest {
     @BeforeClass
     public static void start() {
 
-        testUtil = new TestUtil(8081);
+        testUtil = new TestUtil(8443);
 
-        app = new XpressJ(new Configuration().setPort(8081).setKeystoreFile(keystoreLoc).setKeystorePassword(kystorePass));
+        app = new XpressJ(new Configuration().setPort(8443).setKeystoreFile(TestUtil.getKeyStoreLocation()).setKeystorePassword(TestUtil.getKeystorePassword()));
 
         app.get("/", new Route() {
             @Override

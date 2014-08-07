@@ -44,4 +44,12 @@ public interface ServerConfiguration {
     public boolean useSessions();
 
     public RouteMatcher getRouteMatcher();
+
+    public String getKeystoreFile();
+
+    public String getKeystorePassword();
+
+    public String getTruststoreFile();
+
+    public String getTruststorePassword();
 }

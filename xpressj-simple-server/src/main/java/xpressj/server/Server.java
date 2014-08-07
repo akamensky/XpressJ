@@ -55,7 +55,8 @@ class Server {
         if (!this.isRunning && !this.isStopping) {
             this.isRunning = true;
             try {
-                serverSocket = new ServerSocket(this.configuration.getPort());
+                //TODO: use multiple ports!
+                serverSocket = new ServerSocket(this.configuration.getPorts()[0]);
                 while (this.isRunning) {
                     Socket clientSocket = serverSocket.accept();
                     this.pool.execute(new Runnable() {

@@ -9,8 +9,8 @@ import xpressj.server.ServerConfiguration;
  */
 public class Configuration implements ServerConfiguration {
     @Override
-    public int getPort() {
-        return 8080;
+    public int[] getPorts() {
+        return new int[]{8080};
     }
 
     @Override

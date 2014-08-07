@@ -31,7 +31,7 @@ import java.util.ServiceLoader;
 public class Configuration implements ServerConfiguration {
     public static final String NAME = "XpressJ";
     private static final int DEFAULT_PORT = 8080;
-    private int port = DEFAULT_PORT;
+    private int[] ports = new int[]{DEFAULT_PORT};
     private static final String DEFAULT_HOST = "0.0.0.0";
     private String host = DEFAULT_HOST;
     private static final Route DEFAULT_NOT_FOUND_PAGE = new Route() {
@@ -75,12 +75,20 @@ public class Configuration implements ServerConfiguration {
         }
     }
 
-    public int getPort() {
-        return this.port;
+    public int[] getPorts() {
+        return this.ports;
     }
 
     public Configuration setPort(int port) {
-        this.port = port;
+        if (port <= 0) {
+            throw new RuntimeException("Port cannot be less than or equals to 0");
+        }
+        this.ports = new int[]{port};
+        return this;
+    }
+
+    public Configuration setPorts(int[] ports) {
+        this.ports = ports;
         return this;
     }
 

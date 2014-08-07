@@ -94,8 +94,8 @@ public class TestUtil {
         return doMethod(requestMethod, path, body, false, "text/html");
     }
 
-    public UrlResponse doMethod(String requestMethod, String path, String body, String acceptType) throws Exception {
-        return doMethod(requestMethod, path, body, false, acceptType);
+    public UrlResponse doMethodSecure(String requestMethod, String path, String body) throws Exception {
+        return doMethod(requestMethod, path, body, true, "text/html");
     }
 
     private UrlResponse doMethod(String requestMethod, String path, String body, boolean secureConnection,
@@ -124,7 +124,7 @@ public class TestUtil {
     private HttpUriRequest getHttpRequest(String requestMethod, String path, String body, boolean secureConnection,
                                           String acceptType) {
         try {
-            String protocol = secureConnection ? "http" : "http";
+            String protocol = secureConnection ? "https" : "http";
             String uri = protocol + "://localhost:" + port + path;
 
             if (requestMethod.equals("GET")) {

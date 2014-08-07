@@ -57,4 +57,24 @@ public class Configuration implements ServerConfiguration {
     public RouteMatcher getRouteMatcher() {
         return null;
     }
+
+    @Override
+    public String getKeystoreFile() {
+        return null;
+    }
+
+    @Override
+    public String getKeystorePassword() {
+        return null;
+    }
+
+    @Override
+    public String getTruststoreFile() {
+        return null;
+    }
+
+    @Override
+    public String getTruststorePassword() {
+        return null;
+    }
 }

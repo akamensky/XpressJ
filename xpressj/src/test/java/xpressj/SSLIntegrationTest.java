@@ -45,6 +45,8 @@ public class SSLIntegrationTest {
 
         app = new XpressJ(new Configuration().setPort(8081).setKeystoreFile(TestUtil.getKeyStoreLocation()).setKeystorePassword(TestUtil.getKeystorePassword()));
 
+        app.start();
+
         app.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) throws Exception {

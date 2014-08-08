@@ -83,28 +83,7 @@ For more, please use documentation (WiP)
 
 ---
 #### Development plans
-- ~~0.2.0~~
-    - ~~Add all verbs from HTTP 1.1 specification~~
-    - ~~Add "all" verb to match any of HTTP verbs~~
-    - ~~Validate route URI on application start (when adding routes)~~
-- ~~0.3.0~~
-    - ~~Add file handling (file upload / as bytes array)~~
-    - ~~Add static file handling~~
-- ~~0.4.0~~
-    - ~~Add session handling~~
-    - ~~Better exception handling~~
-    - ~~default 404~~
-    - ~~default 500~~
-    - ~~custom 404~~
-    - ~~custom 500~~
-- __0.5.0__
-    - Separate Jetty server into external dependency xpressj-jetty perhaps
-- 1.0.0
-    - Implement HTTPS protocol
-    - ...
-- Other tasks
-    - Website
-    - ~~Logo~~ Still need better one
+- [Development plans](https://trello.com/b/07AvGeym/xpressj)
 
 ---
 #### Links

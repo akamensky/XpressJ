@@ -25,20 +25,20 @@ import java.util.List;
 /**
  * Created by akamensky on 6/17/14.
  */
-public class RouteMatcherImpl implements RouteMatcher {
+public class RouteMatcher {
 
-    private List<RouteImplImpl> routes;
+    private List<RouteImpl> routes;
     private HashMap<String, List<RouteImpl>> routesCached;
     private Configuration configuration;
 
-    public RouteMatcherImpl(Configuration configuration) {
+    public RouteMatcher(Configuration configuration) {
         this.configuration = configuration;
         routes = new ArrayList<>();
         routesCached = new HashMap<>();
         this.configuration.setRouteMatcher(this);
     }
 
-    public void addRoute(String httpMethod, RouteImplImpl route) {
+    public void addRoute(String httpMethod, RouteImpl route) {
         if (route.isRoutePathValid(route.getPath())) {
             routes.add(route);
         } else {

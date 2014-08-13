@@ -29,7 +29,7 @@ import java.util.List;
  * Created by akamensky on 8/13/14.
  */
 public class RouteMatchingTest {
-    RouteMatcherImpl routeMatcher;
+    RouteMatcher routeMatcher;
     String[] routes = new String[]{
             "*",
             "/",
@@ -42,10 +42,10 @@ public class RouteMatchingTest {
     @Before
     public void setup() {
         Configuration configuration = new Configuration();
-        this.routeMatcher = new RouteMatcherImpl(configuration);
+        this.routeMatcher = new RouteMatcher(configuration);
 
         for (String route : this.routes) {
-            this.routeMatcher.addRoute(null, new RouteImplImpl(null, route, new Route() {
+            this.routeMatcher.addRoute(null, new RouteImpl(null, route, new Route() {
                 @Override
                 public void handle(Request request, Response response) throws Exception {
                     response.send("test");

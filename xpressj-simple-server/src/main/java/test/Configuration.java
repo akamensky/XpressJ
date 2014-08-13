@@ -1,7 +1,6 @@
 package test;
 
 import xpressj.route.Route;
-import xpressj.route.RouteMatcher;
 import xpressj.server.ServerConfiguration;
 
 /**
@@ -51,11 +50,6 @@ public class Configuration implements ServerConfiguration {
     @Override
     public boolean useSessions() {
         return false;
-    }
-
-    @Override
-    public RouteMatcher getRouteMatcher() {
-        return null;
     }
 
     @Override

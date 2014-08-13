@@ -18,27 +18,24 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import xpressj.route.RouteImpl;
-import xpressj.route.RouteMatcher;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by akamensky on 7/30/14.
  */
-public final class RequestHandler extends ResourceHandler {
+public final class JettyRequestHandler extends ResourceHandler {
 
     private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement(System.getProperty("java.io.tmpdir"));
-    private RouteMatcher routeMatcher;
     private SessionFactory sessionFactory;
+    private RequestHandler handler;
 
-    public RequestHandler(RouteMatcher routeMatcher) {
-        this.routeMatcher = routeMatcher;
+    public JettyRequestHandler(RequestHandler handler) {
+        this.handler = handler;
     }
 
     public void setSessionFactory(SessionFactory factory) {
@@ -64,19 +61,14 @@ public final class RequestHandler extends ResourceHandler {
         req.setDelegate(res);
         res.setDelegate(req);
 
-        //Get routeMatcher
-        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());
-        for (RouteImpl route : routes) {
-            try {
-                route.handle(req, res);
-            } catch (Exception e) {
-                httpResponse.setStatus(500);
-                e.printStackTrace();
+        try {
+            boolean handled = this.handler.doHandle(req, res);
+            if (handled) {
+                baseRequest.setHandled(handled);
             }
-            if (res.isConsumed()) {
-                baseRequest.setHandled(true);
-                break;
-            }
+        } catch (Exception e) {
+            httpResponse.setStatus(500);
+            e.printStackTrace();
         }
     }
 }

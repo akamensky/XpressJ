@@ -16,8 +16,37 @@
 
 package xpressj;
 
+import xpressj.route.RouteImpl;
+import xpressj.route.RouteMatcher;
+import xpressj.server.Request;
+import xpressj.server.Response;
+
+import java.util.List;
+
 /**
  * Created by akamensky on 7/30/14.
  */
-public class RequestHandler {
+public class RequestHandler implements xpressj.server.RequestHandler {
+    private RouteMatcher routeMatcher;
+
+    public RequestHandler(RouteMatcher routeMatcher) {
+        this.routeMatcher = routeMatcher;
+    }
+
+    public boolean doHandle(Request req, Response res) throws Exception {
+        boolean result = false;
+
+        //Get routeMatcher
+        List<RouteImpl> routes = routeMatcher.getMatchingRoutes(req.getHttpMethod(), req.getUri());
+        for (RouteImpl route : routes) {
+
+            route.handle(req, res);
+
+            if (res.isConsumed()) {
+                return true;
+            }
+        }
+
+        return result;
+    }
 }

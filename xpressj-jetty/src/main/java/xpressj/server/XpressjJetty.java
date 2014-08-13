@@ -46,6 +46,7 @@ public final class XpressjJetty implements Webserver {
                 @Override
                 public void run() {
                     server = new JettyServer(configuration);
+                    server.setHandler(handler);
                     server.start(lock);
                 }
             });

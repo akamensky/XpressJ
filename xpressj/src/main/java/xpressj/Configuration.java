@@ -17,7 +17,7 @@
 package xpressj;
 
 import xpressj.route.Route;
-import xpressj.route.RouteMatcherImpl;
+import xpressj.route.RouteMatcher;
 import xpressj.server.Request;
 import xpressj.server.Response;
 import xpressj.server.ServerConfiguration;
@@ -48,7 +48,7 @@ public class Configuration implements ServerConfiguration {
         }
     };
     private Route errorPage = DEFAULT_ERROR_PAGE;
-    private RouteMatcherImpl routeMatcher;
+    private RouteMatcher routeMatcher;
     private boolean cacheEnabled = false;
     private String staticFilesLocation;
     private String externalStaticFilesLocation;
@@ -176,7 +176,7 @@ public class Configuration implements ServerConfiguration {
         return this.useSessions;
     }
 
-    public RouteMatcherImpl getRouteMatcher() {
+    public RouteMatcher getRouteMatcher() {
         return this.routeMatcher;
     }
 
@@ -216,7 +216,7 @@ public class Configuration implements ServerConfiguration {
         return this;
     }
 
-    public void setRouteMatcher(final RouteMatcherImpl routeMatcher) {
+    public void setRouteMatcher(final RouteMatcher routeMatcher) {
         this.routeMatcher = routeMatcher;
     }
 

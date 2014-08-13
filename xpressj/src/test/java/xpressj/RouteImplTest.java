@@ -19,7 +19,7 @@ package xpressj;
 import org.junit.Assert;
 import org.junit.Test;
 import xpressj.route.Route;
-import xpressj.route.RouteImplImpl;
+import xpressj.route.RouteImpl;
 import xpressj.server.Request;
 import xpressj.server.RequestImpl;
 import xpressj.server.Response;
@@ -32,21 +32,21 @@ public class RouteImplTest {
 
     @Test
     public void simple_route_matching1() {
-        RouteImplImpl route = new RouteImplImpl("get", "/", null);
+        RouteImpl route = new RouteImpl("get", "/", null);
         Assert.assertEquals(true, route.match("get", "/"));
         Assert.assertNotEquals(true, route.match("get", "/test"));
     }
 
     @Test
     public void simple_route_matching2() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test", null);
+        RouteImpl route = new RouteImpl("get", "/test", null);
         Assert.assertEquals(true, route.match("get", "/test"));
         Assert.assertNotEquals(true, route.match("get", "/"));
     }
 
     @Test
     public void wildcard_route_matching1() {
-        RouteImplImpl route = new RouteImplImpl("get", "*", null);
+        RouteImpl route = new RouteImpl("get", "*", null);
         Assert.assertEquals(true, route.match("get", "/"));
         Assert.assertEquals(true, route.match("get", "/test"));
         Assert.assertEquals(true, route.match("get", "/test/test"));
@@ -54,7 +54,7 @@ public class RouteImplTest {
 
     @Test
     public void wildcard_route_matching2() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/*", null);
+        RouteImpl route = new RouteImpl("get", "/test/*", null);
         Assert.assertEquals(false, route.match("get", "/"));
         Assert.assertEquals(false, route.match("get", "/test"));
         Assert.assertEquals(true, route.match("get", "/test/test"));
@@ -62,7 +62,7 @@ public class RouteImplTest {
 
     @Test
     public void wildcard_route_matching3() {
-        RouteImplImpl route = new RouteImplImpl("get", "/hello/*/world", null);
+        RouteImpl route = new RouteImpl("get", "/hello/*/world", null);
         Assert.assertEquals(false, route.match("get", "/hello/something"));
         Assert.assertEquals(false, route.match("get", "/hello/something/worlds"));
         Assert.assertEquals(false, route.match("get", "/hello/something/world/else"));
@@ -71,7 +71,7 @@ public class RouteImplTest {
 
     @Test
     public void wildcard_route_matching4() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test*/world*", null);
+        RouteImpl route = new RouteImpl("get", "/test*/world*", null);
         Assert.assertEquals(true, route.match("get", "/testwords-/world/true"));
         Assert.assertEquals(true, route.match("get", "/test-phrase/worlds"));
         Assert.assertEquals(false, route.match("get", "/test-phrase/hello/worlds"));
@@ -79,7 +79,7 @@ public class RouteImplTest {
 
     @Test
     public void param_route_matching1() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/:param", null);
+        RouteImpl route = new RouteImpl("get", "/test/:param", null);
         Assert.assertEquals(true, route.match("get", "/test/url"));
         Assert.assertEquals(false, route.match("get", "/test/url/wrong"));
         Assert.assertEquals(false, route.match("get", "/test"));
@@ -88,7 +88,7 @@ public class RouteImplTest {
 
     @Test
     public void param_route_matching2() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test-:param/:param", null);
+        RouteImpl route = new RouteImpl("get", "/test-:param/:param", null);
         Assert.assertEquals(true, route.match("get", "/test-some/url"));
         Assert.assertEquals(false, route.match("get", "/test-some/url/wrong"));
         Assert.assertEquals(false, route.match("get", "/test/url"));
@@ -97,7 +97,7 @@ public class RouteImplTest {
 
     @Test
     public void param_route_matching3() {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/:param/hello", null);
+        RouteImpl route = new RouteImpl("get", "/test/:param/hello", null);
         Assert.assertEquals(true, route.match("get", "/test/some/hello"));
         Assert.assertEquals(false, route.match("get", "/test/some/wrong"));
         Assert.assertEquals(false, route.match("get", "/test/wrong"));
@@ -107,7 +107,7 @@ public class RouteImplTest {
 
     @Test
     public void param_extraction1() throws Exception {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/:key/hello", new Route() {
+        RouteImpl route = new RouteImpl("get", "/test/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 Assert.assertEquals("value", request.getParam("key"));
@@ -121,7 +121,7 @@ public class RouteImplTest {
 
     @Test
     public void param_extraction2() throws Exception {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/:key/hello/:key2", new Route() {
+        RouteImpl route = new RouteImpl("get", "/test/:key/hello/:key2", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 Assert.assertEquals("value", request.getParam("key"));
@@ -136,7 +136,7 @@ public class RouteImplTest {
 
     @Test
     public void param_extraction3() throws Exception {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/*/:key/hello", new Route() {
+        RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 Assert.assertEquals("value", request.getParam("key"));
@@ -150,7 +150,7 @@ public class RouteImplTest {
 
     @Test
     public void param_extraction4() throws Exception {
-        RouteImplImpl route = new RouteImplImpl("get", "/test/*/:key/hello", new Route() {
+        RouteImpl route = new RouteImpl("get", "/test/*/:key/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 Assert.assertEquals("value", request.getParam("key"));
@@ -161,7 +161,7 @@ public class RouteImplTest {
         Response res = new ResponseImpl();
         route.handle(req, res);
 
-        route = new RouteImplImpl("get", "/test/*/value/hello", new Route() {
+        route = new RouteImpl("get", "/test/*/value/hello", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 //Here we should not have any parameters

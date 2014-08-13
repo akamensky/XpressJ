@@ -17,7 +17,6 @@
 package xpressj.server;
 
 import xpressj.route.Route;
-import xpressj.route.RouteMatcher;
 
 /**
  * Created by akamensky on 8/1/14.
@@ -42,8 +41,6 @@ public interface ServerConfiguration {
     public String getSessionCookieName();
 
     public boolean useSessions();
-
-    public RouteMatcher getRouteMatcher();
 
     public String getKeystoreFile();
 

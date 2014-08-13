@@ -37,12 +37,17 @@ public class JettyServer {
 
     private Server server;
     private SessionFactory sessionFactory;
-    private RequestHandler handler;
+    private JettyRequestHandler requestHandler;
     private ServerConfiguration configuration;
+    private RequestHandler handler;
 
     public JettyServer(ServerConfiguration configuration) {
         this.configuration = configuration;
-        this.handler = new RequestHandler(this.configuration.getRouteMatcher());
+    }
+
+    public void setHandler(RequestHandler handler) {
+        this.handler = handler;
+        this.requestHandler = new JettyRequestHandler(this.handler);
         org.eclipse.jetty.util.log.Log.setLog(new JettyLogger());
     }
 
@@ -69,7 +74,7 @@ public class JettyServer {
     public void start(Object lock) {
         if (this.configuration.useSessions()) {
             this.sessionFactory = new SessionFactory(this.configuration);
-            this.handler.setSessionFactory(this.sessionFactory);
+            this.requestHandler.setSessionFactory(this.sessionFactory);
         }
 
         //Configure server
@@ -100,8 +105,8 @@ public class JettyServer {
         //Set server handlers
         List<Handler> handlerList = new ArrayList<>();
 
-        //Add main handler
-        handlerList.add(this.handler);
+        //Add main requestHandler
+        handlerList.add(this.requestHandler);
         //Add bundled static files handler
         if (this.configuration.getStaticFilesLocation() != null) {
             ResourceHandler resourceHandler = new ResourceHandler();

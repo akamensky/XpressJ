@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 /**
  * Created by akamensky on 6/19/14.
  */
-public class RouteImplImpl implements RouteImpl {
+public class RouteImpl {
 
     private String path;
     private Route lambda;
@@ -38,7 +38,7 @@ public class RouteImplImpl implements RouteImpl {
     private Pattern routeRegex;
     private List<String> paramNames;
 
-    public RouteImplImpl(String httpMethod, String path, Route lambda) {
+    public RouteImpl(String httpMethod, String path, Route lambda) {
         //TODO: optimize RouteImpl constructor
         this.httpMethod = httpMethod;
         this.path = path;

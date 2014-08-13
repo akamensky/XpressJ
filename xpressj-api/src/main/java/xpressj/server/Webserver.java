@@ -43,4 +43,8 @@ public interface Webserver {
      */
     public abstract void restart();
 
+    /**
+     * Sets handler implementation
+     */
+    public void setHandler(RequestHandler handler);
 }

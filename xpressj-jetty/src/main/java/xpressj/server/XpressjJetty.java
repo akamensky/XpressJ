@@ -22,12 +22,20 @@ package xpressj.server;
 public final class XpressjJetty implements Webserver {
 
     private ServerConfiguration configuration;
+    private RequestHandler handler;
     private boolean initialized = false;
     private JettyServer server;
     private Thread t;
 
     public void setConfiguration(ServerConfiguration configuration) {
         this.configuration = configuration;
+    }
+
+    public void setHandler(RequestHandler handler) {
+        if (handler == null) {
+            throw new RuntimeException("No handler present");
+        }
+        this.handler = handler;
     }
 
     public void start() {

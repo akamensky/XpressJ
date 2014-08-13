@@ -35,6 +35,10 @@ public class XpressjSimpleServer implements Webserver {
         this.isConfigurationSet = true;
     }
 
+    public void setHandler(RequestHandler handler) {
+
+    }
+
     public void start() {
         if (isConfigurationSet) {
             this.server.start();

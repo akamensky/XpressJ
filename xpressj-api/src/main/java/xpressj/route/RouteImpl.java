@@ -25,5 +25,9 @@ import xpressj.server.Response;
 public interface RouteImpl {
     public boolean match(String httpMethod, String path);
 
+    public String getPath();
+
+    public String getHttpMethod();
+
     public void handle(Request req, Response res) throws Exception;
 }

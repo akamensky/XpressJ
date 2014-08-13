@@ -16,6 +16,8 @@
 
 package xpressj.server;
 
+import java.util.Map;
+
 /**
  * Created by akamensky on 7/30/14.
  */
@@ -33,6 +35,10 @@ public interface Response {
     public void json(int code, Object obj);
 
     public void json(Object obj);
+
+    public void render(int code, String templateName, Map<String, Object> obj);
+
+    public void render(String templateName, Map<String, Object> obj);
 
     public void addCookie(Cookie cookie);//TODO: This is wrong, just add more methods for adding cookie with maxAge etc.
 

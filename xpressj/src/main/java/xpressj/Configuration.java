@@ -22,13 +22,14 @@ import xpressj.server.Request;
 import xpressj.server.Response;
 import xpressj.server.ServerConfiguration;
 import xpressj.server.Webserver;
+import xpressj.template.TemplateConfiguration;
 
 import java.util.ServiceLoader;
 
 /**
  * Created by akamensky on 6/30/14.
  */
-public class Configuration implements ServerConfiguration {
+public class Configuration implements ServerConfiguration, TemplateConfiguration {
     public static final String NAME = "XpressJ";
     private static final int DEFAULT_PORT = 8080;
     private int[] ports = new int[]{DEFAULT_PORT};

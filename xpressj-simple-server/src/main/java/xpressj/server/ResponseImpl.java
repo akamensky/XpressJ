@@ -17,6 +17,7 @@
 package xpressj.server;
 
 import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Created by akamensky on 8/2/14.
@@ -65,6 +66,14 @@ public class ResponseImpl implements Response {
     }
 
     public void json(Object obj) {
+
+    }
+
+    public void render(int code, String templateName, Map<String, Object> obj) {
+
+    }
+
+    public void render(String templateName, Map<String, Object> obj) {
 
     }
 

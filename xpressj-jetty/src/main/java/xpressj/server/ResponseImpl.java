@@ -152,6 +152,14 @@ public class ResponseImpl implements Response {
         writeResponse(json);
     }
 
+    public void render(int code, String templateName, Map<String, Object> obj) {
+        setStatusCode(code);
+    }
+
+    public void render(String templateName, Map<String, Object> obj) {
+
+    }
+
     public void addCookie(Cookie cookie) {
         this.cookies.put(cookie.getName(), cookie);
     }

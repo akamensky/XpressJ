@@ -25,6 +25,7 @@ import xpressj.server.Request;
 import xpressj.server.Response;
 import xpressj.util.TestUtil;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,24 +33,57 @@ import java.util.Map;
  * Created by akamensky on 8/14/14.
  */
 public class TemplateEngineTest {
-    static TestUtil testUtil;
-    static XpressJ app;
+    static TestUtil testUtil1;
+    static TestUtil testUtil2;
+    static XpressJ app1;
+    static XpressJ app2;
 
     @AfterClass
     public static void stop() {
-        app.stop();
+        app1.stop();
+        app2.stop();
     }
 
     @BeforeClass
     public static void start() {
+        //Copy file to tmp
+        InputStream stream = TemplateEngineTest.class.getResourceAsStream("/templates/test.ftl");
+        if (stream == null) {
+            throw new RuntimeException("File test.ftl not found");
+        }
+        OutputStream resStreamOut;
+        int readBytes;
+        byte[] buffer = new byte[4096];
+        try {
+            resStreamOut = new FileOutputStream(new File("/tmp/test.ftl"));
+            while ((readBytes = stream.read(buffer)) > 0) {
+                resStreamOut.write(buffer, 0, readBytes);
+            }
+            stream.close();
+            resStreamOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        testUtil = new TestUtil(8081);
+        testUtil1 = new TestUtil(8081);
+        testUtil2 = new TestUtil(8082);
 
-        app = new XpressJ(new Configuration().setPort(8081));
+        app1 = new XpressJ(new Configuration().setPort(8081));
+        app2 = new XpressJ(new Configuration().setPort(8082).setExternalTemplateLocation("/tmp"));
 
-        app.start();
+        app1.start();
+        app2.start();
 
-        app.get("/", new Route() {
+        app1.get("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("test", "test");
+                response.render("test.ftl", data);
+            }
+        });
+
+        app2.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
                 Map<String, Object> data = new HashMap<>();
@@ -60,9 +94,20 @@ public class TemplateEngineTest {
     }
 
     @Test
-    public void simple_get_route_test() {
+    public void embedded_templates_test() {
         try {
-            TestUtil.UrlResponse response = testUtil.doMethod("GET", "/", null);
+            TestUtil.UrlResponse response = testUtil1.doMethod("GET", "/", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("test", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void external_templates_test() {
+        try {
+            TestUtil.UrlResponse response = testUtil2.doMethod("GET", "/", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("test", response.body);
         } catch (Throwable e) {

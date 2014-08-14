@@ -60,7 +60,7 @@ public class Configuration implements ServerConfiguration, TemplateConfiguration
     private String keystorePassword;
     private String truststoreFile;
     private String truststorePassword;
-    private String templateLocation = "/template";
+    private String templateLocation = "/templates";
     private String externalTemplateLocation;
 
     private Class webserverClass;

@@ -16,16 +16,65 @@
 
 package xpressj.template;
 
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 /**
  * Created by akamensky on 8/14/14.
  */
 public class FreemarkerTemplate implements Template {
+    private boolean useExternalTemplates;
+    private String templateLocation;
+    private TemplateConfiguration configuration;
+    private Configuration cfg;
 
     public void initialize(TemplateConfiguration configuration) {
-
+        this.cfg = new Configuration();
+        this.configuration = configuration;
+        this.templateLocation = this.configuration.getExternalTemplateLocation();
+        if (this.templateLocation == null) {
+            this.useExternalTemplates = false;
+            this.templateLocation = this.configuration.getTemplateLocation();
+        } else {
+            this.useExternalTemplates = true;
+        }
+        if (!this.templateLocation.startsWith("/")) {
+            throw new IllegalArgumentException("Invalid location value. Location should start with \"/\" character");
+        }
+        if (this.useExternalTemplates) {
+            File dir = new File(this.templateLocation);
+            if (!dir.exists() || !dir.isDirectory()) {
+                throw new IllegalArgumentException("Invalid location value. Path " + this.templateLocation + " does not exist.");
+            }
+            try {
+                cfg.setDirectoryForTemplateLoading(dir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            cfg.setClassForTemplateLoading(FreemarkerTemplate.class, this.templateLocation);
+        }
     }
 
     public String process(String templateName, Object obj) {
-        return "test";
+        try {
+            //Load template
+            freemarker.template.Template template = this.cfg.getTemplate(templateName);
+
+            //process template
+            Writer result = new StringWriter();
+            template.process(obj, result);
+
+            return result.toString();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        } catch (TemplateException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

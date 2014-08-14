@@ -20,4 +20,6 @@ package xpressj.template;
  * Created by akamensky on 8/13/14.
  */
 public interface TemplateConfiguration {
+    public String getExternalTemplateLocation();
+    public String getTemplateLocation();
 }

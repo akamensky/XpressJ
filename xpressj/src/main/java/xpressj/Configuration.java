@@ -60,6 +60,8 @@ public class Configuration implements ServerConfiguration, TemplateConfiguration
     private String keystorePassword;
     private String truststoreFile;
     private String truststorePassword;
+    private String templateLocation = "/template";
+    private String externalTemplateLocation;
 
     private Class webserverClass;
 
@@ -223,5 +225,23 @@ public class Configuration implements ServerConfiguration, TemplateConfiguration
 
     public Class getWebserverClass() {
         return this.webserverClass;
+    }
+
+    public String getExternalTemplateLocation() {
+        return this.externalTemplateLocation;
+    }
+
+    public Configuration setExternalTemplateLocation(String location) {
+        this.externalTemplateLocation = location;
+        return this;
+    }
+
+    public String getTemplateLocation() {
+        return this.templateLocation;
+    }
+
+    public Configuration setTemplateLocation(String location) {
+        this.templateLocation = location;
+        return this;
     }
 }

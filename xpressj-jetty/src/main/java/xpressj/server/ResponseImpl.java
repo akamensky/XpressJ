@@ -17,6 +17,7 @@
 package xpressj.server;
 
 import com.google.gson.Gson;
+import xpressj.template.Template;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
@@ -35,6 +36,7 @@ public class ResponseImpl implements Response {
     private HashMap<String, Cookie> cookies;
     private Map<String, String> headers;
     private RequestImpl request;
+    private Template templateEngine;
 
     public ResponseImpl(HttpServletResponse httpResponse) {
         this.httpResponse = httpResponse;
@@ -152,12 +154,20 @@ public class ResponseImpl implements Response {
         writeResponse(json);
     }
 
+    /**
+     *
+     * @param code HTTP response code
+     * @param templateName name of template file
+     * @param obj data-model object
+     */
     public void render(int code, String templateName, Map<String, Object> obj) {
         setStatusCode(code);
+        this.render(templateName, obj);
     }
 
     public void render(String templateName, Map<String, Object> obj) {
-
+        String result = this.templateEngine.process(templateName, obj);
+        writeResponse(result);
     }
 
     public void addCookie(Cookie cookie) {
@@ -175,5 +185,9 @@ public class ResponseImpl implements Response {
 
     public void addHeader(String name, String value) {
         this.headers.put(name, value);
+    }
+
+    public void setTemplateEngine(Template templateEngine) {
+        this.templateEngine = templateEngine;
     }
 }

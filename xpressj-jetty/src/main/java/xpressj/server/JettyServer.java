@@ -24,6 +24,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import xpressj.template.Template;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class JettyServer {
     private JettyRequestHandler requestHandler;
     private ServerConfiguration configuration;
     private RequestHandler handler;
+    private Template templateEngine;
 
     public JettyServer(ServerConfiguration configuration) {
         this.configuration = configuration;
@@ -154,5 +156,10 @@ public class JettyServer {
             e.printStackTrace();
         }
         System.out.println("** " + this.configuration.NAME + " has stopped ...");
+    }
+
+    public void setTemplateEngine(Template templateEngine) {
+        this.templateEngine = templateEngine;
+        this.requestHandler.setTemplateEngine(this.templateEngine);
     }
 }

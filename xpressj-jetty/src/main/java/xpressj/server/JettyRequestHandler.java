@@ -18,6 +18,7 @@ package xpressj.server;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import xpressj.template.Template;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
@@ -33,6 +34,7 @@ public final class JettyRequestHandler extends ResourceHandler {
     private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement(System.getProperty("java.io.tmpdir"));
     private SessionFactory sessionFactory;
     private RequestHandler handler;
+    private Template templateEngine;
 
     public JettyRequestHandler(RequestHandler handler) {
         this.handler = handler;
@@ -40,6 +42,10 @@ public final class JettyRequestHandler extends ResourceHandler {
 
     public void setSessionFactory(SessionFactory factory) {
         this.sessionFactory = factory;
+    }
+
+    public void setTemplateEngine(Template templateEngine) {
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -56,6 +62,9 @@ public final class JettyRequestHandler extends ResourceHandler {
         ResponseImpl res = new ResponseImpl(httpResponse);
         RequestImpl req = new RequestImpl(httpRequest, res, isMultipart, this.sessionFactory);
         //TODO: this is ugly, need to rethink this one
+
+        //Set template engine to response (if any)
+        res.setTemplateEngine(this.templateEngine);
 
         //set delegates so that req and res can communicate with each other
         req.setDelegate(res);

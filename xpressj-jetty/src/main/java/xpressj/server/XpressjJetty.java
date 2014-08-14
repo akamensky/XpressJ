@@ -28,6 +28,7 @@ public final class XpressjJetty implements Webserver {
     private boolean initialized = false;
     private JettyServer server;
     private Thread t;
+    private Template templateEngine;
 
     public void setConfiguration(ServerConfiguration configuration) {
         this.configuration = configuration;
@@ -49,6 +50,7 @@ public final class XpressjJetty implements Webserver {
                 public void run() {
                     server = new JettyServer(configuration);
                     server.setHandler(handler);
+                    server.setTemplateEngine(templateEngine);
                     server.start(lock);
                 }
             });
@@ -74,5 +76,6 @@ public final class XpressjJetty implements Webserver {
     }
 
     public void setTemplateEngine(Template templateEngine) {
+        this.templateEngine = templateEngine;
     }
 }

@@ -19,17 +19,6 @@
     <url>http://www.xpressj.com</url>
 
     <dependencies>
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.20</version>
-        </dependency>
-        <!-- JETTY SERVER DEPENDENCY -->
-        <dependency>
-            <groupId>com.xpressj</groupId>
-            <artifactId>xpressj-jetty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
         <!-- API -->
         <dependency>
             <groupId>com.xpressj</groupId>
@@ -59,6 +48,18 @@
             <groupId>com.carrotsearch</groupId>
             <artifactId>junit-benchmarks</artifactId>
             <version>0.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xpressj</groupId>
+            <artifactId>xpressj-jetty</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xpressj</groupId>
+            <artifactId>xpressj-freemarker</artifactId>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

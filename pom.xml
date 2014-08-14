@@ -60,6 +60,7 @@
         <module>xpressj-jetty</module>
         <module>xpressj-api</module>
         <module>xpressj-simple-server</module>
+        <module>xpressj-freemarker</module>
         <!--<module>xpressj-example</module>-->
     </modules>
 

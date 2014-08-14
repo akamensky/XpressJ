@@ -43,7 +43,7 @@ public final class XpressJ {
         try {
             this.server = (Webserver) this.configuration.getWebserverClass().newInstance();
             this.server.setConfiguration(this.configuration);
-            this.server.setHandler(new RequestHandler(routeMatcher));
+            this.server.setHandler(new RequestHandler(this.routeMatcher));
             this.server.setTemplateEngine(this.templateEngine);
             this.server.start();
         } catch (Exception e) {

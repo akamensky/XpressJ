@@ -21,8 +21,9 @@ import xpressj.route.Route;
 import xpressj.route.RouteImpl;
 import xpressj.route.RouteMatcher;
 import xpressj.server.Webserver;
-import xpressj.template.FreemarkerTemplate;
 import xpressj.template.Template;
+
+import java.util.ServiceLoader;
 
 public final class XpressJ {
 
@@ -35,7 +36,13 @@ public final class XpressJ {
     public XpressJ(final Configuration configuration) {
         this.configuration = configuration;
         this.routeMatcher = new RouteMatcher(this.configuration);
-        this.templateEngine = new FreemarkerTemplate();
+
+        //Initialise template engine
+        ServiceLoader<Template> loader = ServiceLoader.load(Template.class);
+        for (Template templateEngine : loader) {
+            this.templateEngine = templateEngine;
+            break;
+        }
         this.templateEngine.initialize(this.configuration);
     }
 

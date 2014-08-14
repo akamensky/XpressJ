@@ -21,6 +21,8 @@ import xpressj.route.Route;
 import xpressj.route.RouteImpl;
 import xpressj.route.RouteMatcher;
 import xpressj.server.Webserver;
+import xpressj.template.FreemarkerTemplate;
+import xpressj.template.Template;
 
 public final class XpressJ {
 
@@ -28,10 +30,13 @@ public final class XpressJ {
     private boolean initialized = false;
     private Webserver server;
     private RouteMatcher routeMatcher;
+    private Template templateEngine;
 
     public XpressJ(final Configuration configuration) {
         this.configuration = configuration;
         this.routeMatcher = new RouteMatcher(this.configuration);
+        this.templateEngine = new FreemarkerTemplate();
+        this.templateEngine.initialize(this.configuration);
     }
 
     public void start() {
@@ -39,6 +44,7 @@ public final class XpressJ {
             this.server = (Webserver) this.configuration.getWebserverClass().newInstance();
             this.server.setConfiguration(this.configuration);
             this.server.setHandler(new RequestHandler(routeMatcher));
+            this.server.setTemplateEngine(this.templateEngine);
             this.server.start();
         } catch (Exception e) {
             e.printStackTrace();

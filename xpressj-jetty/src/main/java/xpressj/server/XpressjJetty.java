@@ -16,6 +16,8 @@
 
 package xpressj.server;
 
+import xpressj.template.Template;
+
 /**
  * Created by akamensky on 7/29/14.
  */
@@ -69,5 +71,8 @@ public final class XpressjJetty implements Webserver {
 
     public void restart() {
         //Do nothing here yet
+    }
+
+    public void setTemplateEngine(Template templateEngine) {
     }
 }

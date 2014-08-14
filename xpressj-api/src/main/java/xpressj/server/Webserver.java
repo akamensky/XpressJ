@@ -16,6 +16,8 @@
 
 package xpressj.server;
 
+import xpressj.template.Template;
+
 /**
  * Created by akamensky on 7/29/14.
  */
@@ -47,4 +49,9 @@ public interface Webserver {
      * Sets handler implementation
      */
     public void setHandler(RequestHandler handler);
+
+    /**
+     * Sets template engine (if any)
+     */
+    public void setTemplateEngine(Template templateEngine);
 }

@@ -16,6 +16,8 @@
 
 package xpressj.server;
 
+import xpressj.template.Template;
+
 /**
  * Created by akamensky on 8/2/14.
  */
@@ -36,6 +38,10 @@ public class XpressjSimpleServer implements Webserver {
     }
 
     public void setHandler(RequestHandler handler) {
+
+    }
+
+    public void setTemplateEngine(Template templateEngine) {
 
     }
 

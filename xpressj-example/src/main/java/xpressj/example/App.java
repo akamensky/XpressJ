@@ -22,6 +22,7 @@ import xpressj.route.Route;
 import xpressj.server.Request;
 import xpressj.server.Response;
 
+import java.util.HashMap;
 /**
  * Created by akamensky on 7/2/14.
  */
@@ -35,7 +36,7 @@ public class App {
         app.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
-                response.send("Hello");
+                response.render("home.ftl", new HashMap<String, Object>());
             }
         });
     }

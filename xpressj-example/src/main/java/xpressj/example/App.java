@@ -38,29 +38,6 @@ public class App {
                 response.send("Hello");
             }
         });
-
-        //Match ALL requests to "/all"
-        app.all("/all", new Route() {
-            @Override
-            public void handle(Request request, Response response) {
-                response.send("All requests!");
-            }
-        });
-
-        app.post("/fileupload", new Route() {
-            @Override
-            public void handle(Request request, Response response) {
-                response.send("something");
-            }
-        });
-
-        app.get("/error", new Route() {
-            @Override
-            public void handle(Request request, Response response) throws Exception {
-                throw new RuntimeException("Custom error");
-            }
-        });
-
     }
 
 }

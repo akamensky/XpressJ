@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-package example;
+package xpressj.example;
+
+import xpressj.Configuration;
+import xpressj.XpressJ;
+import xpressj.route.Route;
+import xpressj.server.Request;
+import xpressj.server.Response;
 
 /**
  * Created by akamensky on 7/2/14.
@@ -22,7 +28,7 @@ package example;
 public class App {
 
     public static void main(String[] args) {
-        XpressJ app = new XpressJ(new Configuration().setStaticFilesLocation("/public").enableSessions().setSessionMaxAge(10000));
+        XpressJ app = new XpressJ(new Configuration().setStaticFilesLocation("/public").enableSessions());
         app.start();
 
         //Match GET requests to "/"

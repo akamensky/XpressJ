@@ -1,4 +1,4 @@
-# ![XpressJ](https://raw.githubusercontent.com/akamensky/XpressJ/master/graphics/xpressj-75x75.png) XpressJ - Lightweight Web framework
+# ![XpressJ](https://raw.githubusercontent.com/akamensky/XpressJ/master/graphics/xpressj-25x25.png) XpressJ - Lightweight Web framework
 
 [![Build Status](https://travis-ci.org/akamensky/XpressJ.svg?branch=master)](https://travis-ci.org/akamensky/XpressJ)
 

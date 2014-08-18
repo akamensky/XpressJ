@@ -16,7 +16,10 @@
 
 package xpressj;
 
-import xpressj.route.*;
+import xpressj.route.HttpMethod;
+import xpressj.route.Route;
+import xpressj.route.RouteImpl;
+import xpressj.route.RouteMatcher;
 import xpressj.server.Webserver;
 import xpressj.template.Template;
 
@@ -27,11 +30,12 @@ public final class XpressJ {
     private Configuration configuration;
     private boolean initialized = false;
     private Webserver server;
-    private final PTARequestHandler requestHandler = new PTARequestHandler();
+    private RouteMatcher routeMatcher;
     private Template templateEngine;
 
     public XpressJ(final Configuration configuration) {
         this.configuration = configuration;
+        this.routeMatcher = new RouteMatcher(this.configuration);
 
         //Initialise template engine
         ServiceLoader<Template> loader = ServiceLoader.load(Template.class);
@@ -46,7 +50,7 @@ public final class XpressJ {
         try {
             this.server = (Webserver) this.configuration.getWebserverClass().newInstance();
             this.server.setConfiguration(this.configuration);
-            this.server.setHandler(this.requestHandler);
+            this.server.setHandler(new RequestHandler(this.routeMatcher));
             this.server.setTemplateEngine(this.templateEngine);
             this.server.start();
         } catch (Exception e) {
@@ -55,39 +59,39 @@ public final class XpressJ {
     }
 
     public void get(final String uri, final Route route) {
-        addRoute(HttpMethod.get.name(), uri, route);
+        addRoute(HttpMethod.get.name(), new RouteImpl(HttpMethod.get.name(), uri, route));
     }
 
     public void post(final String uri, final Route route) {
-        addRoute(HttpMethod.post.name(), uri, route);
+        addRoute(HttpMethod.post.name(), new RouteImpl(HttpMethod.post.name(), uri, route));
     }
 
     public void options(final String uri, final Route route) {
-        addRoute(HttpMethod.options.name(),uri, route);
+        addRoute(HttpMethod.options.name(), new RouteImpl(HttpMethod.options.name(), uri, route));
     }
 
     public void head(final String uri, final Route route) {
-        addRoute(HttpMethod.head.name(), uri, route);
+        addRoute(HttpMethod.head.name(), new RouteImpl(HttpMethod.head.name(), uri, route));
     }
 
     public void put(final String uri, final Route route) {
-        addRoute(HttpMethod.put.name(), uri, route);
+        addRoute(HttpMethod.put.name(), new RouteImpl(HttpMethod.put.name(), uri, route));
     }
 
     public void delete(final String uri, final Route route) {
-        addRoute(HttpMethod.delete.name(), uri, route);
+        addRoute(HttpMethod.delete.name(), new RouteImpl(HttpMethod.delete.name(), uri, route));
     }
 
     public void trace(final String uri, final Route route) {
-        addRoute(HttpMethod.trace.name(), uri, route);
+        addRoute(HttpMethod.trace.name(), new RouteImpl(HttpMethod.trace.name(), uri, route));
     }
 
     public void all(final String uri, final Route route) {
-        addRoute(null, uri, route);
+        addRoute(null, new RouteImpl(null, uri, route));
     }
 
-    private void addRoute(String httpMethod, String uri, Route route) {
-        this.requestHandler.addRoute(httpMethod, uri, route);
+    private void addRoute(String httpMethod, RouteImpl route) {
+        this.routeMatcher.addRoute(httpMethod, route);
     }
 
     public void stop() {

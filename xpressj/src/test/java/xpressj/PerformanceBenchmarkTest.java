@@ -22,6 +22,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import xpressj.route.Route;
+import xpressj.route.RouteImpl;
+import xpressj.route.RouteMatcher;
 import xpressj.server.Request;
 import xpressj.server.Response;
 import xpressj.util.TestUtil;
@@ -61,31 +63,22 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
             "/repos/:repoId/pull_requests/:pullRequestId/comments/:commentId/replies",
             "/repos/:repoId/pull_requests/:pullRequestId/comments/:commentId/replies/:replyId"
     };
-    private static final int COUNT = 1000;
+    private static final int COUNT = 100000;
     private static final List<TestRequest> requests = new ArrayList<>();
-    static TestUtil testUtil;
-    private static XpressJ app;
-
-    @AfterClass
-    public static void teardown() {
-        app.stop();
-    }
+    private static RouteMatcher routeMatcher1;
 
     @BeforeClass
     public static void setup() {
-        testUtil = new TestUtil(8081);
-
-        app = new XpressJ(new Configuration().setPort(8081));
-
-        app.start();
+        routeMatcher1 = new RouteMatcher(new Configuration());
 
         for (String path : routePaths) {
-            app.get(path, new Route() {
+            RouteImpl route = new RouteImpl("get", path, new Route() {
                 @Override
                 public void handle(Request request, Response response) {
                     response.send("test");
                 }
             });
+            routeMatcher1.addRoute("get", route);
         }
 
         final Random random = new Random();
@@ -102,14 +95,9 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     }
 
     @Test
-    public void doBenchmark() {
-        try {
-            for (TestRequest req : requests) {
-                TestUtil.UrlResponse result = testUtil.doMethod("GET", req.path, "");
-                Assert.assertEquals("test", result.body);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public void doBenchmarkWithoutCache() {
+        for (TestRequest req : requests) {
+            List<RouteImpl> routes = routeMatcher1.getMatchingRoutes("get", req.path);
         }
     }
 

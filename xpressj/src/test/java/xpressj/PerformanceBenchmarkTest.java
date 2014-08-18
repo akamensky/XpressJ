@@ -66,10 +66,12 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     private static final int COUNT = 100000;
     private static final List<TestRequest> requests = new ArrayList<>();
     private static RouteMatcher routeMatcher1;
+    private static RouteMatcher routeMatcher2;
 
     @BeforeClass
     public static void setup() {
         routeMatcher1 = new RouteMatcher(new Configuration());
+        routeMatcher2 = new RouteMatcher(new Configuration().setRouteCache(true));
 
         for (String path : routePaths) {
             RouteImpl route = new RouteImpl("get", path, new Route() {
@@ -79,6 +81,7 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
                 }
             });
             routeMatcher1.addRoute("get", route);
+            routeMatcher2.addRoute("get", route);
         }
 
         final Random random = new Random();
@@ -98,6 +101,13 @@ public class PerformanceBenchmarkTest extends AbstractBenchmark {
     public void doBenchmarkWithoutCache() {
         for (TestRequest req : requests) {
             List<RouteImpl> routes = routeMatcher1.getMatchingRoutes("get", req.path);
+        }
+    }
+
+    @Test
+    public void doBenchmarkWithCache() {
+        for (TestRequest req : requests) {
+            List<RouteImpl> routes = routeMatcher2.getMatchingRoutes("get", req.path);
         }
     }
 

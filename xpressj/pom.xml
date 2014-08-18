@@ -19,11 +19,6 @@
     <url>http://www.xpressj.com</url>
 
     <dependencies>
-        <dependency>
-            <groupId>com.augustl</groupId>
-            <artifactId>pathtravelagent</artifactId>
-            <version>0.1.0</version>
-        </dependency>
         <!-- API -->
         <dependency>
             <groupId>com.xpressj</groupId>

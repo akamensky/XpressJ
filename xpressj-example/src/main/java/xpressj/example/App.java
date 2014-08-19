@@ -36,7 +36,7 @@ public class App {
         app.get("/", new Route() {
             @Override
             public void handle(Request request, Response response) {
-                response.render("home.ftl", new HashMap<String, Object>());
+                response.render("index.html", new HashMap<String, Object>());
             }
         });
     }

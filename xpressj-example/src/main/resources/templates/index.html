@@ -13,16 +13,56 @@
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
-                <img class="logo" src="/images/xpressj-75x75.png"/>
-                <a class="navbar-brand">XpressJ</a>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img class="logo" src="/images/xpressj-75x75.png"/>
+                    <a class="navbar-brand">XpressJ</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/getting-started/">Getting started</a></li>
+                        <li><a href="/documentation/">Documentation</a></li>
+                        <li><a href="#">Sources</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="footer navbar-default">
+        <div class="jumbotron">
             <div class="container">
-                <p class="text-muted align-center">Copyleft</p>
+                <h1>XpressJ</h1>
+                <p>XpressJ is a lightweight framework for <u>rapid</u> development of standalone web applications in Java. It is inspired by JavaScript framework Express.js which was initially based on Sinatra. XpressJ is an attempt to bring same logic into Java world allowing fast development with great flexibility and extendability.</p>
+                <p><a href="/getting-started/" class="btn btn-lg btn-primary">Learn more</a></p>
             </div>
         </div>
+
+        <div class="container">
+            <div class="row">
+                <h2>News</h2>
+                <hr/>
+                <div class="col-md-4">
+                    <h3>2014-08-21</h3>
+                    <p>First version of website has been published! The website has been made using <code>XpressJ</code>! Check out <code>xpressj-example</code> to find out how!</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>2014-08-21</h3>
+                    <p>Version 0.7.0 is released to Maven Central. You can include it in your <code>pom.xml</code> using:</p>
+                    <pre>&lt;dependency>
+    &lt;groupId>com.xpressj&lt;/groupId>
+    &lt;artifactId>xpressj&lt;/artifactId>
+    &lt;version>0.7.0&lt;/version>
+&lt;/dependency></pre>
+                </div>
+            </div>
+        </div>
+
+
 
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js" type="text/javascript"></script>
         <script src="/js/bootstrap.min.js" type="text/javascript"></script>

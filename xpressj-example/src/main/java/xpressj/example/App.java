@@ -39,6 +39,18 @@ public class App {
                 response.render("index.html", new HashMap<String, Object>());
             }
         });
+        app.get("/getting-started/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.render("getting-started.html", new HashMap<String, Object>());
+            }
+        });
+        app.get("/documentation/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.render("documentation.html", new HashMap<String, Object>());
+            }
+        });
     }
 
 }

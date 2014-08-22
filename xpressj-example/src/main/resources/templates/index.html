@@ -10,8 +10,9 @@
         <link href="/css/style.css" rel="stylesheet">
     </head>
     <body>
+        <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
         <!-- Fixed navbar -->
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -21,20 +22,19 @@
                         <span class="icon-bar"></span>
                     </button>
                     <img class="logo" src="/images/xpressj-75x75.png"/>
-                    <a class="navbar-brand">XpressJ</a>
+                    <a class="navbar-brand" href="/">XpressJ</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
                         <li><a href="/getting-started/">Getting started</a></li>
                         <li><a href="/documentation/">Documentation</a></li>
-                        <li><a href="#">Sources</a></li>
+                        <li><a href="https://github.com/akamensky/XpressJ">Sources</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="jumbotron">
+        <div class="jumbotron" id="content">
             <div class="container">
                 <h1>XpressJ</h1>
                 <p>XpressJ is a lightweight framework for <u>rapid</u> development of standalone web applications in Java. It is inspired by JavaScript framework Express.js which was initially based on Sinatra. XpressJ is an attempt to bring same logic into Java world allowing fast development with great flexibility and extendability.</p>

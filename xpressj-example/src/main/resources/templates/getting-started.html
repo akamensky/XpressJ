@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>XpressJ.com Lightweight Sinatra/Express.js inspired framework for web applications in Java</title>
+        <link rel="icon" href="/favicon.png">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+        <!-- Fixed navbar -->
+        <header class="navbar navbar-default navbar-fixed-top" id="top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <img class="logo" src="/images/xpressj-75x75.png"/>
+                    <a class="navbar-brand" href="/">XpressJ</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/getting-started/">Getting started</a></li>
+                        <li><a href="/documentation/">Documentation</a></li>
+                        <li><a href="https://github.com/akamensky/XpressJ">Sources</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="jumbotron" id="content">
+            <div class="container">
+                <h1>Getting started</h1>
+                <p>How to build your first application with <u>XpressJ</u></p>
+                <p><small>For more detailed information on available settings and options please check <a href="/documentation/">Documentation</a>.</small></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>"Hello World!" application</h2>
+            <p>It is recommended to use XpressJ with Maven to simplify dependency management. Create basic Maven project with IDE of your choice and add following dependencies to your <code>pom.xml</code>:</p>
+            <pre>&lt;dependency>
+    &lt;groupId>com.xpressj&lt;/groupId>
+    &lt;artifactId>xpressj&lt;/artifactId>
+    &lt;version>0.7.0&lt;/version>
+&lt;/dependency>
+&lt;dependency>
+    &lt;groupId>com.xpressj&lt;/groupId>
+    &lt;artifactId>xpressj-jetty&lt;/artifactId>
+    &lt;version>0.7.0&lt;/version>
+&lt;/dependency></pre>
+            <p>Then create main class for our application called <code>HelloWorld.java</code>:</p>
+            <pre>
+import xpressj.Configuration;
+import xpressj.XpressJ;
+import xpressj.route.Route;
+import xpressj.server.Request;
+import xpressj.server.Response;
+
+public class HelloWorld {
+    public static void main (String[] args) {
+        Configuration configuration = new Configuration();
+        XpressJ app = new XpressJ(configuration);
+
+        app.get("/", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("Hello World!");
+            }
+        });
+    }
+}</pre>
+            <p>Then run your application. In console output your should see following:</p>
+            <pre>** Configured to listen on 0.0.0.0:8080
+** XpressJ has started ...</pre>
+            <p>That means server has successfully started and listens to port 8080 on local interfaces. Now you can open in your browser <a href="http://localhost:8080/"><code>http://localhost:8080/</code></a> which should display string <code>Hello World!</code>. Congratulations, you just finished your first application using XpressJ!</p>
+        </div>
+
+
+
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js" type="text/javascript"></script>
+        <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    </body>
+</html>

@@ -1,9 +1,15 @@
 body {
 	padding-top: 50px;
+	padding-bottom: 100px;
+	position: relative;
 }
 u {text-decoration: none;border-bottom: 1px dotted rgb(51,51,51);}
 img {
 	margin:0px;padding:0px;
+}
+.container>h1 {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
 }
 .navbar-default{
 	background-color: rgba(255,255,255,0.95);
@@ -17,4 +23,44 @@ img {
 }
 .align-center {
 	text-align:center;
+}
+.jumbotron {
+	background-color: #800000;
+	color: #E4A7A7;
+}
+.jumbotron h1 {
+	color: #FFFFFF;
+}
+.docs-sidebar {
+	margin-top: 30px;
+}
+.docs-sidebar ul {
+	margin: 0px;
+	padding: 0px;
+}
+.docs-sidebar li>a {
+	border-left: 2px solid transparent;
+}
+.docs-sidebar li.active>a {
+	border-left: 2px solid #800000;
+}
+.docs-sidebar ul li a {
+	padding: 5px 25px;
+	color: #777;
+}
+.docs-sidebar ul ul a {
+	padding-left: 40px;
+}
+.docs-sidebar ul>li>ul {
+	display: none;
+}
+.docs-sidebar ul>li.active>ul {
+	display: block;
+}
+.docs-sidebar.affix {
+	position: fixed;
+	top:40px;
+}
+.docs-sidebar .back-to-top {
+	margin-top: 20px;
 }

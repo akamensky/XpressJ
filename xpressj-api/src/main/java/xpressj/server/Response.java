@@ -16,6 +16,7 @@
 
 package xpressj.server;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -39,6 +40,10 @@ public interface Response {
     public void render(int code, String templateName, Map<String, Object> obj);
 
     public void render(String templateName, Map<String, Object> obj);
+
+    public void file(java.io.File file);
+
+    public void file(String filename, InputStream stream);
 
     public void addCookie(Cookie cookie);//TODO: This is wrong, just add more methods for adding cookie with maxAge etc.
 

@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import xpressj.template.Template;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -190,4 +191,50 @@ public class ResponseImpl implements Response {
     public void setTemplateEngine(Template templateEngine) {
         this.templateEngine = templateEngine;
     }
+
+    public void file(java.io.File file) {
+        try {
+            this.file(file.getName(), new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void file(String filename, InputStream stream) {
+        try {
+            if (this.isConsumed) {
+                throw new RuntimeException("Request has already been consumed");
+            }
+            httpResponse.setStatus(getStatusCode());
+            httpResponse.setHeader("Content-Type", "application/octet-stream");
+            if (filename != null && !filename.isEmpty()) {
+                httpResponse.setHeader("Content-disposition", "attachment; filename=\"" + filename + "\"");
+            } else {
+                httpResponse.setHeader("Content-disposition", "attachment; filename=\"\"");
+            }
+
+            //Adding cookies to the response
+            for (Cookie cookie : this.cookies.values()) {
+                httpResponse.addCookie(((CookieImpl) cookie).getServletCookie());
+            }
+
+            //Adding headers to the response
+            Collection<String> headerNames = this.headers.keySet();
+            for (String headerName : headerNames) {
+                httpResponse.setHeader(headerName, this.headers.get(headerName));
+            }
+
+            //Writing content to response
+            byte[] buffer = new byte[1024*100];//100KB buffer
+            int len;
+            while ((len = stream.read(buffer)) != -1) {
+                httpResponse.getOutputStream().write(buffer, 0, len);
+            }
+
+            markConsumed();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

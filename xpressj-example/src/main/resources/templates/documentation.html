@@ -9,7 +9,7 @@
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
     </head>
-    <body data-spy="scroll" data-target=".sidebar-scrollspy" data-offset="250" id="top">
+    <body data-spy="scroll" data-target=".sidebar-scrollspy" data-offset="60" id="top">
         <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
         <!-- Fixed navbar -->
         <header class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -45,33 +45,133 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9" role="main">
-                    <h1 id="configuration">Configuration</h1>
-                    <div style="height:200px;background-color:gray;"></div>
+                    <h2 id="configuration">Configuration</h2>
+                    <p>Configuration class provides a way to configure server according to your needs. It provides several setter methods that return configuration object itself so that all configuration can be done in one line such as <code>new Configuration().setPort(8080).setHost("0.0.0.0")</code>.</p>
+                    <p>Configuration object is required to create new application instance and will provide default values if those are not set. Therefore minimum required code for creating new application instance is <code>new XpressJ(new Configuration())</code>.</p>
+                    <p>Most common methods are described below alongside with default values.</p>
 
-                    <h2 id="configuration-sethost">Setting Host</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-sethost">Configuration#setHost()</h3>
+                    <p><code>setHost(String host)</code> provides a way to set interface on which server should listen. Takes a String which specifies the interface by its IP address. It defaults to <code>0.0.0.0</code> which means that server will listen on all available interfaces.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setHost("127.0.0.1");
+XpressJ app = new XpressJ(conf);
+</pre>
+                    <p>This will create application which will listen to requests coming from localhost interface (means it will not listen to the requests from outside network).</p>
 
-                    <h2 id="configuration-setport">Setting Single Port</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-setport">Configuration#setPort()</h3>
+                    <p><code>setPort(int port)</code> provides a way to set port on which server will listen. Takes an <code>int</code> which specifies the single port. It defaults to port <code>8080</code>.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setPort(8081);
+XpressJ app = new XpressJ(conf);
+</pre>
+                    <p>This will create application which will listen to requests coming to port 8081.</p>
+                    <p><i>Note that port should be available, otherwise server will fail to start and application will crash throwing exception. Also on *nix systems in order to bind to ports between 1-1024 application should be running as priveleged user, which creates potential security concenrs. To work around this limitation there are several solutions (reverse proxy server such as Nginx, setuid system level function that will change to another user after app started etc).</i></p>
 
-                    <h2 id="configuration-setports">Setting Multiple Ports</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-setports">Configuration#setPorts()</h3>
+                    <p><code>setPorts(int[] ports)</code> provides a way to set multiple ports on which server will listen and serve <b>same</b> content from all of them. Takes an array of <code>int</code>.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setPorts(new int[]{8080,8443});
+XpressJ app = new XpressJ(conf);
+</pre>
+                    <p>This will create application which will listen to requests coming to ports 8080 and 8443 and will serve exactly same content on all of them.</p>
+                    <p><i>Note that all ports should be available, otherwise server will fail to start and application will crash throwing exception. Also on *nix systems in order to bind to ports between 1-1024 application should be running as priveleged user, which creates potential security concenrs. To work around this limitation there are several solutions (reverse proxy server such as Nginx, setuid system level function that will change to another user after app started etc).</i></p>
 
-                    <h2 id="configuration-setroutecache">Set Routing Cache</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
 
-                    <h2 id="configuration-setstaticfileslocation">Set Static Files Location (bundled)</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-setroutecache">Configuration#setRoutingCache()</h3>
+                    <p><code>setRoutingCache(boolean flag)</code> provides a way to enable or disable routing cache in matching mechanism. Caching matched routes can significantly speed up routing process. <b>However this is not a safe way as cache is stored in memory and thus applications with big number of routes have a risk of consuming too much memory and crashing with OutOfMemory exception.</b></p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setRoutingCache(true);
+XpressJ app = new XpressJ(conf);
+</pre>
+                    <p>This will create application which has routing cache enabled, this means that for every requested URI it will store results of route matching.</p>
 
-                    <h2 id="configuration-setexternalstaticfileslocation">Set External Static Files Location</h2>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-setstaticfileslocation">Configuration#setStaticFilesLocation()</h3>
+                    <p><code>setStaticFilesLocation(String path)</code> provides a way to specify location of files that should be served as static content. In this case it will use supplied location relatively to CLASSPATH, so static files can be bundled into the application (for example into single JAR application as resources). Does not have default value. If files location was not set, then any requests that were not specified in routing will end up in 404 response.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setStaticFilesLocation("/public");
+XpressJ app = new XpressJ(conf);
+</pre>
+<p>This will create application which uses CLASSPATH/public as static files location. The order of routing in this case - first try to match requested URI against routes, then try to serve files from this directory. For example if there is a file CLASSPATH/public/images/pic.png it will be served on URI /images/pic.png</p>
 
-                    <h1 id="verbs">Verbs</h1>
-                    <div style="height:1000px;background-color:gray;"></div>
-                    <h1 id="request">Request</h1>
-                    <div style="height:1000px;background-color:gray;"></div>
-                    <h1 id="response">Response</h1>
-                    <div style="height:1000px;background-color:gray;"></div>
+                    <h3 id="configuration-setexternalstaticfileslocation">Configuration#setExternalStaticFilesLocation()</h3>
+                    <p>Same as <code>Configuration#setStaticFilesLocation()</code> for the exception that path will be applied as a global path relatively to the root level (/). <b>If both locations were supplied, then first will be used CLASSPATH location, if there was nothing found, will be used external location.</b></p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setExternalStaticFilesLocation("/tmp/public");
+XpressJ app = new XpressJ(conf);
+</pre>
+<p>Will serve static files from /tmp/public directory.</p>
+
+                    <h3 id="configuration-setnotfoundpage">Configuration#setNotFoundPage()</h3>
+                    <p><code>setNotFoundPage(Route route)</code> provides a way to specify page for case when no route or content were found for requested URI. Simply your 404 page.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setNotFoundPage(new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("This is not the page you are looking for. Move along, move along.");
+            }
+        });
+XpressJ app = new XpressJ(conf);
+</pre>
+
+                    <h3 id="configuration-seterrorpage">Configuration#setErrorPage()</h3>
+                    <p><code>setErrorPage(Route route)</code> provides a way to specify page for case when something went wrong with your (or maybe not your) code. Simply your 500 page.</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setErrorPage(new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                response.send("Oooops something went terribly wrong!");
+            }
+        });
+XpressJ app = new XpressJ(conf);
+</pre>
+
+                    <h3 id="configuration-settemplatelocation">Configuration#setTemplateLocation()</h3>
+                    <p><code>setTeamplateLocation(String path)</code> provides a way to specify location of files that should be used in template engine. In this case it will use supplied location relatively to CLASSPATH, so template files can be bundled into the application (for example into single JAR application as resources). Defaults to <code>/templates</code>.
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .setTeamplateLocation("/my-templates");
+XpressJ app = new XpressJ(conf);
+</pre>
+<p>This will create application which uses CLASSPATH/my-templates as templates files location.</p>
+
+                    <h3 id="configuration-setexternaltemplatelocation">Configuration#setExternalTemplateFileLocation()</h3>
+                    <p>Same as <code>setTemplateLocation()</code> with the difference that path is used as global path relatively to the root level of file system. <b>If set both parameters, then external location overrides classpath location. Only one location can be used in single XpressJ instance. It is possible to use bundled temples and external templates within one application using two separate XpressJ instances.</b></p>
+
+                    <h3 id="configuration-setkeystorefile">Configuration#setKeystoreFile()</h3>
+                    <p>Takes path to keystore (.jks) file containing SSL certificates. If this parameter was set, then it enables HTTPS protocol for all ports that application listens on.</p>
+
+                    <h3 id="configuration-setkeystorepassword">Configuration#setKeystorePassword()</h3>
+                    <p>Takes password to keystore (.jks) file containing SSL certificates. Setting this parameter is necessary if keystore file is protected by password.</p>
+
+                    <h3 id="configuration-settruststorefile">Configuration#setTruststoreFile()</h3>
+                    <p>Takes path to truststore file containing SSL certificates.</p>
+
+                    <h3 id="configuration-settruststorepassword">Configuration#setTruststorePassword()</h3>
+                    <p>Takes password to truststore file containing SSL certificates.</p>
+
+                    <h2 id="verbs">Verbs</h2>
+                    <p>WiP</p>
+                    <h2 id="request">Request</h2>
+                    <p>WiP</p>
+                    <h2 id="response">Response</h2>
+                    <p>WiP</p>
                 </div>
                 <div class="col-md-3">
                     <div class="docs-sidebar hidden-print hidden-sm hidden-xs" data-spy="affix" data-offset-top="345" role="complementary">
@@ -80,12 +180,20 @@
                                 <li>
                                     <a href="#configuration">Configuration</a>
                                     <ul class="nav">
-                                        <li><a href="#configuration-sethost">Setting Host</a></li>
-                                        <li><a href="#configuration-setport">Setting Single Port</a></li>
-                                        <li><a href="#configuration-setports">Setting Multiple Ports</a></li>
-                                        <li><a href="#configuration-setroutecache">Set Routing Cache</a></li>
-                                        <li><a href="#configuration-setstaticfileslocation">Set Static Files Location (bundled)</a></li>
-                                        <li><a href="#configuration-setexternalstaticfileslocation">Set External Static Files Location</a></li>
+                                        <li><a href="#configuration-sethost">setHost()</a></li>
+                                        <li><a href="#configuration-setport">setPort()</a></li>
+                                        <li><a href="#configuration-setports">setPorts()</a></li>
+                                        <li><a href="#configuration-setroutecache">setRoutingCache()</a></li>
+                                        <li><a href="#configuration-setstaticfileslocation">setStaticFilesLocation()</a></li>
+                                        <li><a href="#configuration-setexternalstaticfileslocation">setExternalStaticFilesLocation()</a></li>
+                                        <li><a href="#configuration-setnotfoundpage">setNotFoundPage()</a></li>
+                                        <li><a href="#configuration-seterrorpage">setErrorPage()</a></li>
+                                        <li><a href="#configuration-settemplatelocation">setTemplateLocation()</a></li>
+                                        <li><a href="#configuration-setexternaltemplatelocation">setExternalTemplateLocation()</a></li>
+                                        <li><a href="#configuration-setkeystorefile">setKeystoreFile()</a></li>
+                                        <li><a href="#configuration-setkeystorepassword">setKeystorePassword()</a></li>
+                                        <li><a href="#configuration-settruststorefile">setTruststoreFile()</a></li>
+                                        <li><a href="#configuration-settruststorepassword">setTruststorePassword()</a></li>
                                     </ul>
                                 </li>
                                 <li>

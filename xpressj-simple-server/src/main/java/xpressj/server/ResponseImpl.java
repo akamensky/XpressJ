@@ -16,7 +16,8 @@
 
 package xpressj.server;
 
-import java.io.OutputStream;
+import java.io.*;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -74,6 +75,14 @@ public class ResponseImpl implements Response {
     }
 
     public void render(String templateName, Map<String, Object> obj) {
+
+    }
+
+    public void file(File file) {
+
+    }
+
+    public void file(String filename, InputStream stream) {
 
     }
 

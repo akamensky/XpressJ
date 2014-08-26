@@ -176,8 +176,64 @@ XpressJ app = new XpressJ(conf);
                     <h3 id="configuration-settruststorepassword">Configuration#setTruststorePassword()</h3>
                     <p>Takes password to truststore file containing SSL certificates.</p>
 
-                    <h2 id="verbs">Verbs</h2>
-                    <p>WiP</p>
+                    <h2 id="routing">Routing</h2>
+                    <p>XpressJ provides same routing logic as any Sintra-like framework. That means use of verbs, URI patterns and route definitions.</p>
+
+                    <h3 id="routing-verbs">Verbs</h3>
+                    <p>Possible verbs according to HTTP1.1 specifications are:</p>
+                    <ul>
+                        <li>get</li>
+                        <li>post</li>
+                        <li>put</li>
+                        <li>delete</li>
+                        <li>options</li>
+                        <li>head</li>
+                        <li>trace</li>
+                    </ul>
+                    <p>There is an extra verb <code>all</code> that can be used to match requests with any verb in request headers.</p>
+                    <p>Usage:</p>
+<pre>
+XpressJ app = new XpressJ(new Configuration);
+app.get(...);
+</pre>
+
+                    <h3 id="routing-uripatterns">URI patterns</h3>
+                    <p>URI patterns are used to match against requested URI after it was stripped of hash and query parts.</p>
+                    <p>To create URI pattern some parts of URI can be replaced with special elements. Those elements are wildcard (<code>*</code>) and parameter (<code>:param_name</code>).</p>
+                    <p>The matching follows some basic rules that provide a way to build flexible URI system. These rules are:</p>
+                    <ol>
+                        <li>if pattern does not contain any special elements, then it is matched against requested URI in the same way as string comparison is done</li>
+                        <li>if entire pattern is a wildcard character ("*"), then this pattern will match any URI</li>
+                        <li>if pattern is not "*", then it must start with "/" character</li>
+                        <li>if wildcard is in the middle of pattern, then it will match any single (non-empty) level of URI (e.g. "/foo/*/bar" will match "/foo/and/bar" and won't match "/foo/bar" nor "/foo/and/not/bar")</li>
+                        <li>if wildcard is inside pattern part, it is treated same as above, but surrounded by remaining strings (e.g. pattern "/foo-*-bar/" will match "/foo-and-bar/" or "/foo-and-not-bar/" and won't match "/foo--bar/")</li>
+                        <li></li>
+                    </ol>
+
+                    <h3 id="routing-routedefinitions">Route definitions</h3>
+                    <p>Route definitions is the actual code that will be executed upon request to URI that matches with provided URI pattern. In this code two objects are available that are representing request and response objects. Functionality of those objects is explained in appropriate parts of documentation.</p>
+                    <p>Route definition in XpressJ is an instance of Route that implements method which will be executed upon request and takes two parameters Request and Response. Therefore route definition in XpressJ will look like:</p>
+<pre>
+new Route(){
+    @Override
+    public void handle(Request request, Response response){
+        /* your code here */
+    }
+}
+</pre>
+
+                    <h3 id="routing-usage">Usage</h3>
+                    <p>Combining all 3 points we get the code for adding a route as follows:</p>
+<pre>
+XpressJ app = new XpressJ(new Configuration);
+app.get("/foo/:bar/", new Route(){
+    @Override
+    public void handle(Request request, Response response){
+        /* your code here */
+    }
+});
+</pre>
+
                     <h2 id="request">Request</h2>
                     <p>WiP</p>
                     <h2 id="response">Response</h2>
@@ -208,7 +264,13 @@ XpressJ app = new XpressJ(conf);
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="#verbs">Verbs</a>
+                                    <a href="#routing">Routing</a>
+                                    <ul class="nav">
+                                        <li><a href="#routing-verbs">Verbs</a></li>
+                                        <li><a href="#routing-uripatterns">URI patterns</a></li>
+                                        <li><a href="#routing-routedefinitions">Route definitions</a></li>
+                                        <li><a href="#routing-usage">Usage</a></li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#request">Request</a>

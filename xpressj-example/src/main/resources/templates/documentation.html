@@ -83,7 +83,7 @@ XpressJ app = new XpressJ(conf);
                     <p><i>Note that all ports should be available, otherwise server will fail to start and application will crash throwing exception. Also on *nix systems in order to bind to ports between 1-1024 application should be running as priveleged user, which creates potential security concenrs. To work around this limitation there are several solutions (reverse proxy server such as Nginx, setuid system level function that will change to another user after app started etc).</i></p>
 
 
-                    <h3 id="configuration-setroutecache">Configuration#setRoutingCache()</h3>
+                    <h3 id="configuration-setroutingcache">Configuration#setRoutingCache()</h3>
                     <p><code>setRoutingCache(boolean flag)</code> provides a way to enable or disable routing cache in matching mechanism. Caching matched routes can significantly speed up routing process. <b>However this is not a safe way as cache is stored in memory and thus applications with big number of routes have a risk of consuming too much memory and crashing with OutOfMemory exception.</b></p>
                     <p>Example:</p>
 <pre>
@@ -183,7 +183,7 @@ XpressJ app = new XpressJ(conf);
                                         <li><a href="#configuration-sethost">setHost()</a></li>
                                         <li><a href="#configuration-setport">setPort()</a></li>
                                         <li><a href="#configuration-setports">setPorts()</a></li>
-                                        <li><a href="#configuration-setroutecache">setRoutingCache()</a></li>
+                                        <li><a href="#configuration-setroutingcache">setRoutingCache()</a></li>
                                         <li><a href="#configuration-setstaticfileslocation">setStaticFilesLocation()</a></li>
                                         <li><a href="#configuration-setexternalstaticfileslocation">setExternalStaticFilesLocation()</a></li>
                                         <li><a href="#configuration-setnotfoundpage">setNotFoundPage()</a></li>

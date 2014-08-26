@@ -93,6 +93,16 @@ XpressJ app = new XpressJ(conf);
 </pre>
                     <p>This will create application which has routing cache enabled, this means that for every requested URI it will store results of route matching.</p>
 
+                    <h3 id="configuration-enablesessions">Configuration#enableSessions()</h3>
+                    <p><code>enableSessions()</code> enables sessions in application (by default sessions disabled). Optionally takes two parameter <code>String name</code> name of session cookie (defaults to XPRESSJ_SESS) and <code>int maxAge</code> how long the cookie will live in milliseconds (defaults to 0, which means cookie will expire with browser session).</p>
+                    <p>Example:</p>
+<pre>
+Configuration conf = new Configuration()
+    .enableSessions("MYAPP_SESSION", 100*60*60*24*3);
+XpressJ app = new XpressJ(conf);
+</pre>
+                    <p>This will create application which will create session object and set client cookie named MYAPP_SESSION with expiration date in 3 days.</p>
+
                     <h3 id="configuration-setstaticfileslocation">Configuration#setStaticFilesLocation()</h3>
                     <p><code>setStaticFilesLocation(String path)</code> provides a way to specify location of files that should be served as static content. In this case it will use supplied location relatively to CLASSPATH, so static files can be bundled into the application (for example into single JAR application as resources). Does not have default value. If files location was not set, then any requests that were not specified in routing will end up in 404 response.</p>
                     <p>Example:</p>
@@ -184,6 +194,7 @@ XpressJ app = new XpressJ(conf);
                                         <li><a href="#configuration-setport">setPort()</a></li>
                                         <li><a href="#configuration-setports">setPorts()</a></li>
                                         <li><a href="#configuration-setroutingcache">setRoutingCache()</a></li>
+                                        <li><a href="#configuration-enablesessions">enableSessions()</a></li>
                                         <li><a href="#configuration-setstaticfileslocation">setStaticFilesLocation()</a></li>
                                         <li><a href="#configuration-setexternalstaticfileslocation">setExternalStaticFilesLocation()</a></li>
                                         <li><a href="#configuration-setnotfoundpage">setNotFoundPage()</a></li>

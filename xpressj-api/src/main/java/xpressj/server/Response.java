@@ -52,4 +52,6 @@ public interface Response {
     public void unsetCookie(String name);
 
     public void addHeader(String name, String value);
+
+    public void redirect(int code, String location);
 }

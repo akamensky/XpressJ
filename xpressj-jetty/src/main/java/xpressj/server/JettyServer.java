@@ -107,8 +107,6 @@ public class JettyServer {
         //Set server handlers
         List<Handler> handlerList = new ArrayList<>();
 
-        //Add main requestHandler
-        handlerList.add(this.requestHandler);
         //Add bundled static files handler
         if (this.configuration.getStaticFilesLocation() != null) {
             ResourceHandler resourceHandler = new ResourceHandler();
@@ -123,6 +121,8 @@ public class JettyServer {
             externalResourceHandler.setBaseResource(externalStaticResources);
             handlerList.add(externalResourceHandler);
         }
+        //Add main requestHandler
+        handlerList.add(this.requestHandler);
         //Add error handler
         handlerList.add(new ErrorHandler(this.configuration));
 

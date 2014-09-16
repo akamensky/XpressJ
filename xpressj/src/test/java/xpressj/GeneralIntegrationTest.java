@@ -132,6 +132,19 @@ public class GeneralIntegrationTest {
                 response.send(new String(request.getFile("file").getBytes()));
             }
         });
+
+        app.get("/redirect", new Route() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                response.redirect(302, "/redirect-goal");
+            }
+        });
+        app.get("/redirect-goal", new Route() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                response.send(200, "success");
+            }
+        });
     }
 
     private static byte[] isToBytes(InputStream is) {
@@ -293,4 +306,14 @@ public class GeneralIntegrationTest {
         }
     }
 
+    @Test
+    public void simple_redirect_test() {
+        try {
+            TestUtil.UrlResponse response = testUtil.doMethod("GET", "/redirect", null);
+            Assert.assertEquals(200, response.status);
+            Assert.assertEquals("success", response.body);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

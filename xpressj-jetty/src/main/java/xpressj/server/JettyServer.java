@@ -109,14 +109,14 @@ public class JettyServer {
 
         //Add bundled static files handler
         if (this.configuration.getStaticFilesLocation() != null) {
-            ResourceHandler resourceHandler = new ResourceHandler();
+            ResourceHandler resourceHandler = new JettyResourceHandler();
             Resource staticResources = Resource.newClassPathResource(this.configuration.getStaticFilesLocation());
             resourceHandler.setBaseResource(staticResources);
             handlerList.add(resourceHandler);
         }
         //Add external static files handler
         if (this.configuration.getExternalStaticFilesLocation() != null) {
-            ResourceHandler externalResourceHandler = new ResourceHandler();
+            ResourceHandler externalResourceHandler = new JettyResourceHandler();
             Resource externalStaticResources = Resource.newResource(new File(this.configuration.getExternalStaticFilesLocation()));
             externalResourceHandler.setBaseResource(externalStaticResources);
             handlerList.add(externalResourceHandler);

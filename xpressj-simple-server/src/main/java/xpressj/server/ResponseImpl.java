@@ -101,4 +101,8 @@ public class ResponseImpl implements Response {
     public void addHeader(String name, String value) {
 
     }
+
+    public void redirect(int code, String location) {
+
+    }
 }

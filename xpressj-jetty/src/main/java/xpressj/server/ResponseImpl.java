@@ -237,4 +237,9 @@ public class ResponseImpl implements Response {
         }
     }
 
+    public void redirect(int code, String location){
+        setStatusCode(code);
+        this.addHeader("Location", location);
+        writeResponse("");
+    }
 }

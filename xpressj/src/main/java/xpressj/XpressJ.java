@@ -43,7 +43,9 @@ public final class XpressJ {
             this.templateEngine = templateEngine;
             break;
         }
-        this.templateEngine.initialize(this.configuration);
+        if (this.templateEngine != null) {
+            this.templateEngine.initialize(this.configuration);
+        }
     }
 
     public void start() {

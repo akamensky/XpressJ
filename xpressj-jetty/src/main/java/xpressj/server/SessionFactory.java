@@ -32,6 +32,10 @@ public class SessionFactory {
         this.sessions = new HashMap<>();
     }
 
+    public String getSessionCookieName(){
+        return this.configuration.getSessionCookieName();
+    }
+
     public Session getSession(String uuid) {
         return this.sessions.get(uuid);
     }

@@ -33,6 +33,7 @@ public class RequestImpl implements Request {
     private Map<String, String> headers;
     private Map<String, File> files;
     private Session session;
+    private String sessionCookieName;
     private ResponseImpl response;
 
     public RequestImpl(HttpServletRequest httpRequest, Response response, boolean isMultipart) {
@@ -44,6 +45,7 @@ public class RequestImpl implements Request {
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
         this.query = httpRequest.getParameterMap();
+        this.sessionCookieName = sessionFactory.getSessionCookieName();
         //get cookies
         javax.servlet.http.Cookie[] cookies = httpRequest.getCookies();
         if (cookies != null) {
@@ -55,7 +57,7 @@ public class RequestImpl implements Request {
         //deal with session
         if (sessionFactory != null) {
             boolean needNewSession = true;
-            Cookie sessionCookie = this.cookies.get("XPRESSJ_SESS");
+            Cookie sessionCookie = this.cookies.get(this.sessionCookieName);
             //TODO: move session cookie name somewhere else (config?)
             if (sessionCookie != null) {
                 Session session = sessionFactory.getSession(sessionCookie.getValue());
@@ -68,7 +70,7 @@ public class RequestImpl implements Request {
             if (needNewSession) {
                 Session session = sessionFactory.createSession();
                 this.session = session;
-                sessionCookie = new CookieImpl("XPRESSJ_SESS", session.getId(), session.getCookieMaxAge());
+                sessionCookie = new CookieImpl(this.sessionCookieName, session.getId(), session.getCookieMaxAge());
                 response.addCookie(sessionCookie);
             }
         }
@@ -195,7 +197,7 @@ public class RequestImpl implements Request {
     public void renewSession() {
         this.session.reset();
         int maxAge = this.session.getMaxAge();
-        this.response.addCookie("XPRESSJ_SESS", this.session.getId());
+        this.response.addCookie(this.sessionCookieName, this.session.getId());
         //TODO: move session cookie name somewhere else (config?)
     }
 

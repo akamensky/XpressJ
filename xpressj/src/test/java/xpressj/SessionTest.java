@@ -46,7 +46,7 @@ public class SessionTest {
 
         testUtil = new TestUtil(8081);
 
-        app = new XpressJ(new Configuration().setPort(8081).enableSessions("TEST_SESS", 1000 * 60 * 60));
+        app = new XpressJ(new Configuration().setPort(8081).enableSessions(cookieName, 1000 * 60 * 60));
 
         app.start();
 
@@ -72,6 +72,18 @@ public class SessionTest {
             }
         });
 
+        app.get("/third", new Route() {
+            @Override
+            public void handle(Request request, Response response) {
+                //Third request to confirm session cookie name
+                if (request.getCookie(cookieName).getValue().equals(request.getSession().getId())) {
+                    response.send("match");
+                } else {
+                    response.send("no_match");
+                }
+            }
+        });
+
     }
 
     @Test
@@ -81,9 +93,11 @@ public class SessionTest {
             TestUtil.UrlResponse response = testUtil.doMethod("GET", "/second", null);
             Assert.assertEquals(200, response.status);
             Assert.assertEquals("match", response.body);
+
+            response = testUtil.doMethod("GET", "/third", null);
+            Assert.assertEquals("match", response.body);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }
-
 }

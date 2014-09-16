@@ -45,7 +45,6 @@ public class RequestImpl implements Request {
         this.httpMethod = httpRequest.getMethod().toLowerCase();
         this.params = new HashMap<>();
         this.query = httpRequest.getParameterMap();
-        this.sessionCookieName = sessionFactory.getSessionCookieName();
         //get cookies
         javax.servlet.http.Cookie[] cookies = httpRequest.getCookies();
         if (cookies != null) {
@@ -56,6 +55,7 @@ public class RequestImpl implements Request {
 
         //deal with session
         if (sessionFactory != null) {
+            this.sessionCookieName = sessionFactory.getSessionCookieName();
             boolean needNewSession = true;
             Cookie sessionCookie = this.cookies.get(this.sessionCookieName);
             //TODO: move session cookie name somewhere else (config?)
@@ -195,6 +195,10 @@ public class RequestImpl implements Request {
     }
 
     public void renewSession() {
+        if (this.session == null) {
+            return;
+        }
+
         this.session.reset();
         int maxAge = this.session.getMaxAge();
         this.response.addCookie(this.sessionCookieName, this.session.getId());

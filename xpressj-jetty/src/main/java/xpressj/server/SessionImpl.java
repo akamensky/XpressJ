@@ -71,6 +71,10 @@ public class SessionImpl implements Session {
         this.properties.put(name, propertyObject);
     }
 
+    public void unsetProperty(String name) {
+        this.properties.remove(name);
+    }
+
     public int getMaxAge() {
         return this.maxAge;
     }

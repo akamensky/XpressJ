@@ -28,6 +28,8 @@ public interface Session {
 
     public void setProperty(String name, Object propertyObject);
 
+    public void unsetProperty(String name);
+
     public int getMaxAge();
 
     public int getCookieMaxAge();

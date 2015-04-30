@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="XpressJ : Lightweight Sinatra/Express.js inspired framework for web applications in Java">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>XpressJ</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/akamensky/XpressJ">View on GitHub</a>
+
+          <h1 id="project_title">XpressJ</h1>
+          <h2 id="project_tagline">Lightweight Sinatra/Express.js inspired framework for web applications in Java</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/akamensky/XpressJ/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/akamensky/XpressJ/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="-xpressj---lightweight-web-framework" class="anchor" href="#-xpressj---lightweight-web-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<img src="https://raw.githubusercontent.com/akamensky/XpressJ/master/graphics/xpressj-25x25.png" alt="XpressJ"> XpressJ - Lightweight Web framework</h1>
+
+<p><a href="https://travis-ci.org/akamensky/XpressJ"><img src="https://travis-ci.org/akamensky/XpressJ.svg?branch=master" alt="Build Status"></a></p>
+
+<p><img src="https://raw.githubusercontent.com/akamensky/XpressJ/master/graphics/xpressj-75x75.png" alt="XpressJ"></p>
+
+<h4>
+<a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of contents</h4>
+
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#development-plans">Development plans</a></li>
+<li><a href="#links">Links</a></li>
+</ul>
+
+<hr>
+
+<h4>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h4>
+
+<p><a href="https://github.com/akamensky/XpressJ"><strong>XpressJ</strong></a> is a lightweight framework for building standalone (for now) Java web applications. It is inspired by JavaScript framework <a href="https://github.com/visionmedia/express"><strong>Express.js</strong></a> which was initially based on Sinatra. There is already great framework the goal of which is to 100% reproduce Sinatra functionality for Java web applications. You may want to look at it - <a href="https://github.com/perwendel/spark"><strong>Spark</strong></a>. However while trying to use it I found some limitations or rather disadvantages (IMO) comparing to Express.js. Therefore XpressJ is my attempt to bring same logic into Java allowing fast development and great extendability. <em>This project is still under heavy development and is not recommended (yet) for production use. First production-ready release will be of version 1.0.0 and there is a long way to go before that.</em> <strong>Versions of 0.x.y are released to Maven Central, but are not to be used in production yet.</strong></p>
+
+<hr>
+
+<h4>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h4>
+
+<p>Simple HelloWorld application:</p>
+
+<div class="highlight highlight-java"><pre><span class="pl-k">import</span> <span class="pl-smi">xpressj.*</span>;
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HelloWorld</span> {
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span> (<span class="pl-k">String</span>[] <span class="pl-v">args</span>){
+        <span class="pl-smi">XpressJ</span> app <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">XpressJ</span>(<span class="pl-k">new</span> <span class="pl-smi">Configuration</span>());
+
+        app<span class="pl-k">.</span>start();
+
+        app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>, (request, response) <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+            response<span class="pl-k">.</span>send(<span class="pl-s"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>);
+        });
+    }
+}</pre></div>
+
+<p>Use of wildcards:</p>
+
+<div class="highlight highlight-java"><pre>app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match every GET request</span>
+    }
+});
+
+app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/hello/*<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match every GET request under path /hello/...</span>
+    }
+});
+
+app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/hello/*/<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match /hello/world/ and /hello/people/ etc</span>
+    }
+});
+
+app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/hello/*/world<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match /hello/new/world and /hello/old/world etc</span>
+    }
+});</pre></div>
+
+<p>Use of parameters:</p>
+
+<div class="highlight highlight-java"><pre>app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/hello/:param<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match only for URI with two parts and respond with second part</span>
+        response<span class="pl-k">.</span>send(request<span class="pl-k">.</span>getParam(<span class="pl-s"><span class="pl-pds">"</span>param<span class="pl-pds">"</span></span>));
+    }
+});
+
+app<span class="pl-k">.</span>get(<span class="pl-s"><span class="pl-pds">"</span>/topics/topic-:param<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Route</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">handle</span>(<span class="pl-smi">Request</span> <span class="pl-v">request</span>, <span class="pl-smi">Response</span> <span class="pl-v">response</span>) {
+        <span class="pl-c">//Will match only for URI with two parts and respond with substitution for :param</span>
+        response<span class="pl-k">.</span>send(request<span class="pl-k">.</span>getParam(<span class="pl-s"><span class="pl-pds">"</span>param<span class="pl-pds">"</span></span>));
+    }
+});</pre></div>
+
+<p>For more, please use documentation (WiP)</p>
+
+<hr>
+
+<h4>
+<a id="development-plans" class="anchor" href="#development-plans" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development plans</h4>
+
+<ul>
+<li><a href="https://trello.com/b/07AvGeym/xpressj">Development plans</a></li>
+</ul>
+
+<hr>
+
+<h4>
+<a id="links" class="anchor" href="#links" aria-hidden="true"><span class="octicon octicon-link"></span></a>Links</h4>
+
+<ul>
+<li><a href="https://trello.com/b/07AvGeym/xpressj">Development plans</a></li>
+<li><a href="http://xpressj.com/">Website (WiP)</a></li>
+<li><a href="http://xpressj.com/javadoc">Javadoc (WiP)</a></li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">XpressJ maintained by <a href="https://github.com/akamensky">akamensky</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
